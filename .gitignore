@@ -1,0 +1,4 @@
+# raw downloads, API caches and the people table (names) stay local
+data/
+__pycache__/
+.DS_Store

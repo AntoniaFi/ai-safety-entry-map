@@ -1,0 +1,493 @@
+{
+ "note": "Hand labels by Claude (one labeller) from the abstract and five method excerpts of each paper, made before seeing the rule's output. None = could not be judged from the excerpts. Sample A (39 papers, validate_sample.py 40 11): the rules were adjusted after comparing with it. Sample B (22 papers, validate_sample.py 22 23): labelled after the rules were final; this is the test set.",
+ "labels": [
+  {
+   "ax": "2511.18397",
+   "eng": 4,
+   "math": 0,
+   "compute": 3,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2610.26698",
+   "eng": 3,
+   "math": 1,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2604.05279",
+   "eng": 4,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2610.22460",
+   "eng": 2,
+   "math": 0,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2609.19587",
+   "eng": 2,
+   "math": 0,
+   "compute": 1,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2512.10687",
+   "eng": 1,
+   "math": 1,
+   "compute": 1,
+   "human": 1,
+   "set": "A"
+  },
+  {
+   "ax": "2511.17937",
+   "eng": 2,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2602.11180",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2610.21948",
+   "eng": 0,
+   "math": 1,
+   "compute": 0,
+   "human": 1,
+   "set": "A"
+  },
+  {
+   "ax": "2604.27929",
+   "eng": 3,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2410.08899",
+   "eng": 0,
+   "math": 1,
+   "compute": 0,
+   "human": 1,
+   "set": "A"
+  },
+  {
+   "ax": "2410.03523",
+   "eng": 2,
+   "math": 3,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2609.35591",
+   "eng": 3,
+   "math": 1,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2602.14687",
+   "eng": 4,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2601.03388",
+   "eng": 2,
+   "math": 0,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2605.30322",
+   "eng": 2,
+   "math": 0,
+   "compute": 1,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2605.16996",
+   "eng": 2,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2609.29233",
+   "eng": 2,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2410.06981",
+   "eng": 4,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2402.09345",
+   "eng": 4,
+   "math": 3,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2511.14423",
+   "eng": 3,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2504.18564",
+   "eng": 2,
+   "math": 2,
+   "compute": 3,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2406.12203",
+   "eng": 1,
+   "math": 0,
+   "compute": 1,
+   "human": 1,
+   "set": "A"
+  },
+  {
+   "ax": "2402.07350",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 1,
+   "set": "A"
+  },
+  {
+   "ax": "2603.14586",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2609.36849",
+   "eng": 3,
+   "math": 1,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2610.42054",
+   "eng": 4,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2607.14791",
+   "eng": 4,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2606.01991",
+   "eng": null,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2308.03958",
+   "eng": 2,
+   "math": 0,
+   "compute": 3,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2605.05995",
+   "eng": 3,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2509.13281",
+   "eng": 3,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2511.19115",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2606.12618",
+   "eng": 3,
+   "math": 1,
+   "compute": null,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2608.21664",
+   "eng": 3,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2605.19193",
+   "eng": 1,
+   "math": 2,
+   "compute": 1,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2606.10747",
+   "eng": 2,
+   "math": 0,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2407.11484",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2605.27593",
+   "eng": 2,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "A"
+  },
+  {
+   "ax": "2609.19101",
+   "eng": 3,
+   "math": 1,
+   "compute": 3,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2504.02821",
+   "eng": 4,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2611.00665",
+   "eng": 2,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2610.06522",
+   "eng": 1,
+   "math": 1,
+   "compute": 1,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2401.17256",
+   "eng": 2,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2301.11333",
+   "eng": 0,
+   "math": 1,
+   "compute": 0,
+   "human": 1,
+   "set": "B"
+  },
+  {
+   "ax": "2605.03472",
+   "eng": 2,
+   "math": 2,
+   "compute": null,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2505.05541",
+   "eng": 0,
+   "math": 0,
+   "compute": 0,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2510.11288",
+   "eng": 1,
+   "math": 0,
+   "compute": 1,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2508.15798",
+   "eng": 2,
+   "math": 1,
+   "compute": 2,
+   "human": 1,
+   "set": "B"
+  },
+  {
+   "ax": "2603.04407",
+   "eng": 2,
+   "math": 0,
+   "compute": null,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2507.12499",
+   "eng": 4,
+   "math": 2,
+   "compute": 3,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2406.00034",
+   "eng": 3,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2608.07316",
+   "eng": 2,
+   "math": 1,
+   "compute": null,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2410.11302",
+   "eng": 3,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2502.19537",
+   "eng": 1,
+   "math": 0,
+   "compute": 1,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2511.09904",
+   "eng": 2,
+   "math": 0,
+   "compute": null,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2212.10409",
+   "eng": 4,
+   "math": 2,
+   "compute": 3,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2412.05276",
+   "eng": 4,
+   "math": 1,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2605.24286",
+   "eng": 4,
+   "math": 2,
+   "compute": 2,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2511.21654",
+   "eng": 2,
+   "math": 0,
+   "compute": 1,
+   "human": 0,
+   "set": "B"
+  },
+  {
+   "ax": "2611.07939",
+   "eng": 4,
+   "math": 2,
+   "compute": 3,
+   "human": 0,
+   "set": "B"
+  }
+ ]
+}

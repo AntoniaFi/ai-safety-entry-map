@@ -1,0 +1,380 @@
+<title>AI Safety Entry Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field guide read as an instrument panel. Skills strip on top sets the lens; every number below re-reads through it. */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --sunk:#eef0f4; --ink:#141922; --ink-2:#465061; --ink-3:#6f7a8a; --line:#dde1e8; --line-2:#c7cdd7;
+  --accent:#1c5cab; --accent-soft:#e3eefc; --reach:#2a78d6; --reach-hi:#104281; --out:#d5d9e0; --dot:#2a78d6; --warn:#8a5a00; --warn-bg:#fdf3d9;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12151a; --surface:#1a1e25; --sunk:#232830; --ink:#eceef2; --ink-2:#b9c0cc; --ink-3:#8a93a1; --line:#2c323c; --line-2:#3b4350;
+  --accent:#86b6ef; --accent-soft:#1d2c40; --reach:#3987e5; --reach-hi:#b7d3f6; --out:#353b45; --dot:#3987e5; --warn:#f0c86a; --warn-bg:#33290f; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12151a; --surface:#1a1e25; --sunk:#232830; --ink:#eceef2; --ink-2:#b9c0cc; --ink-3:#8a93a1; --line:#2c323c; --line-2:#3b4350;
+  --accent:#86b6ef; --accent-soft:#1d2c40; --reach:#3987e5; --reach-hi:#b7d3f6; --out:#353b45; --dot:#3987e5; --warn:#f0c86a; --warn-bg:#33290f; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:flex;flex-direction:column;gap:22px}
+h1{font:600 30px/1.15 var(--sans);letter-spacing:-.01em;margin:0;text-wrap:balance}
+h2{font:600 18px/1.25 var(--sans);margin:0;text-wrap:balance}
+h3{font:600 12px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0}
+p{margin:0;max-width:68ch}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-3)} .small{font-size:13px}
+header.top{display:flex;flex-direction:column;gap:8px}
+.dek{color:var(--ink-2);font-size:16px}
+.counts{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink-3);font-size:13px}
+.counts b{font:500 13px var(--mono);color:var(--ink)}
+
+/* skills strip */
+.skills{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.skills-head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 20px}
+.skill{display:flex;flex-direction:column;gap:5px;min-width:0}
+.skill label,.skill .lab{font-weight:500;font-size:13px}
+.seg{display:flex;gap:3px}
+.seg button{flex:1;height:26px;border:1px solid var(--line-2);background:var(--sunk);color:var(--ink-2);border-radius:5px;font:500 12px var(--mono);cursor:pointer;padding:0}
+.seg button.on{background:var(--reach);border-color:var(--reach);color:#fff}
+.seg button.top{outline:2px solid var(--ink);outline-offset:1px}
+.skill .now{font-size:13px;color:var(--ink-2);min-height:20px}
+.chip{border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);border-radius:999px;font:500 12.5px var(--sans);padding:4px 11px;cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.check{display:flex;gap:8px;align-items:center;font-size:13.5px;cursor:pointer}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,tr:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* tabs */
+nav.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line-2);overflow-x:auto}
+nav.tabs a{padding:9px 14px;text-decoration:none;color:var(--ink-2);font-weight:500;border-bottom:2px solid transparent;white-space:nowrap;margin-bottom:-1px}
+nav.tabs a.on{color:var(--ink);border-bottom-color:var(--ink)}
+section.view{display:flex;flex-direction:column;gap:18px}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+.chart-title{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+svg{display:block;max-width:100%;height:auto}
+svg text{font-family:var(--sans);fill:var(--ink-2)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:7px 10px;border-radius:6px;max-width:260px;z-index:20}
+.tip b{font-weight:600}
+
+/* table */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{font:500 12px/1.25 var(--sans);color:var(--ink-3);text-align:right;padding:6px 10px;border-bottom:1px solid var(--line-2);vertical-align:bottom;white-space:normal;cursor:pointer;user-select:none}
+th:first-child,td:first-child{text-align:left}
+th.sorted{color:var(--ink)} th.sorted::after{content:" ↓"} th.sorted.asc::after{content:" ↑"}
+td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}
+tbody tr{cursor:pointer} tbody tr:hover{background:var(--sunk)} tbody tr.sel{background:var(--accent-soft)}
+td .tname{font-weight:500;color:var(--ink)} td .grp{display:block;font-size:12px;color:var(--ink-3)}
+.bar{display:inline-block;vertical-align:middle;width:110px;height:10px;background:var(--out);border-radius:3px;overflow:hidden;margin-right:8px}
+.bar i{display:block;height:100%;background:var(--reach);border-radius:3px 0 0 3px}
+.thin{opacity:.55}
+.spark{display:inline-flex;align-items:flex-end;gap:2px;height:16px;vertical-align:middle;margin-right:6px}
+.spark i{width:5px;background:var(--line-2);border-radius:1px 1px 0 0} .spark i:last-child{background:var(--ink-2)}
+
+/* detail */
+.detail-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px 16px;margin-bottom:14px}
+.fact b{display:block;font:500 20px/1.2 var(--mono)} .fact span{font-size:12.5px;color:var(--ink-3)}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 26px}
+.hb{display:grid;grid-template-columns:minmax(0,1fr) 92px 38px;gap:4px 8px;align-items:center;font-size:12.5px}
+.hb .l{color:var(--ink-2);min-width:0;overflow-wrap:anywhere} .hb .t{height:9px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.hb .t i{display:block;height:100%;background:var(--reach);border-radius:3px} .hb .t i.out{background:var(--line-2)}
+.hb .v{font:400 12px var(--mono);text-align:right;color:var(--ink)}
+.hb .l.me{font-weight:600;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{border:1px solid var(--line-2);background:var(--surface);color:var(--ink);border-radius:6px;font:500 13px var(--sans);padding:6px 12px;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--ink-3)}
+.note{background:var(--warn-bg);color:var(--warn);border-radius:6px;padding:6px 10px;font-size:12.5px}
+
+/* paper + question lists */
+.filters{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+select,input[type=search]{font:14px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:6px 8px;max-width:100%}
+.plist{display:flex;flex-direction:column}
+.paper{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.paper .ti{font-weight:500} .paper .ti a{color:var(--ink);text-decoration:none} .paper .ti a:hover{text-decoration:underline}
+.paper .me{font-size:12.5px;color:var(--ink-3)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.tag{font-size:12px;border:1px solid var(--line-2);border-radius:4px;padding:1px 6px;color:var(--ink-2);background:var(--surface)}
+.tag.ok{border-color:var(--reach);color:var(--accent)} .tag.no{background:var(--sunk);color:var(--ink-3)}
+.paper .rt{text-align:right;font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+.q{padding:10px 0;border-bottom:1px solid var(--line)} .q p{max-width:80ch} .q .me{font-size:12.5px;color:var(--ink-3);margin-top:3px}
+mark{background:var(--accent-soft);color:inherit;padding:0 1px;border-radius:2px}
+.more{align-self:flex-start}
+
+/* shortlist */
+.idea{display:flex;flex-direction:column;gap:10px}
+.idea h2{font-size:17px}
+.idea .kind{font:500 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.idea dl{display:grid;grid-template-columns:minmax(90px,130px) minmax(0,1fr);gap:8px 14px;margin:0}
+.idea dt{font-size:12.5px;color:var(--ink-3);padding-top:2px} .idea dd{margin:0;max-width:72ch}
+.idea ul{margin:0;padding-left:18px} .idea li{margin:2px 0}
+@media (max-width:560px){.idea dl{grid-template-columns:minmax(0,1fr)} .idea dt{padding-top:6px}}
+.method p,.method li{max-width:74ch} .method ul,.method ol{margin:0;padding-left:20px} .method{display:flex;flex-direction:column;gap:12px}
+.method table{width:auto} .method td,.method th{text-align:left;cursor:default}
+@media (prefers-reduced-motion:no-preference){.bar i,.hb .t i{transition:width .25s ease}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>AI Safety Entry Map</h1>
+    <p class="dek">Which research areas can you enter with the skills and hardware you have now?</p>
+    <div class="counts" id="counts"></div>
+  </header>
+
+  <div class="skills" id="skills"></div>
+
+  <nav class="tabs" id="tabs">
+    <a href="#topics">Research areas</a><a href="#papers">Papers to build on</a><a href="#questions">Open questions</a><a href="#shortlist">Worked example</a><a href="#method">Method</a>
+  </nav>
+
+  <section class="view" id="v-topics"></section>
+  <section class="view" id="v-papers" hidden></section>
+  <section class="view" id="v-questions" hidden></section>
+  <section class="view" id="v-shortlist" hidden></section>
+  <section class="view" id="v-method" hidden></section>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script id="data" type="application/json">/*DATA*/</script>
+<script id="shortlist" type="application/json">/*SHORTLIST*/</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('data').textContent);
+const SL = JSON.parse(document.getElementById('shortlist').textContent || '[]');
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = x => x == null ? '–' : Math.round(x * 100) + '%';
+
+const LV = {
+  e: {name:'Coding with models', lv:['None','Call a model through an API','Run and fine-tune open models','Work inside the model (activations, probes)','Build training methods and tools']},
+  m: {name:'Maths', lv:['No formal maths','Applied statistics','Linear algebra and optimisation','Theorems and proofs']},
+  k: {name:'Compute', lv:['None','API credits','One consumer GPU','Large GPUs or a cluster']}
+};
+const PRESETS = [
+  ['Scientist new to ML', {e:2,m:1,k:2,h:false}], ['Social scientist', {e:1,m:1,k:1,h:true}], ['Software engineer', {e:3,m:1,k:2,h:false}],
+  ['Mathematician or physicist', {e:2,m:3,k:2,h:false}], ['Philosopher or writer', {e:0,m:0,k:0,h:false}], ['ML engineer', {e:4,m:2,k:3,h:false}]
+];
+const DESIGN = {uncertainty:'Error bars or confidence intervals', seeds:'Several random seeds', sig_tests:'Statistical tests', dose_response:'Dose–response: varies the amount',
+  dynamics:'Tracks change during training', multiturn:'Long conversations', multilingual:'Languages other than English', human_baseline:'Compares with people',
+  many_models:'Six or more model families', mitigation:'Tests a countermeasure', realignment:'Tests whether the effect lasts or reverses'};
+const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and physics',['Mathematics','Physics']],['Engineering',['Engineering']],
+  ['Natural and life sciences',['Natural & life sciences']],['Psychology and cognitive science',['Psychology & cognitive science']],
+  ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
+
+let S = {e:2,m:1,k:2,h:false};
+try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number') S = s; } catch(e){}
+let ST = {tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40};
+const T = D.topics, TB = {}; T.forEach(t => TB[t.slug] = t);
+const PBT = {}; D.papers.forEach(p => (PBT[p.tp] = PBT[p.tp] || []).push(p));
+const can = p => p.e <= S.e && p.m <= S.m && p.k <= S.k && (!p.h || S.h);
+function reach(t){ const L = PBT[t.slug] || []; return L.length ? L.filter(can).length / L.length : null; }
+
+/* ---------- skills strip ---------- */
+function renderSkills(){
+  const el = $('#skills');
+  const cur = PRESETS.find(([n, v]) => v.e===S.e && v.m===S.m && v.k===S.k && v.h===S.h);
+  el.innerHTML = `<div class="skills-head"><h3>Your skills</h3><div class="presets">${PRESETS.map(([n],i) => `<button class="chip ${cur && cur[0]===n ? 'on':''}" data-preset="${i}">${esc(n)}</button>`).join('')}</div></div>
+  <div class="skill-grid">${['e','m','k'].map(d => `<div class="skill"><span class="lab">${LV[d].name}</span>
+    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => `<button id="sk-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" title="${esc(l)}" aria-pressed="${i===S[d]}">${i}</button>`).join('')}</div>
+    <span class="now">${esc(LV[d].lv[S[d]])}</span></div>`).join('')}
+    <div class="skill"><span class="lab">Studies with people</span><label class="check"><input type="checkbox" id="sk-h" ${S.h?'checked':''}> I can run surveys or experiments with participants</label></div>
+  </div>`;
+}
+$('#skills').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if (!b) return;
+  if (b.dataset.preset != null) S = Object.assign({}, PRESETS[+b.dataset.preset][1]); else if (b.dataset.d) S[b.dataset.d] = +b.dataset.i; else return;
+  saveS(); renderAll();
+});
+$('#skills').addEventListener('change', ev => { if (ev.target.id === 'sk-h'){ S.h = ev.target.checked; saveS(); renderAll(); } });
+function saveS(){ try { localStorage.setItem('entrymap-skills', JSON.stringify(S)); } catch(e){} }
+
+/* ---------- topics view: map + table + detail ---------- */
+const COLS = [
+  ['reach','Papers within your reach', t => reach(t)],
+  ['n26','Papers in 2026', t => t.years['2026']],
+  ['new','First authors with their first or second-year paper', t => t.people.first_new],
+  ['noncs','Authors from outside computer science', t => t.people.noncs],
+  ['prog','Papers from fellowship programmes', t => t.program],
+  ['lab','Papers with a big-lab author', t => t.frontier],
+  ['code','Papers that share code', t => t.code]
+];
+function sortedTopics(){
+  const f = COLS.find(c => c[0] === ST.sort)[2];
+  return T.slice().sort((a,b) => { const x = f(a), y = f(b); return (x==null) - (y==null) || (ST.asc ? x - y : y - x); });
+}
+function renderTopics(){
+  const el = $('#v-topics'), rows = sortedTopics();
+  if (!ST.topic || !TB[ST.topic]) ST.topic = (rows.find(t => t.n_ft >= 15) || rows[0]).slug;
+  const mx = Math.max(...T.map(t => t.years['2026']));
+  el.innerHTML = `<div class="two">
+    <div class="panel"><div class="chart-title"><h2>Where newcomers publish, and what you could do there</h2>
+      <span class="small muted">Each dot is a research area. Size: papers in 2026. Further right: more of its papers need no more than your skills.</span></div><div id="map"></div></div>
+    <div class="panel" id="detail"></div></div>
+  <div class="panel"><div class="scroll"><table><thead><tr><th>Research area</th>${COLS.map(c => `<th data-sort="${c[0]}" class="${ST.sort===c[0]?'sorted'+(ST.asc?' asc':''):''}" tabindex="0">${c[1]}</th>`).join('')}</tr></thead>
+  <tbody>${rows.map(t => { const r = reach(t), y = t.years, thin = t.n_ft < 15;
+    return `<tr data-t="${t.slug}" class="${t.slug===ST.topic?'sel':''}" tabindex="0"><td><span class="tname">${esc(t.label)}</span><span class="grp">${esc(t.group)}</span></td>
+    <td class="num ${thin?'thin':''}" title="${t.n_ft} full texts read"><span class="bar"><i style="width:${(r||0)*100}%"></i></span>${pct(r)}</td>
+    <td class="num"><span class="spark" title="2023 to 2026">${['2023','2024','2025','2026'].map(k => `<i style="height:${Math.max(1, 16*y[k]/Math.max(1,...Object.values(y)))}px"></i>`).join('')}</span>${y['2026']}</td>
+    <td class="num">${pct(t.people.first_new)}</td><td class="num">${pct(t.people.noncs)}</td><td class="num ${thin?'thin':''}">${pct(t.program)}</td><td class="num ${thin?'thin':''}">${pct(t.frontier)}</td><td class="num ${thin?'thin':''}">${pct(t.code)}</td></tr>`; }).join('')}</tbody></table></div>
+  <p class="small muted" style="margin-top:10px">Faded numbers rest on fewer than 15 full texts. 2026 runs to ${esc(D.meta.built)}.</p></div>`;
+  drawMap(); renderDetail();
+}
+$('#v-topics').addEventListener('click', ev => {
+  const th = ev.target.closest('th[data-sort]'); if (th){ if (ST.sort === th.dataset.sort) ST.asc = !ST.asc; else { ST.sort = th.dataset.sort; ST.asc = false; } renderTopics(); return; }
+  const tr = ev.target.closest('tr[data-t]'); if (tr){ pick(tr.dataset.t); return; }
+  const g = ev.target.closest('[data-dot]'); if (g){ pick(g.dataset.dot); return; }
+  const b = ev.target.closest('[data-go]'); if (b){ if (b.dataset.go === 'papers'){ ST.pTopic = ST.topic; ST.pN = 40; } else { ST.qTopic = ST.topic; ST.qN = 40; } location.hash = b.dataset.go; }
+});
+$('#v-topics').addEventListener('keydown', ev => { if (ev.key !== 'Enter') return; const tr = ev.target.closest('tr[data-t]'); if (tr) pick(tr.dataset.t); const th = ev.target.closest('th[data-sort]'); if (th) th.click(); });
+function pick(slug){ ST.topic = slug; renderTopics(); }
+
+function drawMap(){
+  const W = 640, H = 430, m = {l:52, r:16, t:14, b:44}, iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const pts = T.map(t => ({t, x:reach(t), y:t.people.first_new, n:t.years['2026']})).filter(p => p.x != null && p.y != null);
+  const ymax = Math.max(.7, Math.ceil(Math.max(...pts.map(p => p.y))*10)/10), nmax = Math.max(...pts.map(p => p.n));
+  const X = v => m.l + v*iw, Y = v => m.t + ih - v/ymax*ih, R = n => 4 + 13*Math.sqrt(n/nmax);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Research areas by share of papers within reach and share of new first authors">`;
+  for (let i = 0; i <= 4; i++){ const v = i/4; s += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${m.t+ih}" stroke="var(--line)"/><text x="${X(v)}" y="${H-24}" font-size="11" text-anchor="middle">${v*100}%</text>`; }
+  for (let v = 0; v <= ymax+1e-9; v += .1){ s += `<line x1="${m.l}" x2="${m.l+iw}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l-8}" y="${Y(v)+4}" font-size="11" text-anchor="end">${Math.round(v*100)}%</text>`; }
+  s += `<text x="${m.l+iw/2}" y="${H-6}" font-size="12" text-anchor="middle">Papers within your reach</text><text transform="translate(13 ${m.t+ih/2}) rotate(-90)" font-size="12" text-anchor="middle">First authors new to publishing</text>`;
+  pts.sort((a,b) => b.n - a.n);
+  const boxes = pts.map(p => ({x:X(p.x)-R(p.n), y:Y(p.y)-R(p.n), w:2*R(p.n), h:2*R(p.n)}));
+  const hit = (a,b) => a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+  let labels = '';
+  pts.forEach((p, i) => {
+    const sel = p.t.slug === ST.topic, r = R(p.n), cx = X(p.x), cy = Y(p.y), thin = p.t.n_ft < 15;
+    s += `<g data-dot="${p.t.slug}" style="cursor:pointer"><circle cx="${cx}" cy="${cy}" r="${r+6}" fill="transparent"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${thin?'var(--surface)':'var(--dot)'}" fill-opacity="${thin?1:sel?1:.62}" stroke="${sel?'var(--ink)':thin?'var(--dot)':'var(--surface)'}" stroke-width="${sel?2.5:thin?1.5:2}"/></g>`;
+    const short = p.t.label.split(/[,&(:]/)[0].trim(), w = short.length*6.1 + 4;
+    const cands = [{x:cx+r+4, y:cy-7, a:'start'}, {x:cx-r-4-w, y:cy-7, a:'start'}, {x:cx-w/2, y:cy-r-16, a:'start'}, {x:cx-w/2, y:cy+r+3, a:'start'}];
+    for (const c of cands){ const b = {x:c.x, y:c.y, w, h:14};
+      if (b.x < m.l || b.x+b.w > W-2 || b.y < 2 || b.y+b.h > m.t+ih) continue;
+      if (boxes.some((o, j) => j !== i && hit(b, o))) continue;
+      boxes.push(b); labels += `<text x="${c.x+2}" y="${c.y+11}" font-size="11" ${sel?'font-weight="600" style="fill:var(--ink)"':''} pointer-events="none">${esc(short)}</text>`; break; }
+  });
+  $('#map').innerHTML = s + labels + '</svg>';
+  const tip = $('#tip');
+  $('#map').onmousemove = ev => { const g = ev.target.closest('[data-dot]'); if (!g){ tip.hidden = true; return; } const t = TB[g.dataset.dot];
+    tip.innerHTML = `<b>${esc(t.label)}</b><br>${pct(reach(t))} of ${t.n_ft} papers within your reach<br>${pct(t.people.first_new)} of first authors new to publishing<br>${t.years['2026']} papers in 2026`;
+    tip.hidden = false; const x = Math.min(ev.clientX+14, innerWidth-270), y = ev.clientY+14; tip.style.left = x+'px'; tip.style.top = y+'px'; };
+  $('#map').onmouseleave = () => tip.hidden = true;
+}
+function hbars(rows){ return `<div class="hb">${rows.map(r => `<span class="l ${r.me?'me':''}">${esc(r.l)}</span><span class="t"><i class="${r.out?'out':''}" style="width:${Math.max(0,(r.v||0))*100}%"></i></span><span class="v">${pct(r.v)}</span>`).join('')}</div>`; }
+function renderDetail(){
+  const t = TB[ST.topic], pe = t.people, el = $('#detail');
+  const bg = BGFOLD.map(([n, ks]) => ({l:n, v:ks.reduce((a,k) => a + (pe.bg[k] || 0), 0), out:n === 'Computer science / ML'}));
+  const dz = Object.keys(DESIGN).map(k => ({l:DESIGN[k], v:t.design ? t.design[k] : null})).sort((a,b) => a.v - b.v);
+  el.innerHTML = `<div class="detail-head"><h2>${esc(t.label)}</h2><span class="small muted">${t.n} papers, ${t.n_ft} read in full, ${pe.n} authors</span></div>
+  ${t.n_ft < 15 ? `<p class="note" style="margin-bottom:12px">Only ${t.n_ft} full texts. Read the method shares as rough.</p>` : ''}
+  <div class="facts">
+    <div class="fact"><b>${pct(reach(t))}</b><span>of papers within your reach</span></div>
+    <div class="fact"><b>${pe.first_median == null ? '–' : pe.first_median}</b><span>years since a first author's first paper (median)</span></div>
+    <div class="fact"><b>${pct(pe.senior)}</b><span>of authors publishing for over 10 years</span></div>
+    <div class="fact"><b>${pe.team_median == null ? '–' : pe.team_median}</b><span>authors per paper (median)</span></div>
+  </div>
+  <div class="mini-grid">
+    ${t.eng ? ['e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LV[d].lv.map((l,i) => ({l, v:t[{e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
+    <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg)}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} of authors have no earlier papers.</p></div>
+    ${t.design && t.n_ft ? `<div><h3 style="margin-bottom:7px">How often a paper here…</h3>${hbars(dz)}</div>` : ''}
+  </div>
+  <div class="actions"><button class="btn" data-go="papers">Papers to build on</button><button class="btn" data-go="questions">Open questions</button></div>`;
+}
+
+/* ---------- papers view ---------- */
+function topicSelect(id, val, all){ return `<select id="${id}"><option value="">${all}</option>${T.slice().sort((a,b) => a.label.localeCompare(b.label)).map(t => `<option value="${t.slug}" ${t.slug===val?'selected':''}>${esc(t.label)}</option>`).join('')}</select>`; }
+function need(p){
+  const tag = (ok, txt) => `<span class="tag ${ok?'ok':'no'}">${esc(txt)}</span>`;
+  return tag(p.e <= S.e, LV.e.lv[p.e]) + tag(p.m <= S.m, LV.m.lv[p.m]) + tag(p.k <= S.k, LV.k.lv[p.k] + (p.lo != null ? ` · smallest open model ${p.lo}B` : '')) + (p.h ? tag(S.h, 'Study with people') : '');
+}
+function renderPapers(){
+  const el = $('#v-papers');
+  let L = D.papers.filter(p => (!ST.pTopic || p.tp === ST.pTopic) && (!ST.pReach || can(p)) && (!ST.pCode || p.code) && (!ST.pSmall || (p.lo != null && p.lo <= 9)) && !p.sv);
+  const key = {cited:p => -p.c, newest:p => -Date.parse(p.d || p.y + '-01-01'), permonth:p => -p.c / Math.max(1, (Date.now() - Date.parse(p.d || p.y + '-06-01')) / 2.6e9)}[ST.pSort];
+  L.sort((a,b) => key(a) - key(b));
+  el.innerHTML = `<div class="panel"><div class="filters">${topicSelect('p-topic', ST.pTopic, 'All research areas')}
+    <label class="check"><input type="checkbox" id="p-reach" ${ST.pReach?'checked':''}> Within my reach</label>
+    <label class="check"><input type="checkbox" id="p-code" ${ST.pCode?'checked':''}> Shares code</label>
+    <label class="check"><input type="checkbox" id="p-small" ${ST.pSmall?'checked':''}> Uses an open model of 9B or less</label>
+    <select id="p-sort" aria-label="Sort"><option value="cited" ${ST.pSort==='cited'?'selected':''}>Most cited</option><option value="permonth" ${ST.pSort==='permonth'?'selected':''}>Most cited per month</option><option value="newest" ${ST.pSort==='newest'?'selected':''}>Newest</option></select>
+    <span class="small muted num">${L.length} papers</span></div>
+  <div class="plist">${L.slice(0, ST.pN).map(p => `<div class="paper"><div><div class="ti"><a href="https://arxiv.org/abs/${p.ax}" target="_blank" rel="noopener">${esc(p.t)}</a></div>
+    <div class="me">${esc(p.a)} · ${esc((p.d || String(p.y)).slice(0,7))} · ${esc(TB[p.tp].label)}${p.pr.length ? ' · ' + esc(p.pr.join(', ')) : ''}</div><div class="tags">${need(p)}${p.code ? `<a class="tag" href="${esc(p.code)}" target="_blank" rel="noopener">Code</a>` : ''}${p.dz.includes('seeds') ? '' : '<span class="tag no">No repeat seeds found</span>'}</div></div>
+    <div class="rt"><span class="num">${p.c}</span> citations</div></div>`).join('') || '<p class="muted" style="padding:14px 0">Nothing matches. Loosen a filter or raise a skill level.</p>'}</div>
+  ${L.length > ST.pN ? `<button class="btn more" id="p-more" style="margin-top:12px">Show 40 more</button>` : ''}</div>`;
+}
+$('#v-papers').addEventListener('change', ev => { const i = ev.target.id;
+  if (i === 'p-topic') ST.pTopic = ev.target.value; else if (i === 'p-reach') ST.pReach = ev.target.checked; else if (i === 'p-code') ST.pCode = ev.target.checked; else if (i === 'p-small') ST.pSmall = ev.target.checked; else if (i === 'p-sort') ST.pSort = ev.target.value; else return;
+  ST.pN = 40; renderPapers(); });
+$('#v-papers').addEventListener('click', ev => { if (ev.target.id === 'p-more'){ ST.pN += 40; renderPapers(); } });
+
+/* ---------- open questions view ---------- */
+const PA = {}; D.papers.forEach(p => PA[p.ax] = p);
+function renderQuestions(){
+  const el = $('#v-questions'); if (!ST.qTopic) ST.qTopic = ST.topic || T[0].slug;
+  const q = ST.qText.trim().toLowerCase();
+  let L = (D.openq[ST.qTopic] || []).map(([ax, s]) => ({p:PA[ax], s})).filter(x => x.p && (!q || x.s.toLowerCase().includes(q)));
+  L.sort((a,b) => Date.parse(b.p.d || b.p.y + '-01-01') - Date.parse(a.p.d || a.p.y + '-01-01'));
+  const hl = s => { let h = esc(s); if (q) h = h.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig'), m => `<mark>${m}</mark>`); return h; };
+  el.innerHTML = `<div class="panel"><div class="filters">${topicSelect('q-topic', ST.qTopic, 'Choose a research area')}
+    <input type="search" id="q-text" placeholder="Filter by word" value="${esc(ST.qText)}" aria-label="Filter by word">
+    <span class="small muted num">${L.length} sentences, newest first</span></div>
+  <p class="small muted" style="margin-top:8px">Sentences in which authors name a limit or something left undone, copied from the papers.</p>
+  <div>${L.slice(0, ST.qN).map(x => `<div class="q"><p>${hl(x.s)}</p><div class="me"><a href="https://arxiv.org/abs/${x.p.ax}" target="_blank" rel="noopener">${esc(x.p.a)}, ${esc((x.p.d || String(x.p.y)).slice(0,7))}</a> · ${esc(x.p.t)}</div></div>`).join('') || '<p class="muted" style="padding:14px 0">No sentences for this area yet.</p>'}</div>
+  ${L.length > ST.qN ? `<button class="btn more" id="q-more" style="margin-top:12px">Show 40 more</button>` : ''}</div>`;
+}
+$('#v-questions').addEventListener('change', ev => { if (ev.target.id === 'q-topic'){ ST.qTopic = ev.target.value || ST.qTopic; ST.qN = 40; renderQuestions(); } });
+$('#v-questions').addEventListener('input', ev => { if (ev.target.id === 'q-text'){ ST.qText = ev.target.value; ST.qN = 40; const pos = ev.target.selectionStart; renderQuestions(); const i = $('#q-text'); i.focus(); try { i.setSelectionRange(pos, pos); } catch(e){} } });
+$('#v-questions').addEventListener('click', ev => { if (ev.target.id === 'q-more'){ ST.qN += 40; renderQuestions(); } });
+
+/* ---------- worked example ---------- */
+function renderShortlist(){
+  const el = $('#v-shortlist');
+  if (!SL.ideas || !SL.ideas.length){ el.innerHTML = '<div class="panel"><p class="muted">No worked example in this copy.</p></div>'; return; }
+  const rich = s => esc(s).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  el.innerHTML = `<div class="panel"><h2>${esc(SL.title)}</h2><p class="small muted" style="margin-top:4px">${rich(SL.intro)}</p></div>` +
+    SL.ideas.map(x => `<div class="panel idea"><span class="kind">${esc(x.kind)}</span><h2>${esc(x.title)}</h2><dl>
+      ${x.rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${Array.isArray(v) ? '<ul>' + v.map(i => `<li>${rich(i)}</li>`).join('') + '</ul>' : rich(v)}</dd>`).join('')}</dl></div>`).join('');
+}
+
+/* ---------- method ---------- */
+function renderMethod(){
+  const m = D.meta, v = m.validation;
+  $('#v-method').innerHTML = `<div class="panel method">
+  <h2>How the map is made</h2>
+  <ol><li><b>Papers.</b> ${m.papers_all.toLocaleString()} candidate papers from 2022 on: the arXiv records of a daily AI-safety literature sweep plus Semantic Scholar searches for each area's key phrases. A paper belongs to an area when the phrases appear in its title or at least twice in its abstract: ${m.papers.toLocaleString()} papers in ${T.length} areas.</li>
+  <li><b>Methods.</b> For ${m.fulltexts.toLocaleString()} of them (at most 80 per area, half the most cited, half random) the arXiv full text is read by rule: the reference list is cut off, then method words, model names and sizes, hardware, statistics, code links and acknowledgments are counted. The counts set three levels per paper: coding, maths and compute. A paper is within your reach when none of its levels is above yours.</li>
+  <li><b>People.</b> ${m.people.toLocaleString()} authors of these papers, with their publication history from Semantic Scholar. Shown only as counts per area.</li>
+  <li><b>Open questions.</b> Sentences in which authors name a limit or leave something undone, copied from the full texts.</li></ol>
+  ${v ? `<h2>Check against hand labels</h2><p>${v.n} randomly drawn papers were labelled by reading, without seeing the rule's answer.</p>
+  <div class="scroll"><table><thead><tr><th>Level</th><th>Same level</th><th>Within one level</th><th>Reach decision agrees</th></tr></thead><tbody>
+  ${[['Coding','eng'],['Maths','math'],['Compute','compute']].map(([n,k]) => `<tr><td>${n}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
+  <p class="small muted">${esc(v.note || '')}</p>` : ''}
+  <h2>Limits</h2>
+  <ul><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
+  <li>Semantic Scholar sometimes splits one person into two profiles, which makes them look new. Read the newcomer share as an upper bound.</li>
+  <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
+  <li>The compute level is set by the smallest open model a paper names. One consumer GPU means the paper used at least one model of 9B parameters or less, not that every experiment fits.</li>
+  <li>Only arXiv papers are read in full. Forum posts, where much early work in some areas appears, are not counted.</li>
+  <li>2026 is a part year, up to ${esc(m.built)}.</li></ul>
+  <h2>Related work</h2>
+  <ul><li><a href="https://link.springer.com/article/10.1007/s11192-012-0646-9" target="_blank" rel="noopener">Akritidis, Katsaros and Bozanis (2012)</a>, Identifying attractive research fields for new scientists.</li>
+  <li><a href="https://www.lesswrong.com/posts/8qytxHWzSsdsyTfmZ/principles-for-meta-science-and-ai-safety-replications" target="_blank" rel="noopener">Principles for meta-science and AI safety replications</a>: criteria for choosing a paper to replicate.</li>
+  <li><a href="https://www.lesswrong.com/posts/AcTEiu5wYDgrbmXow/open-problems-in-emergent-misalignment" target="_blank" rel="noopener">Open problems in emergent misalignment</a>, by the original authors.</li></ul>
+  </div>`;
+}
+
+/* ---------- shell ---------- */
+function renderCounts(){ const m = D.meta; $('#counts').innerHTML = `<span><b>${T.length}</b> research areas</span><span><b>${m.papers.toLocaleString()}</b> papers</span><span><b>${m.fulltexts.toLocaleString()}</b> read in full</span><span><b>${m.people.toLocaleString()}</b> authors</span><span>built <b>${esc(m.built)}</b></span>`; }
+const VIEWS = {topics:renderTopics, papers:renderPapers, questions:renderQuestions, shortlist:renderShortlist, method:renderMethod};
+function renderAll(){ renderSkills(); VIEWS[ST.tab](); }
+function route(){ const h = (location.hash || '#topics').slice(1); ST.tab = VIEWS[h] ? h : 'topics';
+  document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
+  document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }
+addEventListener('hashchange', route); renderCounts(); route();
+})();
+</script>
