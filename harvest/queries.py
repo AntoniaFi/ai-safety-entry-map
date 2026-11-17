@@ -14,7 +14,7 @@ FIELDS = {
  "robustness": dict(label="Robustness: adversarial inputs, distribution shift, poisoning",
     strong=["adversarial examples", "adversarial attack", "adversarial attacks", "adversarial robustness", "adversarial training", "adversarial perturbation",
             "adversarial perturbations", "certified robustness", "robustness certification", "distribution shift", "out-of-distribution detection",
-            "out-of-distribution generalization", "backdoor attack", "backdoor attacks", "data poisoning", "poisoning attack", "jailbreak", "jailbreaking",
+            "out-of-distribution generalization", "backdoor attack", "backdoor attacks", "backdoor defense", "backdoored", "data poisoning", "poisoning attack", "poisoning attacks", "membership inference", "model extraction", "label shift", "jailbreak", "jailbreaking",
             "prompt injection", "adversarial prompts", "robust machine learning", "covariate shift", "domain shift robustness", "model robustness"],
     weak=["robustness", "out-of-distribution", "adversarial", "corruptions", "perturbations"]),
  "explainability": dict(label="Explainability and interpretability",
@@ -58,9 +58,9 @@ FIELDS = {
             "zero-shot coordination", "multi-agent risks"],
     weak=["cooperation", "coordination", "multi-agent"]),
  "general-risk": dict(label="AI safety and AI risk named directly",
-    strong=["ai safety", "safe ai", "ai risk", "ai risks", "existential risk", "catastrophic risk", "catastrophic risks", "loss of control", "safety of large language models",
-            "llm safety", "safe artificial intelligence", "beneficial ai", "superintelligence", "agi safety", "frontier ai", "ai governance", "risks from ai", "responsible ai"],
-    weak=["safety", "risks", "harms"]),
+    strong=["ai safety", "safe ai", "existential risk", "catastrophic risk", "catastrophic risks", "loss of control", "safety of large language models",
+            "llm safety", "safe artificial intelligence", "superintelligence", "agi safety", "risks from ai", "safety of ai systems", "ai safety research"],
+    weak=["safety", "risks", "harms", "ai risk", "ai risks", "responsible ai", "ai governance", "frontier ai", "beneficial ai"]),
 }
 # AI context: a weak phrase only counts in a text that is about machine learning systems
 AI_WORDS = ["machine learning", "deep learning", "neural network", "neural networks", "language model", "language models", "llm", "llms", "reinforcement learning",

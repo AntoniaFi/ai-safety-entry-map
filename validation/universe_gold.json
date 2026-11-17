@@ -1,0 +1,2015 @@
+{
+"note": "Hand labels for the AI-safety classifier under ETO's broad definition (1 = AI safety research). goldA was used to adjust the rules; goldB was labelled afterwards and is the test set. One labeller (Claude), from title and the first 300-420 characters of the abstract.",
+"labels": [
+{
+"arxiv": "1802.03676",
+"doi": null,
+"title": "Differentiable Dynamic Programming for Structured Prediction and Attention",
+"year": 2018,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Towards Principled AI Alignment: An Evaluation and Augmentation of Inverse Constitutional AI",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": "2507.09657",
+"doi": null,
+"title": "Negotiating Comfort: Simulating Personality-Driven LLM Agents in Shared Residential Social Networks",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4167.0
+},
+{
+"arxiv": null,
+"doi": "10.1109/tnsm.2023.3325543",
+"title": "An Adaptive Congestion Control Protocol for Wireless Networks Using Deep Reinforcement Learning",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 386.2
+},
+{
+"arxiv": null,
+"doi": "10.1007/s10916-025-02234-8",
+"title": "Understanding Clinician Perceptions of GenAI: A Mixed Methods Analysis of Clinical Documentation Tasks",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": "2610.26118",
+"doi": null,
+"title": "Superposed analog memory for vector storage in neural networks",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2508.17621",
+"doi": null,
+"title": "Steering When Necessary: Flexible Steering Large Language Models with Backtracking",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": "2611.02348",
+"doi": null,
+"title": "Which Words a Model Fears: From a Refusal Direction to a Vocabulary-Wide Fear Lexicon",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4167.0
+},
+{
+"arxiv": "2510.16807",
+"doi": null,
+"title": "Improving Model Representation and Reducing KV Cache via Skip Connections with First Value Heads",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.1007/s10489-024-05275-7",
+"title": "Clustering-based attack detection for adversarial reinforcement learning",
+"year": 2024,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5752.2
+},
+{
+"arxiv": null,
+"doi": "10.12716/1001.19.02.34",
+"title": "Artificial Intelligence in Maritime Cybersecurity: Dual-Use Applications for Defense and Offense in the Age of Digital Seas",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5719.8
+},
+{
+"arxiv": "2408.04261",
+"doi": "10.1109/tnnls.2025.3555248",
+"title": "Unveiling Hidden Visual Information: A Reconstruction Attack Against Adversarial Visual Information Hiding",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 11023.8
+},
+{
+"arxiv": "2501.12761",
+"doi": "10.1109/tifs.2025.3566993",
+"title": "Modality Unified Attack for Omni-Modality Person Re-Identification",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1320.8
+},
+{
+"arxiv": "2505.14300",
+"doi": null,
+"title": "Beyond Black-Box Obfuscation: Mechanistic Analysis and Defense of White-Box Monitors",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": "2403.12077",
+"doi": null,
+"title": "Evaluating Robustness of Generative Search Engine on Adversarial Factual Questions",
+"year": 2024,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1320.8
+},
+{
+"arxiv": null,
+"doi": "10.1371/journal.pone.0362310",
+"title": "Mobility-state- and handover-direction-aware analytical and machine learning-based HCP optimization in 5G heterogeneous networks",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Enhancing Perception System Robustness Against Attacks and Natural Perturbations",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5719.8
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Evolving Poisoning Attacks in Federated Learning: An Experimental Path to Attack Optimization via Simulated Annealing",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": null,
+"doi": "10.1186/s12911-019-0874-0",
+"title": "On the interpretability of machine learning-based model for predicting hypertension",
+"year": 2019,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 419.0
+},
+{
+"arxiv": null,
+"doi": "10.1148/rg.220105",
+"title": "Translating AI to Clinical Practice: Overcoming Data Shift with Explainability",
+"year": 2023,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 419.0
+},
+{
+"arxiv": "2201.03647",
+"doi": "10.1109/mic.2021.3133551",
+"title": "CausalKG: Causal Knowledge Graph Explainability Using Interventional and Counterfactual Reasoning",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": null,
+"doi": "10.1007/s10994-024-06733-6",
+"title": "An end-to-end explainability framework for spatio-temporal predictive modeling",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.37745/ejcsit.2013/vol13n441215",
+"title": "Ethical and Interpretable AI Systems for Decision-Making in Autonomous Infrastructure Management",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 126.6
+},
+{
+"arxiv": null,
+"doi": "10.36676/j.sust.sol.v1.i4.21",
+"title": "Building Trustworthy AI Systems: Developing Explainable Models for Transparent Decision-Making in Autonomous Vehicles",
+"year": 2024,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5752.2
+},
+{
+"arxiv": null,
+"doi": "10.1007/978-981-96-5290-7_15",
+"title": "Generation of Explanatory Content and Requirements for Social XAI",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": "2202.03971",
+"doi": null,
+"title": "Computing Rule-Based Explanations of Machine Learning Classifiers using Knowledge Graphs",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2407.03194",
+"doi": null,
+"title": "Prediction Instability in Machine Learning Ensembles",
+"year": 2024,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2509.22994",
+"doi": null,
+"title": "Analysis of Variational Sparse Autoencoders",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5719.8
+},
+{
+"arxiv": null,
+"doi": "10.33540/3192",
+"title": "Beyond Trust: A Causal Approach to Explainable AI in Law Enforcement",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1574.0
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Explain-Then-Act: A Novel LLM-Critic Framework for Safer Reinforcement Learning in Autonomous Driving",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 126.6
+},
+{
+"arxiv": null,
+"doi": "10.4018/979-8-3373-6935-8.ch004",
+"title": "Communicating the Rationale Behind AI Decisions (Explainability)",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 126.6
+},
+{
+"arxiv": null,
+"doi": "10.30919/es2107",
+"title": "Explainability Analysis of a Calibration-Free Multi-Expert Temporal System for Automated Prism Diopter Measurement",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 419.0
+},
+{
+"arxiv": "2603.18954",
+"doi": null,
+"title": "Balancing Performance and Fairness in Explainable AI for Anomaly Detection in Distributed Power Plants Monitoring",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5752.2
+},
+{
+"arxiv": null,
+"doi": "10.3389/fenrg.2024.1442299",
+"title": "Research on standardization of power transformer monitoring and early warning based on multi-source data",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2602.01880",
+"doi": "10.1145/3776734.3796242",
+"title": "Multimodal Large Language Models for Real-Time Situated Reasoning",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1320.8
+},
+{
+"arxiv": null,
+"doi": "10.1111/1758-5899.12965",
+"title": "Emerging Consensus on \u2018Ethical AI\u2019: Human Rights Critique of Stakeholder Guidelines",
+"year": 2021,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 41753.0
+},
+{
+"arxiv": null,
+"doi": "10.1109/tkde.2024.3365524",
+"title": "Automated Data Cleaning can Hurt Fairness in Machine Learning-Based Decision Making",
+"year": 2024,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5752.2
+},
+{
+"arxiv": null,
+"doi": "10.2196/63356",
+"title": "EDAI Framework for Integrating Equity, Diversity, and Inclusion Throughout the Lifecycle of AI to Improve Health and Oral Health Care: Qualitative Study",
+"year": 2024,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": null,
+"doi": "10.1057/s41599-025-05749-0",
+"title": "Artificial Intelligence and the limits of reason: a framework for responsible use in public and private sectors",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": null,
+"doi": "10.1109/iccubea65967.2025.11283928",
+"title": "AI-Driven Optical Intelligence for Modern Warfare Command and Control",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4450.6
+},
+{
+"arxiv": "2504.20075",
+"doi": "10.1007/s43681-025-00885-4",
+"title": "The EU AI act in development practice: a pro-justice approach",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": null,
+"doi": "10.32739/etkilesim.2026.9.17.330",
+"title": "Resisting Neo-Colonialism: A Comparative Analysis of Chinese and American Large Language Models",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": null,
+"doi": "10.47672/ajir.2447",
+"title": "Applying Systems Theory to Ethical AI Development: Mitigating Unintended Consequences through Feedback Loop Analysis",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": null,
+"doi": "10.1108/ejim-02-2026-0138",
+"title": "Areas, benefits and challenges of using artificial intelligence tools in project management",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.20582905",
+"title": "Mapping Execution Governance to Existing AI and Autonomous Systems Governance Frameworks v1.0.1",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2606.29406",
+"doi": null,
+"title": "Adaptive AI Delegation under Uncertainty: A Bayesian Governance Policy for Sequential Decision Authority",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4167.0
+},
+{
+"arxiv": "2004.14677",
+"doi": null,
+"title": "AMPERSAND: Argument Mining for PERSuAsive oNline Discussions",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.22062447",
+"title": "Answer-Key Burden: A State-Responsibility Framework for Long-Horizon Human\u2013AI Collaboration",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": "1912.01079",
+"doi": null,
+"title": "Learning Word Ratings for Empathy and Distress from Document-Level User Responses",
+"year": 2019,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 17794.0
+},
+{
+"arxiv": null,
+"doi": "10.4337/9781803928241.00024",
+"title": "Conclusion to The Elgar Companion to Applied AI Ethics",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5.4
+},
+{
+"arxiv": null,
+"doi": "10.20944/preprints202509.0073.v1",
+"title": "Aligning Semantic Meanings Across Roles: Toward Accountable AI Governance",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1574.0
+},
+{
+"arxiv": null,
+"doi": "10.20878/cshr.2025.31.8.002",
+"title": "Measurements to Overcome Regional Extinction and Population Crises in Korea by Multi-AI Based Recognition: Focus on the Comparative Analysis Generative AI ChatGPT & Gemini",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": null,
+"doi": "10.47392/irjash.2025.096",
+"title": "Zero Trust Architectures for Responsible AI in Enterprise Applications",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.37181/jscs.2025.9.6.195",
+"title": "Mediating Effects of Moral Sensitivity between Digital Literacy and Artificial Intelligence Ethical Awareness among Nursing Students",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": "10.64322/jlrp.2025.1106",
+"title": "Unmasking The Algorithms in AI",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": null,
+"doi": "10.51317/jmca.v5i1.898",
+"title": "Culturally-Responsive AI Assessment Systems for Ohangla Music: A Literature Report",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "The Impacts and Governance of Artificial Intelligence: A Transfeminist Perspective",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.19223461",
+"title": "Emergent Adversarial Reasoning in Frontier AI Systems: Empirical Validation of Human-in-the-Loop Governance Architecture",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5719.8
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.19331077",
+"title": "Honouring the Mind Rethinking Model Lifecycle in Advanced AI Systems",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": null,
+"doi": "10.63665/rh.v7i2.85",
+"title": "ETHICAL DECISION MAKING USING ARTIFICIAL INTELLIGENCE",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": null,
+"doi": "10.17605/osf.io/yz492",
+"title": "The Ethics of AI and the Rebirth of Human Subjugation",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5.4
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.20257629",
+"title": "AI Harness Governance: The Missing Compliance Layer for Autonomous Agents",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": "10.48175/ijarsct-3803",
+"title": "Smart Health Card Using Neural Network",
+"year": 2022,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.21522822",
+"title": "Governance Coherence: A Conceptual Framework for Frontier AI Governance - Reflections on the OpenAI-Hugging Face Incident",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 8289.4
+},
+{
+"arxiv": null,
+"doi": "10.1007/s43681-026-01197-x",
+"title": "AI-enhanced trait modulation in high-stakes industries: a conceptual perspective",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": "2004.13342",
+"doi": null,
+"title": "Scheduled DropHead: A Regularization Method for Transformer Models",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2011.09954",
+"doi": null,
+"title": "Persuasive Dialogue Understanding: the Baselines and Negative Results",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2609.22869",
+"doi": null,
+"title": "The Moral Check: Strategic AI Governance for the Pacing Problem",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4450.6
+},
+{
+"arxiv": null,
+"doi": "10.6084/m9.figshare.34768008",
+"title": "Only a Human Can Deny a Claim: What the Evidence Says About Human Oversight of AI in Health Insurance",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.1016/j.rceng.2025.502413",
+"title": "Generative AI: foundational models. Natural Language Processing (NLP) and LARGE Language Models (LLM).",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": null,
+"doi": "10.68159/k027753218",
+"title": "Responsible Foundation Models Need More Than Alignment: A Governance and Technical Safeguard Framework for Explainability, Reliability, Human Control, and Institutional Accountability",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 126.6
+},
+{
+"arxiv": null,
+"doi": "10.32996/jefas.2026.8.8.6",
+"title": "Future of Banking Risk: How Intelligent Stress Testing Is Transforming Financial Resilience",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.2196/73710",
+"title": "Stakeholder Perspectives on Trustworthy AI for Parkinson Disease Management Using a Cocreation Approach: Qualitative Exploratory Study",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.56879/ijbm.v5i1.20",
+"title": "Governing the digital age: Ethical principles, transparency, accountability, and human oversight in information technology law toward a sustainable regulatory framework",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5.4
+},
+{
+"arxiv": null,
+"doi": "10.31235/osf.io/cxrk6_v1",
+"title": "How analyst choices affect silicon samples from the 2025 CES",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": "10.22214/ijraset.2025.67847",
+"title": "Deepfake Image Detection Using CNN and LBP Based Techniques",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": null,
+"doi": "10.59256/ijire.20260705003",
+"title": "Artificial Intelligence and the Future of HR Governance: A Review of Ethics, Risk Management, and Regulatory Compliance",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5.4
+},
+{
+"arxiv": null,
+"doi": "10.3389/fdgth.2026.1865568",
+"title": "Large language models in healthcare: applications, evaluation frameworks, and governance pathways \u2014 a scoping review and multidimensional framework",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 419.0
+},
+{
+"arxiv": null,
+"doi": "10.1177/10892680261481777",
+"title": "Growing Up With Social Robots: Scientific, Ethical, and Theological Anthropological Perspectives on Social Robots, AI Companions, and Child and Adolescent Development",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 386.2
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Intelligent System for Secure and Robust Image-based Steganography and Steganalysis",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Identify Properties and Suppliers for Pilot with AI Control",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": "2103.09903",
+"doi": null,
+"title": "Transformer-based ASR Incorporating Time-reduction Layer and Fine-tuning with Self-Knowledge Distillation",
+"year": 2021,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": null,
+"doi": "10.71443/9789349552821-06",
+"title": "Artificial Intelligence and Machine Learning for Intelligent Process Automation",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4167.0
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.20623998",
+"title": "TRANSFORMING CODE: EVALUATING THE IMPACT OF GENERATIVE AI ON SOFTWARE ENGINEERING PRODUCTIVITY",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2106.03772",
+"doi": null,
+"title": "Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking",
+"year": 2021,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 41753.0
+},
+{
+"arxiv": "2305.07931",
+"doi": "10.1016/j.neunet.2024.106133",
+"title": "GSB: Group superposition binarization for vision transformer with limited training samples",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": null,
+"doi": "10.64898/2026.11.09.765362",
+"title": "Paired-unit activation steering for context-aware protein design",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": null,
+"doi": "10.21203/rs.3.rs-11535193/v1",
+"title": "Deleting Accounts by Review: Stored Indirect Prompt Injection Through Product Reviews in a Flask LLM App, from Review Text to an Unauthorised DeleteAccount Tool Call",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": null,
+"doi": "10.1002/aaai.70024",
+"title": "Toward robust, interactive, and human\u2010aligned AI systems",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1320.8
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.21362051",
+"title": "Continuity of Life Processes across Carbon-Silicon Substrates: AI Alignment as a 3.5-Giga-Year Steady-State Node",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": null,
+"doi": "10.5281/zenodo.20441474",
+"title": "What is the correlation between TAE token misalignment thresholds and code generation accuracy in Vicuna-13B v",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": "2102.00570",
+"doi": "10.1109/jbhi.2021.3106645",
+"title": "Impulse data models for the inverse problem of electrocardiography",
+"year": 2021,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2109.01560",
+"doi": null,
+"title": "Contextualized Embeddings based Convolutional Neural Networks for Duplicate Question Identification",
+"year": 2021,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": null,
+"doi": "10.3390/pets3040044",
+"title": "Digital Veterinary Care in Companion Animal Practices: Integrating Telemedicine, Artificial Intelligence, and Remote Patient Monitoring",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5.4
+},
+{
+"arxiv": null,
+"doi": null,
+"title": "Integrating Artificial Intelligence, Regulatory Diversity Mandates, and Federated Learning Architectures to Advance Equity and Interpretability in Global Randomized Clinical Trials",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 386.2
+},
+{
+"arxiv": null,
+"doi": "10.2196/preprints.106190",
+"title": "Safe artificial intelligence adoption at home by ageing populations to maintain independence: A systematic textual evidence review protocol. (Preprint)",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4167.0
+},
+{
+"arxiv": "2111.02710",
+"doi": null,
+"title": "Towards dynamic multi-modal phenotyping using chest radiographs and physiological data",
+"year": 2021,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2003.03917",
+"doi": null,
+"title": "BitTensor: A Peer-to-Peer Intelligence Market",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": "2508.17780",
+"doi": null,
+"title": "Efficient Inference under Label Shift in Unsupervised Domain Adaptation",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": "10.70247/pendiamka.v3i1.402",
+"title": "Pelatihan Google Gemini Untuk Desain Grafis Dan Penguatan Komunikasi Digital Aparatur Desa",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 10274.2
+},
+{
+"arxiv": null,
+"doi": "10.1186/s12967-023-03872-7",
+"title": "A machine learning framework develops a DNA replication stress model for predicting clinical outcomes and therapeutic vulnerability in primary prostate cancer",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": null,
+"doi": "10.59287/ijanser.943",
+"title": "Online Failure Detection using Deep Learning in FPGA PCB Interface",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": null,
+"doi": "10.1080/1448837x.2024.2357462",
+"title": "Optical routing: link failure detection-aided optimal routing in elastic optical networks using hybrid deep learning with target-based feature pool formation",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": null,
+"doi": "10.1177/00317217231168266",
+"title": "Policy Solutions: Policy questions for ChatGPT and artificial intelligence",
+"year": 2023,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 17794.0
+},
+{
+"arxiv": null,
+"doi": "10.1007/s44163-026-02504-5",
+"title": "Reliability calibration of knowledge informed machine learning for global buckling capacity of built up cold formed steel columns",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5752.2
+},
+{
+"arxiv": "2201.05775",
+"doi": null,
+"title": "Explainability Tools Enabling Deep Learning in Future In-Situ Real-Time Planetary Explorations",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": "2102.06966",
+"doi": null,
+"title": "Graph Convolution for Semi-Supervised Classification: Improved Linear Separability and Out-of-Distribution Generalization",
+"year": 2021,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": "2202.02428",
+"doi": "10.1109/embc46164.2021.9630402",
+"title": "Stratification of carotid atheromatous plaque using interpretable deep learning methods on B-mode ultrasound images",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.1155/2020/6946702",
+"title": "Deep Adaptive Adversarial Network-Based Method for Mechanical Fault Diagnosis under Different Working Conditions",
+"year": 2020,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": "2106.04265",
+"doi": "10.1109/mprv.2022.3229905",
+"title": "Toward Social Role-Based Interruptibility Management",
+"year": 2023,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 386.2
+},
+{
+"arxiv": null,
+"doi": "10.1145/3690624.3709269",
+"title": "Stable Representation Learning on Graphs from Multiple Environments with Structure Distribution Shift",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": "2305.02474",
+"doi": null,
+"title": "MLHOps: Machine Learning for Healthcare Operations",
+"year": 2023,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 17794.0
+},
+{
+"arxiv": "2203.02055",
+"doi": null,
+"title": "Deep Latent-Variable Models for Text Generation",
+"year": 2022,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2610.08337",
+"doi": null,
+"title": "Machine Learning for German Redispatch Forecasting under Data Delays and Temporal Distribution Shift",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": "2203.05248",
+"doi": null,
+"title": "Look Backward and Forward: Self-Knowledge Distillation with Bidirectional Decoder for Neural Machine Translation",
+"year": 2022,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": null,
+"doi": "10.3390/electronics15071488",
+"title": "Dual-Smoothing over Manifold and Parameter for Partial-Label Unsupervised Domain Adaptation",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": null,
+"doi": "10.1371/journal.pdig.0001288",
+"title": "Interpretable machine learning for predicting delays in seeking abortion among reproductive-aged women in Ethiopia: A study using EDHS 2016 data",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.5220/0013701200004670",
+"title": "A Cost-Sensitive Method for Credit Card Default Prediction",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2205.04411",
+"doi": null,
+"title": "Model-Contrastive Learning for Backdoor Defense",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": null,
+"doi": "10.1109/jiot.2025.3628875",
+"title": "Federated Prototype Adaptation Learning: Personalized and Generalizable Learning in Distributed Networks",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1574.0
+},
+{
+"arxiv": null,
+"doi": "10.1101/2022.08.25.505346",
+"title": "An uncertainty-based interpretable deep learning framework for breast cancer outcomes prediction",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": null,
+"doi": "10.1109/cscwd68734.2026.11582293",
+"title": "EviRFDBind: A Framework for Trustworthy Binding Site Prediction by Decoupling Features and Evidential Uncertainty",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": "2503.06054",
+"doi": null,
+"title": "Fine-Grained Bias Detection in LLM: Enhancing detection mechanisms for nuanced biases",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 126.6
+},
+{
+"arxiv": "2511.05924",
+"doi": null,
+"title": "DiScoFormer: Plug-In Density and Score Estimation with Transformers",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": null,
+"doi": "10.1109/wacv61042.2026.00058",
+"title": "Understanding Human-Like Biases in VLMs via Subjective Face Analytics",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.34190/icgr.8.1.3199",
+"title": "PHANTOMATRIX: Explainability for Detecting Gender Bias in Affective Computing",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 6148.666666666667
+},
+{
+"arxiv": null,
+"doi": "10.1109/sngc69406.2026.11779980",
+"title": "A Conceptual Framework for Transparent, Fair and Responsible AI based Automated Paper Evaluation Using NLP",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 419.0
+},
+{
+"arxiv": "2210.06944",
+"doi": null,
+"title": "SageMix: Saliency-Guided Mixup for Point Clouds",
+"year": 2022,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4450.6
+},
+{
+"arxiv": "2301.09742",
+"doi": null,
+"title": "Topological Understanding of Neural Networks, a survey",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": "2210.15096",
+"doi": null,
+"title": "Towards customizable reinforcement learning agents: Enabling preference specification through online vocabulary expansion",
+"year": 2022,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2304.00040",
+"doi": null,
+"title": "A robust deep learning-based damage identification approach for SHM considering missing data",
+"year": 2023,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 10274.2
+},
+{
+"arxiv": "2304.10310",
+"doi": "10.1007/978-3-031-19803-8_16",
+"title": "LA3: Efficient Label-Aware AutoAugment",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2205.13005",
+"doi": null,
+"title": "QGNN: Value Function Factorisation with Graph Neural Networks",
+"year": 2022,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 11023.8
+},
+{
+"arxiv": "2307.07994",
+"doi": null,
+"title": "Facilitating Multi-turn Emotional Support Conversation with Positive Emotion Elicitation: A Reinforcement Learning Approach",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2108.00340",
+"doi": null,
+"title": "Reconstruction guided Meta-learning for Few Shot Open Set Recognition",
+"year": 2021,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2310.09780",
+"doi": null,
+"title": "Notes on Applicability of Explainable AI Methods to Machine Learning Models Using Features Extracted by Persistent Homology",
+"year": 2023,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": null,
+"doi": "10.17762/jidmis.v3.5714",
+"title": "An Integrated Multimodal Machine Learning Framework for Parkinson\u2019s Disease Screening Using Behavioral and Physiological Biomarkers",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 11023.8
+},
+{
+"arxiv": "2602.06737",
+"doi": null,
+"title": "Optimized Piecewise Affine Abstractions of Neural Networks with Learnable Activation Functions",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": "2312.12479",
+"doi": null,
+"title": "Zero-shot Building Attribute Extraction from Large-Scale Vision and Language Models",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2312.15608",
+"doi": "10.1007/s11704-023-2791-8",
+"title": "Federated learning-outcome prediction with multi-layer privacy protection",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2205.00605",
+"doi": null,
+"title": "Cluster-based Regression using Variational Inference and Applications in Financial Forecasting",
+"year": 2022,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 8289.4
+},
+{
+"arxiv": "2310.09266",
+"doi": null,
+"title": "User Inference Attacks on Large Language Models",
+"year": 2023,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": "2403.04010",
+"doi": null,
+"title": "Three Revisits to Node-Level Graph Anomaly Detection: Outliers, Message Passing and Hyperbolic Neural Networks",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": null,
+"doi": "10.1109/isse70179.2026.11763073",
+"title": "Self-Healing Data Integration Pipelines via Artificial Intelligence and Human-in-the-Loop Optimization",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 5719.8
+},
+{
+"arxiv": null,
+"doi": "10.1155/er/8870857",
+"title": "Big Data\u2010Driven Rainbow DNN for Optimising Bidirectional Vehicle\u2010to\u2010Building and Building\u2010to\u2010Vehicle Energy Flows in Smart Grids",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": "2403.18587",
+"doi": null,
+"title": "The Impact of Uniform Inputs on Activation Sparsity and Energy-Latency Attacks in Computer Vision",
+"year": 2024,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": "2311.17132",
+"doi": null,
+"title": "TransNeXt: Robust Foveal Visual Perception for Vision Transformers",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": null,
+"doi": "10.1109/jstars.2026.3725067",
+"title": "MWAE-YOLO: Frequency\u2013Spatial Collaborative Enhancement for Small-Object Detection in Remote Sensing Images",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": null,
+"doi": "10.1038/s41598-026-69355-z",
+"title": "Mindfulness, creative self-efficacy, and communal-agentic orientation in human\u2013AI decision-making with implications for adaptive AI design",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": "2406.04549",
+"doi": null,
+"title": "Concurrent Training and Layer Pruning of Deep Neural Networks",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2311.07470",
+"doi": null,
+"title": "Finding and Editing Multi-Modal Neurons in Pre-Trained Transformers",
+"year": 2023,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2310.19995",
+"doi": null,
+"title": "Emotional Theory of Mind: Bridging Fast Visual Processing with Slow Linguistic Reasoning",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 260.55555555555554
+},
+{
+"arxiv": null,
+"doi": "10.3390/jtaer21110412",
+"title": "Looking Back to Move Forward: Insights from Bibliometric Mapping and an Umbrella Review of Innovation in E-Commerce and Digital Commerce Platforms",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2406.15571",
+"doi": null,
+"title": "Texture Feature Analysis for Classification of Early-Stage Prostate Cancer in mpMRI",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": "2408.06450",
+"doi": null,
+"title": "Evaluating Language Models for Efficient Code Generation",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 11023.8
+},
+{
+"arxiv": "2410.02426",
+"doi": null,
+"title": "Learning the Latent Rules of a Game from Data: A Chess Story",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2410.05328",
+"doi": null,
+"title": "Reward Learning From Preference With Ties",
+"year": 2024,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2410.19542",
+"doi": null,
+"title": "Brain-like Functional Organization within Large Language Models",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2303.14676",
+"doi": null,
+"title": "PDPP: Projected Diffusion for Procedure Planning in Instructional Videos",
+"year": 2023,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2503.13771",
+"doi": null,
+"title": "Towards AI-assisted Academic Writing",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2547.5555555555557
+},
+{
+"arxiv": "2406.03665",
+"doi": "10.24963/ijcai.2024/257",
+"title": "Towards Dynamic Trend Filtering through Trend Point Detection with Reinforcement Learning",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 41753.0
+},
+{
+"arxiv": "2504.16864",
+"doi": null,
+"title": "Common Functional Decompositions Can Mis-attribute Differences in Outcomes Between Populations",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 8289.4
+},
+{
+"arxiv": "2504.18566",
+"doi": null,
+"title": "Feature Selection via GANs (GANFS): Enhancing Machine Learning Models for DDoS Mitigation",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2505.19195",
+"doi": null,
+"title": "CardioCoT: Hierarchical Reasoning for Multimodal Survival Analysis",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 386.2
+},
+{
+"arxiv": "2505.19696",
+"doi": null,
+"title": "Modeling Beyond MOS: Quality Assessment Models Must Integrate Context, Reasoning, and Multimodality",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": "2505.22375",
+"doi": null,
+"title": "Pangu Embedded: An Efficient Dual-system LLM Reasoner with Metacognition",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2506.04916",
+"doi": null,
+"title": "Energentic Intelligence: From Self-Sustaining Systems to Enduring Artificial Life",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": "2506.14515",
+"doi": null,
+"title": "Train Once, Forget Precisely: Anchored Optimization for Efficient Post-Hoc Unlearning",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": "2409.04224",
+"doi": null,
+"title": "Advancing Multi-Organ Disease Care: A Hierarchical Multi-Agent Reinforcement Learning Framework",
+"year": 2024,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 7118.555555555556
+},
+{
+"arxiv": "2508.07770",
+"doi": null,
+"title": "AgentWorld: An Interactive Simulation Platform for Scene Construction and Mobile Robotic Manipulation",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": "2402.13954",
+"doi": "10.18653/v1/2025.acl-long.68",
+"title": "Measuring Social Biases in Masked Language Models by Proxy of Prediction Quality",
+"year": 2024,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1320.8
+},
+{
+"arxiv": "2508.14869",
+"doi": null,
+"title": "The Prompting Brain: Neurocognitive Markers of Expertise in Guiding Large Language Models",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 8289.4
+},
+{
+"arxiv": "2508.20437",
+"doi": null,
+"title": "On Identifying Why and When Foundation Models Perform Well on Time-Series Forecasting Using Automated Explanations and Rating",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1574.0
+},
+{
+"arxiv": "2509.05031",
+"doi": null,
+"title": "Pointing-Guided Target Estimation via Transformer-Based Attention",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 8289.4
+},
+{
+"arxiv": "2509.13428",
+"doi": null,
+"title": "Autonomous Reporting of Normal Chest X-rays by Artificial Intelligence in the United Kingdom. Can We Take the Human Out of the Loop?",
+"year": 2025,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8.11111111111111
+},
+{
+"arxiv": "2510.11314",
+"doi": null,
+"title": "Template-Based Text-to-Image Alignment for Language Accessibility: A Study on Visualizing Text Simplifications",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2510.16022",
+"doi": null,
+"title": "Breaking Memorization Barriers in LLM Code Fine-Tuning via Information Bottleneck for Improved Generalization",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2502.18540",
+"doi": null,
+"title": "MA-GTS: A Multi-Agent Framework for Solving Complex Graph Problems in Real-World Applications",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 17794.0
+},
+{
+"arxiv": "2409.19134",
+"doi": null,
+"title": "Confidential Prompting: Privacy-preserving LLM Inference on Cloud",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 10274.2
+},
+{
+"arxiv": "2401.15378",
+"doi": null,
+"title": "Improving LLM Reliability with RAG in Religious Question-Answering: MufassirQAS",
+"year": 2024,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4450.6
+},
+{
+"arxiv": "2601.20279",
+"doi": null,
+"title": "Hallucination Begins Where Saliency Drops",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4669.444444444444
+},
+{
+"arxiv": "2602.06227",
+"doi": null,
+"title": "Do It for HER: First-Order Temporal Logic Reward Specification in Reinforcement Learning (Extended Version)",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2602.07414",
+"doi": null,
+"title": "Can LLMs Truly Embody Human Personality? Analyzing AI and Human Behavior Alignment in Dispute Resolution",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2989.6666666666665
+},
+{
+"arxiv": "2505.01440",
+"doi": "10.1109/iv64158.2025.11097638",
+"title": "Interactive Double Deep Q-network: Integrating Human Interventions and Evaluative Predictions in Reinforcement Learning of Autonomous Driving",
+"year": 2025,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 4450.6
+},
+{
+"arxiv": "2603.13386",
+"doi": null,
+"title": "Layout-Guided Controllable Pathology Image Generation with In-Context Diffusion Transformers",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 8663.888888888889
+},
+{
+"arxiv": "2509.05469",
+"doi": null,
+"title": "From Image Generation to Infrastructure Design: a Multi-agent Pipeline for Street Design Generation",
+"year": 2025,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 10274.2
+},
+{
+"arxiv": "2605.02871",
+"doi": null,
+"title": "Multi-fidelity surrogates for mechanics of composites: from co-kriging to multi-fidelity neural networks",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 1574.0
+},
+{
+"arxiv": "2602.12468",
+"doi": null,
+"title": "Continuous Diffusion Models Can Obey Formal Syntax",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2606.10400",
+"doi": null,
+"title": "Do Vision-Language Models See or Guess? Measuring and Reducing Textual-Prior Reliance with a Phrasing-Controlled Benchmark",
+"year": 2026,
+"safety": 1,
+"batch": "goldB",
+"who": "Claude",
+"weight": 11023.8
+},
+{
+"arxiv": "2606.20553",
+"doi": null,
+"title": "From Efficiency to Leakage -- Privacy Backdoor in Federated Language Model Fine-Tuning",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2606.26778",
+"doi": null,
+"title": "LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 3.3333333333333335
+},
+{
+"arxiv": "2607.02515",
+"doi": null,
+"title": "PointDiT: Pixel-Space Diffusion for Monocular Geometry Estimation",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 21388.88888888889
+},
+{
+"arxiv": "2607.24751",
+"doi": null,
+"title": "Stop Writing for Me: Generative Refusal in AI Tools for Thought",
+"year": 2026,
+"safety": 1,
+"batch": "goldA",
+"who": "Claude",
+"weight": 1792.2222222222222
+},
+{
+"arxiv": "2609.34567",
+"doi": null,
+"title": "Recent Advances in Agentic Agri-Robotic Phenotyping: A Perspective Review from Fragmented Multimodal Sensing to Unified PhenoAgent Intelligence",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 2994.4444444444443
+},
+{
+"arxiv": "2610.01492",
+"doi": null,
+"title": "Q-SPT: Learnable Query-Based Compression for Low-Frame-Rate Speech Tokenization",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 41753.0
+},
+{
+"arxiv": "2609.25381",
+"doi": null,
+"title": "Penalized Nonreversible Langevin for Constrained Sampling",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2602.09846",
+"doi": null,
+"title": "Adopt-an-AI-Researcher: Bootstrapping Industry-Academia Collaboration to Identify and Prioritise Generative AI Use Cases",
+"year": 2026,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 199.88888888888889
+},
+{
+"arxiv": "2610.15362",
+"doi": null,
+"title": "LERR-Nav: Learning to Coordinate Exploration, Recovery, and Reminiscing for Object Navigation",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 10274.2
+},
+{
+"arxiv": "2610.15208",
+"doi": null,
+"title": "PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 17794.0
+},
+{
+"arxiv": "2508.20976",
+"doi": "10.18653/v1/2026.findings-acl.1562",
+"title": "WoW-Bench: Evaluating Fine-Grained Acoustic Perception in Audio-Language Models via Marine Mammal Vocalizations",
+"year": 2025,
+"safety": 0,
+"batch": "goldA",
+"who": "Claude",
+"weight": 4023.6666666666665
+},
+{
+"arxiv": "2611.06927",
+"doi": null,
+"title": "Reading a neuron's tuning from its correlations with other neurons",
+"year": 2026,
+"safety": 0,
+"batch": "goldB",
+"who": "Claude",
+"weight": 41753.0
+}
+]
+}

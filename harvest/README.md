@@ -32,6 +32,18 @@ Daily: `zsh harvest/run.sh` (OpenAlex stops at 4,500 remaining credits so the Ob
 Two tiers come out of the same store: the **broad** tier (comparable with ETO) and the **narrow** tier (the 30 areas).
 Nothing is written to the Observatory site; whether and how its Sources page takes records from here is an open decision.
 
+## State on 17 Nov 2026 (first night)
+- Store: 1,085,000 records from 2018 on (1,002,000 with an abstract). arXiv is complete (18 AI-related categories); OpenAlex has three topics in
+  full and 43 of 50 phrase searches (it paused at the credit reserve; `run.sh` continues); Semantic Scholar is done, with eight broad queries cut at 25,000 records.
+- Classifier v2 flags **104,000** records as AI safety in ETO's broad sense for 2018-2026 (25,600 for 2018-2023, where ETO has 45,000; 37,700 for 2019-2024, where ETO has 55,567).
+  46% of them are not on arXiv. Largest outlets outside arXiv: IEEE Access, Scientific Reports, Applied Sciences, Electronics, AAAI, IEEE TIFS, book publishers.
+- Hand labels (201 records, one labeller, `validation/universe_gold.json`): on the 75 test labels precision 0.54 and recall 0.57; on the 126 used
+  for tuning 0.70 and 0.66. ETO reports 0.73 and 0.80. Estimated true number of AI-safety records in the store: 92,000 to 125,000.
+  So the total is about right, while single records are wrong often in both directions. Next: more labels (a second labeller), a stronger text model.
+- The 30 narrow areas hold 17,000 papers from 2022 on in the store, against 3,776 in the Entry Map. The gain is in the broad areas (human oversight,
+  persuasion, jailbreaks); emergent misalignment stays at about 88. The Entry Map has not been rebuilt on the store yet.
+- Of 1,428 works cited by the International AI Safety Report (2018 on, with abstract) 492 are flagged; that report also cites much that is not safety research.
+
 ## Access to unlock (in order of gain)
 1. **Semantic Scholar API key** (free, a form, key arrives by email): https://www.semanticscholar.org/product/api#api-key-form
    Save it as one line in `~/.config/s2_key`. Without it the bulk search is throttled and can stall.

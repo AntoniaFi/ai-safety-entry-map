@@ -15,7 +15,7 @@ from store import connect, DATA
 from queries import FIELDS, AI_WORDS
 from taxonomy import assign
 
-VERSION = "v1"
+VERSION = "v2"
 def alt(words): return re.compile(r"\b(" + "|".join(re.escape(w).replace(r"\ ", r"[\s-]+").replace(r"\-", r"[\s-]?") for w in sorted(words, key=len, reverse=True)) + r")\b", re.I)
 AI_RX = alt(AI_WORDS)
 F_STRONG = {k: alt(v["strong"]) for k, v in FIELDS.items()}; F_WEAK = {k: alt(v["weak"]) for k, v in FIELDS.items()}
@@ -23,6 +23,20 @@ F_STRONG = {k: alt(v["strong"]) for k, v in FIELDS.items()}; F_WEAK = {k: alt(v[
 DOMAIN = re.compile(r"\b(intrusion detection|malware|traffic safety|road safety|driving safety|food safety|drug safety|patient safety|fire safety|structural health|"
                     r"occupational safety|construction safety|mine safety|aviation safety|railway safety|nuclear safety|battery safety|pedestrian safety|"
                     r"differential privacy|federated learning|homomorphic encryption|side-channel|physical layer security)\b", re.I)
+
+# a method applied to another field's problem (an explainable model for a disease, a robust forecast): not research on AI safety itself,
+# unless the text is about the method ("we propose an explanation method", faithfulness of explanations ...)
+APPLIED = re.compile(r"\b(patients?|clinical|diagnos\w+|prognos\w+|cancer|tumou?rs?|disease|biomarkers?|mortality|radiolog\w+|crops?|soil|yield prediction|"
+                     r"fault diagnosis|forecasting|stock|credit|churn|energy consumption|power (grid|system)s?|wireless|5g|iot|traffic|remote sensing|"
+                     r"students?|e-commerce|supply chain|manufacturing|geolog\w+|concrete|battery|drug discovery|protein|genom\w+|sentiment)\b", re.I)
+METHOD = re.compile(r"(explanation methods?|attribution methods?|explainability methods?|interpretability methods?|faithful\w*|"
+                    r"evaluat\w+ (of )?(explanations?|explainab\w+|interpretab\w+)|(novel|new|propose\w*)[^.]{0,60}(explanation|explainab\w+|interpretab\w+|attribution|robust\w+|defen[cs]e|attack)|"
+                    r"adversarial (attack|example|robust|training|perturb)|jailbreak|prompt injection|backdoor|poisoning|language models?|llms?|ai (safety|alignment)|misalign\w+)", re.I)
+GENERIC_X = {"explainability", "monitoring-control", "assurance", "robustness", "bias-fairness"}
+# policy, legal and normative writing without a technical contribution: ETO leaves it out
+POLICY = re.compile(r"\b(regulat\w+|legislat\w+|legal|law|jurisprud\w+|policy|policies|governance|ethic\w+|philosoph\w+|normative|moral philosophy|human rights|geopolit\w+|feminis\w+|colonial\w+)\b", re.I)
+TECH = re.compile(r"\b(experiments?|we (propose|introduce|present|evaluate|train|show|find|measure|test|develop)|dataset|benchmark|algorithm|outperform\w*|empirical\w*|"
+                  r"accuracy|baselines?|fine-?tun\w+|simulation|participants|survey of \d+|n\s?=\s?\d+)\b", re.I)
 
 def rules(args):
     wid, title, abstract = args
@@ -37,9 +51,12 @@ def rules(args):
     domain = bool(DOMAIN.search(both))
     pos = ai and (top_area >= 2 or any(v >= 2 for v in fields.values()) or len(fields) >= 2)
     if domain and top_area < 2 and sum(1 for v in fields.values() if v >= 3) == 0: pos = False
-    neg = (not areas) and strong_total == 0 and weak_total == 0
+    applied = bool(fields) and set(fields) <= GENERIC_X and top_area < 2 and len(APPLIED.findall(both)) >= 2 and not METHOD.search(both)
+    policy = len(POLICY.findall(both)) >= 3 and len(TECH.findall(both)) <= 1 and top_area < 2
+    if applied or policy: pos = False
+    neg = ((not areas) and strong_total == 0 and weak_total == 0) or applied or policy
     weak = 1 if pos else 0 if neg else None
-    return wid, weak, ai, fields, {k: v for k, v in areas.items() if v >= 2}, sorted(set(hits))[:6], domain
+    return wid, weak, ai, fields, {k: v for k, v in areas.items() if v >= 2}, sorted(set(hits))[:6], domain or applied or policy
 
 def main():
     from sklearn.feature_extraction.text import HashingVectorizer, TfidfTransformer
@@ -67,7 +84,8 @@ def main():
     c.execute("DELETE FROM labels")
     out = []
     for (wid, weak, ai, fields, areas, hits, domain), s in zip(R, scores):
-        safety = 1 if (weak == 1 or (s >= thr and ai and has_abs[wid] and not (domain and not fields))) else 0
+        # in: scored above the threshold; a record the rules call "clearly in" needs only half the threshold. Without an abstract: never.
+        safety = 1 if (ai and has_abs[wid] and not domain and ((weak == 1 and s >= thr / 2) or s >= thr)) else 0
         out.append((wid, float(s), safety, json.dumps(fields) if fields else None, json.dumps(areas) if areas else None,
                     json.dumps({"rule": weak, "ai": ai, "hits": hits, "domain": domain, "abs": has_abs[wid]}), VERSION))
     c.executemany("INSERT INTO labels(wid,score,safety,fields,areas,lf,version) VALUES(?,?,?,?,?,?,?)", out); c.commit()
@@ -80,7 +98,7 @@ def summarise(c, thr):
                       with_abstract=c.execute("SELECT count(*) FROM works WHERE year>=2018 AND length(abstract)>200").fetchone()[0])
     S["safety_total"] = c.execute("SELECT count(*) FROM labels WHERE safety=1").fetchone()[0]
     S["by_year"] = {str(y): n for y, n in c.execute("SELECT w.year, count(*) FROM works w JOIN labels l USING(wid) WHERE l.safety=1 GROUP BY w.year ORDER BY w.year")}
-    S["by_year_rule_only"] = {str(y): n for y, n in c.execute("SELECT w.year, count(*) FROM works w JOIN labels l USING(wid) WHERE json_extract(l.lf,'$.rule')=1 GROUP BY w.year ORDER BY w.year")}
+    S["title_only_candidates"] = c.execute("SELECT count(*) FROM labels WHERE json_extract(lf,'$.rule')=1 AND json_extract(lf,'$.abs')=0").fetchone()[0]
     S["by_year_narrow"] = {str(y): n for y, n in c.execute("SELECT w.year, count(*) FROM works w JOIN labels l USING(wid) WHERE l.areas IS NOT NULL GROUP BY w.year ORDER BY w.year")}
     fy = collections.defaultdict(collections.Counter); src = collections.Counter(); venues = collections.Counter(); kinds = collections.Counter()
     for year, fields, s, venue, arxiv, kind in c.execute("SELECT w.year, l.fields, w.src, w.venue, w.arxiv, w.kind FROM works w JOIN labels l USING(wid) WHERE l.safety=1"):
