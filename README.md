@@ -1,24 +1,69 @@
-# AI Safety Entry Map (niche finder)
+# AI Safety Entry Map
 
-Which AI-safety research areas can someone enter with the skills and hardware they have now?
-Started 16 Nov 2026. Site source: `site/` (open `site/index.html` in a browser).
+**Which AI-safety research areas can you enter with the skills and hardware you have now?**
 
-## Run
+Live: **https://antoniafi.github.io/ai-safety-entry-map/**
+
+Set four things (coding with models, maths, compute, and whether you can run studies with people), and the map shows, for 30 research areas:
+
+- the share of recent papers whose methods need no more than your skills,
+- how many first authors are new to publishing and how many come from outside computer science,
+- papers to build on (filtered by reach, shared code, small open models),
+- open questions: sentences in which authors name a limit or something left undone.
+
+## Why I built it
+
+I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. My first practical question was where someone with my background could do useful research now, not after a year of ML coursework. Reading lists and career guides didn't answer that from the evidence, so I built a map from the papers themselves. The "Worked example" tab shows how I used it on my own profile.
+
+## How it works
+
+| Step | Script | What it does |
+|---|---|---|
+| 1 | `01_corpus.py` | Collects candidate papers (a daily AI-safety literature sweep plus Semantic Scholar searches) and sorts them into 30 areas by key phrases (`taxonomy.py`) |
+| 2 | `02_fulltext.py` | Downloads arXiv full texts, at most 80 per area (half most cited, half random) |
+| 3 | `03_people.py` | Author histories from OpenAlex: years since first paper, earlier field |
+| 4 | `04_methods.py` | Rule-based reading of each full text: method words, model names and sizes, hardware, statistics, code links, acknowledgments → a coding, maths and compute level per paper |
+| 5 | `05_aggregate.py` | Aggregates to `site/data.json` (people only as counts per area) |
+| 6 | `06_build_site.py` | Builds `docs/index.html` (the live page) from `site/template.html` |
+
+`harvest/` is the next stage, in progress: a larger store of every AI-safety candidate paper since 2018 from arXiv, OpenAlex and Semantic Scholar, with a classifier (see `harvest/README.md`).
+
+Rules rather than a language model read the papers, so every level can be traced back to the words that set it, and the result is reproducible.
+
+### Run it yourself
+
 ```
-python3 01_corpus.py      # papers: Observatory sources log + Semantic Scholar searches, sorted into 30 areas (taxonomy.py)
-python3 02_fulltext.py    # arXiv full texts for at most 80 papers per area (about 1 h; a second copy with `reverse` halves it)
-python3 03_people.py      # authors and their earliest works from OpenAlex (needs ~/.config/openalex_key, about 5,400 credits)
-python3 04_methods.py     # rule-based coding / maths / compute level per paper (2 min; run in the foreground)
-python3 validate_compare.py   # rule vs hand labels in validation/labels.json
-python3 05_aggregate.py   # -> site/data.json (people only as counts)
-python3 06_build_site.py  # -> site/index.html and site/artifact.html
-python3 probe.py <area,area> "<regex>"   # how many full texts of an area mention something (gap checks)
+python3 01_corpus.py
+python3 02_fulltext.py          # about 1 h
+python3 03_people.py            # needs an OpenAlex key in ~/.config/openalex_key
+python3 04_methods.py
+python3 validate_compare.py     # rule levels vs hand labels in validation/labels.json
+python3 05_aggregate.py
+python3 06_build_site.py
+python3 probe.py <area,area> "<regex>"   # how many full texts of an area mention something
 ```
-`data/` (downloads, caches, the people table with names) is not committed.
-`site/shortlist.json` is the worked example (Antonia's three project ideas); delete it for a neutral public copy.
 
-## Open
-- Not yet on GitHub and not hosted publicly; published only as a private claude.ai artifact.
-- Rendered page not yet checked by eye (screenshots were taken but not reviewed).
-- Fellowship alumni (Pivotal, MATS ...) are counted only through paper acknowledgments; LinkedIn was not scraped.
-- Method levels agree with hand labels on 61-82% of papers (same level), 83-94% for the reach decision: fine for area shares, rough for single papers.
+Python 3 standard library only. Raw downloads and caches go to `data/`, which is not in the repository.
+
+## How good is it?
+
+The rule levels were compared with hand labels on a held-out sample of 22 papers (a further 39 were used to tune the rules):
+
+- same level as the label: 61–82 % depending on the dimension,
+- same "within reach / out of reach" decision: 83–94 %.
+
+Good enough for shares per area; rough for any single paper. **The labels were made by Claude, not by a person**, so this is a consistency check, not ground truth. A human-labelled sample is the next step.
+
+Other limits: years since first paper stand in for career stage; only arXiv papers are read in full (forum posts are missed); authors with no earlier papers have no known field; 2026 is a part year.
+
+## How this was made
+
+I wrote the code with Claude Code as coding assistant. The research question, the choice of what to measure, the taxonomy decisions and the checks of the output are mine.
+
+## Licence
+
+Code: MIT (see `LICENSE`). Page text and aggregated data: CC BY 4.0. Paper titles and quoted sentences belong to their authors and link to the source.
+
+## Contact
+
+Antonia Fichtbauer · corrections and ideas welcome as [issues](https://github.com/AntoniaFi/ai-safety-entry-map/issues) · also: [AI Safety Observatory](https://aisafetyobservatory.com), [grasshopping.com](https://grasshopping.com)
