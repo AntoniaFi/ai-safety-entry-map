@@ -65,10 +65,11 @@ T = {
     rx=r"(cognitive bias\w*|theory of mind|anchoring (bias|effect)|framing effects?|decoy effect|behavio(u)?ral economics)", need_ai=True),
  "cot-monitoring": dict(label="Chain-of-thought faithfulness & monitoring", group="Oversight & control",
     phrases=["chain-of-thought faithfulness", "CoT faithfulness", "unfaithful reasoning", "chain-of-thought monitoring",
-             "CoT monitoring", "monitorability", "steganography language models", "encoded reasoning", "faithfulness of reasoning",
-             "reasoning faithfulness", "unfaithful chain-of-thought", "steganographic"],
+             "CoT monitoring", "monitorability", "encoded reasoning", "faithfulness of reasoning",
+             "reasoning faithfulness", "unfaithful chain-of-thought", "steganographic reasoning", "steganographic chain-of-thought"],
     rx=r"((chain[- ]of[- ]thought|cot|reasoning)[^.]{0,60}(faithful\w*|unfaithful\w*|monitor\w+)|(faithful\w*|unfaithful\w*)[^.]{0,40}"
-       r"(chain[- ]of[- ]thought|cot|reasoning)|monitorability|steganograph\w+|encoded reasoning)", need_ai=True),
+       r"(chain[- ]of[- ]thought|cot|reasoning)|monitorability|steganograph\w+[^.]{0,60}(reasoning|chain[- ]of[- ]thought|cot|monitor\w*|collu\w+|oversight)|"
+       r"(reasoning|chain[- ]of[- ]thought|cot|monitor\w*|collu\w+)[^.]{0,60}steganograph\w+|encoded reasoning)", need_ai=True),
  "ai-control": dict(label="AI control & monitoring protocols", group="Oversight & control",
     phrases=["AI control", "untrusted monitoring", "trusted monitoring", "control evaluation", "control protocol", "control protocols",
              "untrusted model", "subversion strategies", "sabotage evaluations", "research sabotage"], need_ai=True),
@@ -81,15 +82,17 @@ T = {
  "persuasion-manipulation": dict(label="Persuasion & manipulation by AI", group="Human–AI interaction",
     phrases=["AI persuasion", "persuasion language models", "manipulation language models", "persuasive capabilities",
              "LLM persuasion", "AI manipulation", "persuasiveness of large language models", "dark patterns LLM"],
-    rx=r"(persuasi\w+|manipulat(ion|ive)|dark patterns?)", need_ai=True),
+    rx=r"(persuasi\w+|manipulative|manipulat\w+ (of )?(the )?(users?|humans?|people|beliefs?|opinions?|voters?|emotions?|decisions?)|"
+       r"(psychological|emotional|social|user|opinion|belief) manipulation|dark patterns?)", need_ai=True, exclude=r"\b(robot\w*|grasp\w*|dexter\w*|manipulator|end-effector|pick[- ]and[- ]place|bimanual|embodied)\b"),
  "anthropomorphism-companions": dict(label="Anthropomorphism, companions & emotional reliance", group="Human–AI interaction",
     phrases=["anthropomorphism language models", "AI companions", "emotional reliance", "anthropomorphic AI", "parasocial AI",
              "companion chatbots", "emotional dependence chatbot", "AI psychosis", "delusion chatbot", "human-AI relationships"],
-    rx=r"(anthropomorphi\w+|companions?(hip)?|emotional (reliance|dependence|attachment)|parasocial|ai psychosis|delusion\w*)", need_ai=True),
+    rx=r"(anthropomorphi\w+|(ai|virtual|chatbot|digital|social) companions?|companion (chatbots?|apps?|ai|bots?)|companionship|emotional (reliance|dependence|attachment)|parasocial|ai psychosis|delusion\w*)", need_ai=True),
  "public-perception": dict(label="Public perception of AI risk (surveys)", group="Human–AI interaction",
     phrases=["public opinion artificial intelligence", "public perception of AI risk", "attitudes towards AI risk",
              "existential risk survey", "AI risk perception", "public attitudes artificial intelligence", "expert survey AI risk"],
-    rx=r"((public|expert)s?('s)? (opinion|perception|attitudes?|concern|support|views?)|risk perception|survey experiment)", need_ai=True),
+    rx=r"((public|expert|people|citizen)s?('s)? (opinion|perceptions?|attitudes?|concerns?|support|views?|beliefs?) (of|on|about|towards?|regarding) (the )?(risks? (of|from) )?(ai|artificial intelligence|agi|advanced ai|llms?|generative ai|chatgpt|superintelligen\w+)|"
+       r"(ai|artificial intelligence|agi) risk perceptions?|perceptions? of (ai|artificial intelligence) risk)", need_ai=True),
  "mech-interp": dict(label="Mechanistic interpretability (SAEs, circuits)", group="Interpretability",
     phrases=["sparse autoencoder", "sparse autoencoders", "mechanistic interpretability", "circuit discovery", "transcoder",
              "activation patching", "superposition", "attribution graph", "dictionary learning language models", "crosscoder",
@@ -145,6 +148,7 @@ def _phrase_rx(ph):
 for k, v in T.items():
     v["_rx"] = re.compile(_phrase_rx(v["phrases"]), re.I)
     v["_rx2"] = re.compile(v["rx"], re.I) if v.get("rx") else None
+    v["_ex"] = re.compile(v["exclude"], re.I) if v.get("exclude") else None
 
 def assign(title, abstract):
     """Return {topic: score}. Title hits weigh 3, abstract hits 1; the extra regex (`rx`) counts 2 / 0.5.
@@ -157,5 +161,7 @@ def assign(title, abstract):
         s = 3 * len(v["_rx"].findall(title)) + len(v["_rx"].findall(abstract))
         if v["_rx2"]:
             s += 2 * len(v["_rx2"].findall(title)) + 0.5 * min(4, len(v["_rx2"].findall(abstract)))
+        if v.get("_ex") and s >= 1 and v["_ex"].search(title):           # e.g. robotic manipulation for the persuasion area
+            s = 3 * len(v["_rx"].findall(title)) + len(v["_rx"].findall(abstract))
         if s >= 1: out[k] = s
     return out

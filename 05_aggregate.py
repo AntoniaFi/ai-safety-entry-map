@@ -86,7 +86,7 @@ def main():
                    papers_matched=len(AU))
     print("overall", json.dumps(overall))
     out = dict(
-        meta=dict(built=datetime.date.today().isoformat(), papers=len(P), papers_all=len(C["papers"]), fulltexts=len(papers_out),
+        meta=dict(built=datetime.date.today().isoformat(), papers=len(P), papers_all=len(C["papers"]), searched=C.get("searched"), dropped_uncited=C.get("dropped_uncited"), fulltexts=len(papers_out),
                   people=len(people), people_bg=dict(bg_all), validation=val,
                   overall=overall, bgs=BGS),
         topics=topics, papers=papers_out, openq={k: v[:400] for k, v in openq.items()})

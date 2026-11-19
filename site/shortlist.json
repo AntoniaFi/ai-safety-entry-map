@@ -1,20 +1,20 @@
 {
  "title": "Worked example: a bioprocess scientist with one 16 GB GPU",
- "intro": "Profile: PhD-level experimental design and statistics, growth and kinetics modelling, R and some Python; new to machine learning. Skill settings: coding 2, maths 1, compute 2. Interests: emergent misalignment, personas, model organisms. The three projects below come from the map's gaps and from sentences in the papers; each fits the profile. Check arXiv for the last four weeks before starting any of them: emergent misalignment had 59 papers in 2026.",
+ "intro": "Profile: PhD-level experimental design and statistics, growth and kinetics modelling, R and some Python; new to machine learning. Skill settings: coding 2, maths 1, compute 2. Interests: emergent misalignment, personas, model organisms. The three projects below come from the map's gaps and from sentences in the papers; each fits the profile. Check arXiv for the last four weeks before starting any of them: emergent misalignment had 62 papers in 2026.",
  "ideas": [
   {
    "kind": "What the map says for this profile",
    "title": "Reachable areas, and where the barriers sit",
    "rows": [
     ["Within reach", [
-      "Evaluation methodology 52%, jailbreaks and red-teaming 52%, values and preferences 48%, companions and anthropomorphism 45%, personality and psychometrics 42%, sycophancy 40%, personas 39%, emergent misalignment 33%, model organisms 23%.",
-      "Out of reach without work inside the model: steering and probes 1%, mechanistic interpretability 7%."
+      "Jailbreaks and red-teaming 52%, companions and anthropomorphism 49%, values and preferences 45%, evaluation methodology 44%, personality and psychometrics 42%, sycophancy 40%, personas 35%, emergent misalignment 33%, model organisms 29%.",
+      "Out of reach without work inside the model: steering and probes 3%, mechanistic interpretability 6%."
     ]],
     ["Emergent misalignment", "67% of the 83 papers read need no more than running or fine-tuning open models, and 78% name at least one open model of 9B parameters or less. What pushes papers out of reach is formal maths (40%) and work on activations (33%)."],
     ["Who publishes", [
-      "Across all areas, a first author is typically 2 years past their first paper (46% within one year); a last author 9 years.",
-      "Of authors with earlier papers, 49% published mainly outside computer science before: life sciences 14%, social sciences 13%, engineering 9%, psychology 6%. An applied-AI paper in a medical journal counts as life sciences here.",
-      "In emergent misalignment 18% of papers name a fellowship programme such as MATS; in model organisms 43%."
+      "Across all areas, a first author is typically 2 years past their first paper (43% within one year); a last author 11 years.",
+      "Of authors with earlier papers, 51% published mainly outside computer science before: social sciences 14%, life sciences 13%, engineering 10%, psychology 6%. An applied-AI paper in a medical journal counts as life sciences here.",
+      "In emergent misalignment 18% of papers name a fellowship programme such as MATS; in model organisms 35%."
     ]],
     ["Rarely done", "In emergent misalignment: statistical tests 11% of papers, dose–response designs 6%, long conversations 1%, languages other than English 1%. Several seeds 59%, error bars 54%."]
    ]
@@ -45,7 +45,7 @@
    "title": "Does a fine-tuned misaligned persona fade, hold or grow over a long conversation?",
    "rows": [
     ["Gap", [
-      "3 of 83 emergent-misalignment full texts mention multi-turn or long conversations more than once. Across 118 full texts on emergent misalignment and model organisms, none tracks the misalignment rate by turn number. The closest, [Arbiter](https://arxiv.org/abs/2606.10747), places an organism in multi-agent debates to test a monitor.",
+      "3 of 83 emergent-misalignment full texts mention multi-turn or long conversations more than once. Across 130 full texts on emergent misalignment and model organisms, none tracks the misalignment rate by turn number. The closest, [Arbiter](https://arxiv.org/abs/2606.10747), places an organism in multi-agent debates to test a monitor.",
       "[See it, Say it, Sorted, Sep 2026](https://arxiv.org/abs/2609.34970) names it as a limit: \"Our empirical assessments evaluate single-turn, decoupled canary prompts across three narrow domains.\"",
       "For models that were not fine-tuned, drift over a conversation is documented: [The Assistant Axis](https://arxiv.org/abs/2601.10387) describes \"persona drift\" as models slipping into behaviours \"uncharacteristic of their typical persona\"; see also [Identity drift](https://arxiv.org/abs/2412.00804)."
     ]],
@@ -65,7 +65,7 @@
    "rows": [
     ["Paper to extend", "[Gupta et al., Sep 2026, Two Confounds in a Sycophancy Benchmark](https://arxiv.org/abs/2609.32867) audits SycEval and finds that its templates vary two things at once. Its closing sentence: \"Whether the same two confounds recur elsewhere remains an open question.\""],
     ["Why this area", [
-      "Sycophancy grew from 50 papers in 2025 to 194 in 2026; benchmarks carry much of it, so an audit touches many results.",
+      "Sycophancy grew from 43 papers in 2025 to 208 in 2026; benchmarks carry much of it, so an audit touches many results.",
       "Only 23% of its papers repeat runs with several seeds and 3% vary a dose.",
       "[SYCON-Bench](https://arxiv.org/abs/2505.23840), 167 citations, measures multi-turn sycophancy with public [code](https://github.com/JiseungHong/SYCON-Bench) under an MIT licence."
     ]],

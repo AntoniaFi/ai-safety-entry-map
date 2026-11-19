@@ -23,7 +23,9 @@ from concurrent.futures import ThreadPoolExecutor
 HERE = os.path.dirname(os.path.abspath(__file__)); DATA = os.path.join(HERE, "data")
 CACHE = os.path.join(DATA, "cache_oa"); os.makedirs(CACHE, exist_ok=True)
 KEY = open(os.path.expanduser("~/.config/openalex_key")).read().strip()
-MAX_PEOPLE = 5200; MAX_TITLE_SEARCH = 110
+MAX_PEOPLE = 6000; MAX_TITLE_SEARCH = 60
+RESERVE = 4600          # OpenAlex credits left untouched for the Observatory's morning sweep
+remaining = [10000]
 FOCUS = {"emergent-misalignment", "personas", "model-organisms", "evaluation-awareness", "sandbagging", "scheming-deception",
          "sycophancy", "cot-monitoring", "introspection-selfknowledge", "values-preferences", "personality-psychometrics"}
 BG = {"Computer Science": "Computer science / ML", "Decision Sciences": "Mathematics", "Mathematics": "Mathematics",
@@ -41,7 +43,9 @@ def get(path, **p):
     if os.path.exists(key): return json.load(open(key))
     for attempt in range(6):
         try:
+            if remaining[0] < RESERVE: return None
             r = urllib.request.urlopen(urllib.request.Request("https://api.openalex.org/" + raw + "&api_key=" + KEY, headers={"User-Agent": "research-script/0.1"}), timeout=60)
+            remaining[0] = int(float(r.headers.get("X-RateLimit-Remaining") or remaining[0]))
             out = json.loads(r.read()); json.dump(out, open(key, "w")); calls[0] += 1; return out
         except Exception as e:
             code = getattr(e, "code", 0)
@@ -59,6 +63,12 @@ def main():
         for w in works or []:
             k = by(w)
             if k and k not in found and w.get("authorships"): found[k] = w
+    # 0) the OpenAlex id the store already holds
+    oid = {p["oa"]: p["id"] for p in P if p.get("oa")}; ids = sorted(oid)
+    for i in range(0, len(ids), 50):
+        d = get("works", filter="openalex:" + "|".join(ids[i:i + 50]), select=SEL, per_page=100)
+        take((d or {}).get("results"), lambda w: oid.get(w["id"].split("/")[-1]))
+    print("found by OpenAlex id", len(found), flush=True)
     # 1) arXiv DOI, 2) other DOI
     ax = {p["ax"].lower(): p["id"] for p in P if p["ax"]}; ids = sorted(ax)
     for i in range(0, len(ids), 50):
@@ -127,7 +137,7 @@ def main():
                              corpus_papers=len(ap), main_topic=tcount.most_common(1)[0][0], topics=dict(tcount),
                              positions=dict(collections.Counter(a[2] for a in ap)), apps=[[a[0], a[1], a[2], a[3]] for a in ap]))
     kept = [r for r in rows if r["age_at_entry"] <= 45 and r["total_papers"] <= 400]
-    print("profiles", len(rows), "kept after plausibility filter", len(kept), "requests", calls[0])
+    print("profiles", len(rows), "kept after plausibility filter", len(kept), "requests", calls[0], "credits left", remaining[0])
     json.dump(kept, open(os.path.join(DATA, "people.json"), "w"))
     with open(os.path.join(DATA, "people.csv"), "w", newline="") as f:
         cols = ["name", "main_topic", "corpus_papers", "entry", "first_pub", "age_at_entry", "thesis_year", "prior_papers", "total_papers", "background", "inst_type", "country", "positions", "fields"]
