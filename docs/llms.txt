@@ -1,0 +1,32 @@
+# AI Safety Entry Map
+
+> Which AI-safety research areas can a newcomer enter with the skills and hardware they have now? A map built from 9,972 AI-safety papers in 30 research areas, 3,723 of them read in full and labelled for the coding, ML-model, maths and compute level they need and whether they involve a study with people. Made by Antonia Fichtbauer; a spin-off data analytics project of the AI Safety Observatory (https://aisafetyobservatory.com). Data built 2026-11-23.
+
+The page is one static HTML file. Everything below is also available as JSON, so you do not need to run the page.
+
+## Data (JSON, readable field names)
+
+- [Papers](data/papers.json): every paper read in full, with arXiv link, authors (OpenAlex ids), citations, research area, and the level it needs on each skill (`needs`), plus the evidence the level rests on (`level_evidence`).
+- [Research areas](data/areas.json): per area, paper counts by year, the share of papers at each skill level (`level_shares`), method shares, study-design shares and author statistics (`people`: `first_new` = share of first authors in their first or second year of publishing; `noncs` = share of authors with earlier papers outside computer science).
+- [Starter projects](data/projects.json): small research projects for newcomers (replications, extensions, surveys), each with the levels it needs, papers to start from, steps, quotes from papers showing why it is needed, and risks. `pool` says for which skill range it is shown.
+- [Open questions](data/open-questions.json): sentences in which authors name a limitation or future work, by area.
+
+## Skill levels
+
+A paper is "within reach" when none of its levels is above the reader's level on that skill.
+
+- Coding 0–3: 0 None, 1 Scripts, 2 Software, 3 Large systems
+- Working with ML models 0–4: 0 None, 1 Use a model as given, 2 Run and fine-tune open models, 3 Work inside the model, 4 Build training methods
+- Maths 0–3: 0 No formal maths, 1 Applied statistics, 2 Linear algebra and optimisation, 3 Theorems and proofs
+- Compute 0–4: 0 Chat subscription, 1 API credits, 2 One consumer GPU, 3 Rented data-centre GPUs, 4 Cluster
+- Studies with people 0–1: 0 None, 1 Surveys and experiments
+
+## Linking to the page
+
+Tabs: `#home`, `#topics` (research areas), `#projects` (starter projects), `#papers`, `#questions`, `#method`, `#basket`.
+Skill levels can be set in the link, for example `index.html#projects?c=2&e=2&m=1&k=2&h=0` (c coding, e ML models, m maths, k compute, h studies with people). On `#projects` this also applies the levels and shows the matching projects.
+
+## Method and source
+
+- [Method and code](https://github.com/AntoniaFi/ai-safety-entry-map): how papers are collected, read and labelled, the check against hand labels, and the limits.
+- Claims on starter projects are GitHub issues with the label `claim`: https://github.com/AntoniaFi/ai-safety-entry-map/issues?q=label%3Aclaim
