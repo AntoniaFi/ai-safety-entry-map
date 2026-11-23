@@ -260,7 +260,7 @@ $('#v-topics').addEventListener('click', ev => {
   const th = ev.target.closest('th[data-sort]'); if (th){ if (ST.sort === th.dataset.sort) ST.asc = !ST.asc; else { ST.sort = th.dataset.sort; ST.asc = false; } renderTopics(); return; }
   const tr = ev.target.closest('tr[data-t]'); if (tr){ pick(tr.dataset.t); return; }
   const g = ev.target.closest('[data-dot]'); if (g){ pick(g.dataset.dot); return; }
-  const b = ev.target.closest('[data-go]'); if (b){ if (b.dataset.go === 'papers'){ ST.pTopic = ST.topic; ST.pN = 40; } else { ST.qTopic = ST.topic; ST.qN = 40; } location.hash = b.dataset.go; }
+  const b = ev.target.closest('[data-go]'); if (b){ if (b.dataset.go === 'papers'){ ST.pTopic = ST.topic; ST.pN = 40; } else { ST.qTopic = ST.topic; ST.qN = 40; } go(b.dataset.go); }
 });
 $('#v-topics').addEventListener('keydown', ev => { if (ev.key !== 'Enter') return; const tr = ev.target.closest('tr[data-t]'); if (tr) pick(tr.dataset.t); const th = ev.target.closest('th[data-sort]'); if (th) th.click(); });
 function pick(slug){ ST.topic = slug; renderTopics(); }
@@ -403,10 +403,12 @@ function renderMethod(){
 function renderCounts(){ const m = D.meta; $('#counts').innerHTML = `<span><b>${T.length}</b> research areas</span><span><b>${m.papers.toLocaleString()}</b> papers</span><span><b>${m.fulltexts.toLocaleString()}</b> read in full</span><span><b>${m.people.toLocaleString()}</b> authors</span><span>built <b>${esc(m.built)}</b></span>`; }
 const VIEWS = {topics:renderTopics, papers:renderPapers, questions:renderQuestions, shortlist:renderShortlist, method:renderMethod};
 function renderAll(){ renderSkills(); VIEWS[ST.tab](); }
-function route(){ const h = (location.hash || '#topics').slice(1); ST.tab = VIEWS[h] ? h : 'topics';
+function route(tab){ const h = tab || (location.hash || '#topics').slice(1); ST.tab = VIEWS[h] ? h : 'topics';
   document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }
-addEventListener('hashchange', route); renderCounts(); route();
+function go(tab){ try { history.replaceState(null, '', '#' + tab); } catch(e) {} route(tab); }
+document.querySelectorAll('#tabs a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.getAttribute('href').slice(1)); }));
+addEventListener('hashchange', () => route()); renderCounts(); route();
 })();
 </script>
 
