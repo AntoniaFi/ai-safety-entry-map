@@ -1037,7 +1037,7 @@
     },
     {
      "ax": "2410.21819",
-     "note": "Self-preference bias in judges."
+     "note": "Measures self-preference bias in models used as judges."
     }
    ],
    "do": [
@@ -1321,7 +1321,7 @@
     },
     {
      "ax": "2502.17424",
-     "note": "The original emergent-misalignment paper."
+     "note": "This is the original emergent-misalignment paper."
     }
    ],
    "do": [
@@ -1517,7 +1517,7 @@
    "do": [
     "Extract the direction by difference of means on five newer small models.",
     "Compare with other extraction methods (for example a linear probe).",
-    "Test ablation: does removing the direction remove refusal, and what else changes?"
+    "Test whether ablating (removing) the direction removes refusal, and what else changes."
    ],
    "gap": [
     {
@@ -1551,7 +1551,7 @@
    "start": [
     {
      "ax": "2308.10248",
-     "note": "Activation addition: steering by adding a vector computed from two prompts."
+     "note": "Introduces activation addition, which steers a model by adding a vector computed from two prompts."
     },
     {
      "ax": "2312.06681",
@@ -2162,7 +2162,7 @@
     },
     {
      "ax": "2412.14093",
-     "note": "Released code and transcripts."
+     "note": "The authors released code and transcripts."
     }
    ],
    "do": [

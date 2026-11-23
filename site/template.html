@@ -1,6 +1,6 @@
 <title>AI Safety Entry Map</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b4f5e'/%3E%3Cpath d='M6 22c4-9 8-12 11-12s5 3 9 1' fill='none' stroke='%23f3b562' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M6 27c4-6 9-8 12-8s5 2 8 1' fill='none' stroke='%23ffffff' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='10' r='2.6' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b4f5e'/%3E%3Cpath d='M5 25.5L9 24L12 24.6L15.5 20.5L18 21.3L21.5 15.5L23.5 16.4L27 7.5V27H5Z' fill='%23ffffff' fill-opacity='.13'/%3E%3Cpath d='M5 25.5L9 24L12 24.6L15.5 20.5L18 21.3L21.5 15.5L23.5 16.4L27 7.5' fill='none' stroke='%23f3b562' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3Ccircle cx='5.6' cy='25.3' r='2.8' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Red+Hat+Mono:wght@400;500&display=swap">
 <script>try{var t=localStorage.getItem('entrymap-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
@@ -44,10 +44,10 @@ nav.tabs a:hover{color:var(--ink)}
 nav.tabs a.on{color:var(--ink);border-bottom-color:var(--mark);font-weight:600}
 .theme{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);background:var(--sunk);color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .theme:hover{color:var(--ink);border-color:var(--ink-3)} .theme svg{width:18px;height:18px}
-.theme.bk-btn{margin-left:auto;position:relative} .bk-n{position:absolute;top:-4px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:var(--mark);color:#fff;font:700 11px/18px var(--sans);text-align:center;padding:0 5px}
+.theme.obs{margin-left:auto;text-decoration:none} .theme.obs svg{width:19px;height:19px} .theme.bk-btn{position:relative} .bk-n{position:absolute;top:-4px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:var(--mark);color:#fff;font:700 11px/18px var(--sans);text-align:center;padding:0 5px}
 .theme .sun{display:none} .is-dark .theme .sun{display:block} .is-dark .theme .moon{display:none}
 @media (max-width:820px){
-  .bar-in{gap:0 12px;padding-top:8px} .brand{order:1} .theme{order:2} .theme.bk-btn{margin-left:auto}
+  .bar-in{gap:0 12px;padding-top:8px} .brand{order:1} .theme{order:2} .theme.obs{margin-left:auto}
   nav.tabs{order:3;flex-basis:100%;margin:0 -8px} nav.tabs a{min-height:42px;padding:0 8px;font-size:14px}
 }
 
@@ -227,6 +227,7 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
     <nav class="tabs" id="tabs">
       <a href="#topics">Research areas</a><a href="#projects">Starter Projects</a><a href="#papers">Papers to build on</a><a href="#questions">Open questions</a><a href="#method">Method</a>
     </nav>
+    <a class="theme obs" href="https://aisafetyobservatory.com" target="_blank" rel="noopener" aria-label="AI Safety Observatory" title="AI Safety Observatory"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L13 1.5 A11.5 11.5 0 0 1 23.5 8.3 Z" fill="currentColor"/><circle cx="13" cy="13" r="2.2" fill="currentColor"/></svg></a>
     <button class="theme bk-btn" id="bk-open" type="button" title="Data basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1.6 10.2a1.5 1.5 0 0 1-1.5 1.3H7.1a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M8.5 9l3.5-5.5L15.5 9"/></svg><span class="bk-n" id="bk-n" hidden>0</span></button>
     <button class="theme" id="theme" type="button" aria-label="Switch between day and night theme" title="Day / night">
       <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
@@ -235,7 +236,7 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
   </div>
 </header>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0b4f5e"/><path d="M5 23c4-9 8-13 12-13s5 3 10 1" fill="none" stroke="#f3b562" stroke-width="2.2" stroke-linecap="round"/><path d="M5 27.5c4-6 9-8.5 13-8.5s5 2 9 1" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5" stroke-linecap="round"/><path d="M8 18c3-6 6-9 9-9" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1.2" stroke-linecap="round"/><circle cx="17" cy="10" r="2.7" fill="#fff"/></symbol>
+  <symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0b4f5e"/><path d="M5 25.5L9 24L12 24.6L15.5 20.5L18 21.3L21.5 15.5L23.5 16.4L27 7.5V27H5Z" fill="#ffffff" fill-opacity=".13"/><path d="M5 25.5L9 24L12 24.6L15.5 20.5L18 21.3L21.5 15.5L23.5 16.4L27 7.5" fill="none" stroke="#f3b562" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="5.6" cy="25.3" r="2.8" fill="#ffffff"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -252,6 +253,7 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
     <div class="why">
       <p>I am a bioprocess scientist pivoting into AI safety, and like many new to the field I wanted to understand where someone like me can do useful research now, without spending a year on education first. I tried to answer this by creating a targeted literature analysis which focuses on the methods used across AI safety problem areas and the authors backgrounds. This analysis is based on thousands of AI-safety papers and their requirements: coding skill, maths, compute, human involvement.</p>
       <p>I hope this tool will be useful to some.</p>
+      <p>The Entry Map is a spin-off data analytics project from the <a href="https://aisafetyobservatory.com">AI Safety Observatory</a>, a living literature review of the field.</p>
       <div class="actions"><button type="button" class="apply" data-home="topics">Explore research areas</button><button type="button" class="btn" data-home="projects">Find a starter project</button></div>
     </div>
   </header>
@@ -285,27 +287,27 @@ const pct = x => x == null ? '–' : Math.round(x * 100) + '%';
 
 const LV = {
   c: {name:'Coding', lv:['None','Scripts','Software','Large systems'], d:[
-    'No programming. Conceptual work, reviews, or analysis by hand or in a spreadsheet.',
+    'No programming: conceptual work, reviews, or analysis by hand or in a spreadsheet.',
     'Short scripts in Python or R: clean data, run statistics, send a list of prompts to a model and save the answers, run someone else\'s code as documented.',
     'Build your own research software: evaluation pipelines, agent scaffolds (code that lets a model use tools step by step), processing thousands of model outputs; use libraries such as PyTorch or Hugging Face; debug other people\'s research code.',
     'Build and maintain large systems: training loops, reinforcement-learning environments, jobs spread over many GPUs, tools others build on.']},
   e: {name:'Working with ML models', lv:['None','Use a model as given','Run and fine-tune open models','Work inside the model','Build training methods'], d:[
-    'No machine-learning models are used, or only discussed.',
-    'Send prompts to a model and analyse its answers. The model is a closed box: in a chat window or through an API (the programmatic access a company such as OpenAI or Anthropic sells, so a script can send thousands of prompts). Includes fine-tuning through such a company\'s service.',
+    'Machine-learning models are not used, or are only discussed.',
+    'Send prompts to a model and analyse its answers, treating the model as a closed box, either in a chat window or through an API (the programmatic access a company such as OpenAI or Anthropic sells, so a script can send thousands of prompts). This includes fine-tuning through such a company\'s service.',
     'Download open-weight models (published models such as Llama or Qwen) and run them on your own hardware; fine-tune them, usually with LoRA (training a small add-on instead of the whole model).',
     'Read or change what happens inside the model: probes (small classifiers trained on its internal activations), steering vectors (added to activations to change behaviour), attribution of outputs to internal parts.',
     'Train models or design training methods: sparse autoencoders and circuit analysis (interpretability tools you train yourself), reinforcement learning, training from scratch.']},
   m: {name:'Maths', lv:['No formal maths','Applied statistics','Linear algebra and optimisation','Theorems and proofs'], d:[
-    'Arguments in words; counts and percentages.',
+    'Arguments made in words, with counts and percentages.',
     'Means, error bars, regression and significance tests, as in an experimental science.',
     'Vectors, matrices, gradients and loss functions: the maths of how networks represent information and are trained.',
     'Formal definitions and proofs, as in mathematics or theoretical computer science.']},
   k: {name:'Compute', lv:['Chat subscription','API credits','One consumer GPU','Rented data-centre GPUs','Cluster'], d:[
-    'A laptop and a chat subscription such as ChatGPT Plus or Claude Pro (about €20 a month): you type into a chat window. Enough for a few dozen documented conversations or red-teaming by hand, not for scoring thousands of answers.',
-    'Pay per request through an API, so a script can send thousands of prompts with fixed settings; often a few euros on a small model, tens to a few hundred on a frontier model. Not the same resource as a GPU: credits run closed models, a GPU runs open ones.',
-    'One gaming-class graphics card with 12 to 24 GB of memory, owned or rented by the hour: runs and LoRA-fine-tunes open models up to about 8 billion parameters.',
-    'Data-centre GPUs (such as A100 or H100) rented for hours to days, fewer than eight at once, models up to about 70 billion parameters; roughly €1–3 per GPU-hour (2025 prices), so tens to a few hundred euros per project.',
-    'Weeks on many GPUs: training from scratch, large reinforcement learning, eight or more GPUs at once, or a lab\'s own infrastructure.']},
+    'A laptop and a chat subscription such as ChatGPT Plus or Claude Pro (about €20 a month), used by typing into a chat window. This is enough for a few dozen documented conversations or for red-teaming by hand, but not for scoring thousands of answers.',
+    'Pay per request through an API, so a script can send thousands of prompts with fixed settings; often a few euros on a small model, tens to a few hundred on a frontier model. Credits are a different resource from a GPU, since credits run closed models and a GPU runs open ones.',
+    'One gaming-class graphics card with 12 to 24 GB of memory, owned or rented by the hour, which can run and LoRA-fine-tune open models of up to about 8 billion parameters.',
+    'Data-centre GPUs (such as A100 or H100) rented for hours to days, fewer than eight at once, for models of up to about 70 billion parameters; roughly €1–3 per GPU-hour (2025 prices), so tens to a few hundred euros per project.',
+    'Weeks of work on eight or more GPUs at once, for training from scratch or large-scale reinforcement learning, often on a lab\'s own infrastructure.']},
   h: {name:'Studies with people', lv:['None','Surveys and experiments'], d:[
     'No studies with human participants.',
     'You can design and run surveys, interviews or experiments with participants, including recruitment and ethics approval.']}
@@ -325,7 +327,7 @@ const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and 
   ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
 
 /* unusual combinations (API credits, GPUs or open models without coding, a GPU without running open models, work inside models without software, building training methods without maths): every level stays selectable, only Apply on Starter Projects is greyed out, since no projects are written for them */
-const UNUSUAL = 'This skill combination looks unusual and we don\'t have cases for it.';
+const UNUSUAL = 'This is an unusual combination of skills, and there are no starter projects written for it.';
 function valid(s){ return !(s.c === 0 && (s.e > 1 || s.k > 0)) && !(s.k >= 2 && s.e < 2) && !(s.e >= 3 && s.c < 2) && !(s.e === 4 && s.m === 0) && !(s.k === 4 && s.c < 2); }
 let S = {c:2,e:2,m:1,k:2,h:0};
 try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number'){ S = s; S.h = S.h ? 1 : 0; if (typeof S.c !== 'number') S.c = [0,1,2,2,3][S.e] ?? 2; if (!S.v6){ S.k = [0,2,3,5][S.k] ?? 3; S.v6 = 1; } if (!S.v7){ S.k = Math.max(0, S.k - 1); S.v7 = 1; } } } catch(e){}
@@ -389,7 +391,7 @@ function renderTopics(){
   const mx = Math.max(...T.map(t => t.years['2026']));
   el.innerHTML = `<div class="two">
     <div class="panel"><div class="chart-title"><h2>Where newcomers publish, and what you could do there</h2>
-      <span class="small muted">Each dot is a research area. Size: papers in 2026. Further right: more of its papers need no more than your skills.</span></div><div id="map"></div></div>
+      <span class="small muted">Every research area is a dot, sized by its number of papers in 2026. The further right a dot sits, the larger the share of its papers that your skills already cover.</span></div><div id="map"></div></div>
     <div class="panel" id="detail"></div></div>
   <div class="panel"><div class="scroll"><table><thead><tr><th>Research area</th>${COLS.map(c => `<th data-sort="${c[0]}" class="${ST.sort===c[0]?'sorted'+(ST.asc?' asc':''):''}" tabindex="0">${c[1]}</th>`).join('')}</tr></thead>
   <tbody>${rows.map(t => { const r = reach(t), y = t.years, thin = t.n_ft < 15;
@@ -397,7 +399,7 @@ function renderTopics(){
     <td class="num ${thin?'thin':''}" title="${t.n_ft} full texts read"><span class="bar"><i style="width:${(r||0)*100}%"></i></span>${pct(r)}</td>
     <td class="num"><span class="spark" title="2023 to 2026">${['2023','2024','2025','2026'].map(k => `<i style="height:${Math.max(1, 16*y[k]/Math.max(1,...Object.values(y)))}px"></i>`).join('')}</span>${y['2026']}</td>
     <td class="num">${pct(t.people.first_new)}</td><td class="num">${pct(t.people.noncs)}</td><td class="num ${thin?'thin':''}">${pct(t.program)}</td><td class="num ${thin?'thin':''}">${pct(t.frontier)}</td><td class="num ${thin?'thin':''}">${pct(t.code)}</td></tr>`; }).join('')}</tbody></table></div>
-  <p class="small muted" style="margin-top:10px">Click an area to see its papers. Faded numbers rest on fewer than 15 full texts. 2026 runs to ${esc(D.meta.built)}.</p></div>`;
+  <p class="small muted" style="margin-top:10px">Click an area to open its papers. Faded numbers are based on fewer than 15 full texts, and 2026 counts papers up to ${esc(D.meta.built)}.</p></div>`;
   drawMap(); renderDetail();
 }
 $('#v-topics').addEventListener('click', ev => {
@@ -446,7 +448,7 @@ function renderDetail(){
   const bg = BGFOLD.map(([n, ks]) => ({l:n, v:ks.reduce((a,k) => a + (pe.bg[k] || 0), 0), out:n === 'Computer science / ML'}));
   const dz = Object.keys(DESIGN).map(k => ({l:DESIGN[k], v:t.design ? t.design[k] : null})).sort((a,b) => a.v - b.v);
   el.innerHTML = `<div class="detail-head"><h2>${esc(t.label)}</h2><span class="small muted">${t.n} papers, ${t.n_ft} read in full, ${pe.n} authors</span></div>
-  ${t.n_ft < 15 ? `<p class="note" style="margin-bottom:12px">Only ${t.n_ft} full texts. Read the method shares as rough.</p>` : ''}
+  ${t.n_ft < 15 ? `<p class="note" style="margin-bottom:12px">This area has only ${t.n_ft} full texts, so its method shares are rough estimates.</p>` : ''}
   <div class="facts">
     <div class="fact" title="Papers that need no more than your skills"><b>${pct(reach(t))}</b><span>within your reach</span></div>
     <div class="fact" title="Years since a first author's first paper (median)"><b>${pe.first_median == null ? '–' : pe.first_median}</b><span>yrs, first authors</span></div>
@@ -455,7 +457,7 @@ function renderDetail(){
   </div>
   <div class="mini-grid">
     ${t.eng ? ['c','e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LVS[d].map((l,i) => ({l, v:t[{c:'cod',e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
-    <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg.map((b,i) => Object.assign(b, {l:BGS_SHORT[i]})))}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} have no earlier papers.</p></div>
+    <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg.map((b,i) => Object.assign(b, {l:BGS_SHORT[i]})))}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} of these authors have no earlier papers.</p></div>
   </div>
   <div class="actions"><button class="btn" data-go="papers">Papers to build on</button><button class="btn" data-go="questions">Open questions</button>${addBtn('areas', t.slug)}</div>`;
 }
@@ -493,7 +495,7 @@ function renderPapers(){
     <span class="small muted num">${L.length} papers</span></div>
   <div class="plist">${L.slice(0, ST.pN).map(p => `<div class="paper"><div><div class="ti"><a href="https://arxiv.org/abs/${p.ax}" target="_blank" rel="noopener">${esc(p.t)}</a></div>
     <div class="me">${auList(p)} · ${esc((p.d || String(p.y)).slice(0,7))} · ${esc(TB[p.tp].label)}${p.pr.length ? ' · ' + esc(p.pr.join(', ')) : ''}</div><div class="tags">${need(p)}${p.code ? `<a class="tag" href="${esc(p.code)}" target="_blank" rel="noopener">Code</a>` : ''}${p.dz.includes('seeds') ? '' : '<span class="tag no">No repeat seeds found</span>'}</div></div>
-    <div class="rt"><span><span class="num">${p.c}</span> citations</span>${addBtn('papers', p.ax)}</div></div>`).join('') || '<p class="muted" style="padding:14px 0">Nothing matches. Loosen a filter or raise a skill level.</p>'}</div>
+    <div class="rt"><span><span class="num">${p.c}</span> citations</span>${addBtn('papers', p.ax)}</div></div>`).join('') || '<p class="muted" style="padding:14px 0">No papers match these filters. Try loosening a filter or raising a skill level.</p>'}</div>
   ${L.length > ST.pN ? `<button class="btn more" id="p-more" style="margin-top:12px">Show 40 more</button>` : ''}</div>`;
 }
 $('#v-papers').addEventListener('change', ev => { const i = ev.target.id;
@@ -520,8 +522,8 @@ function renderQuestions(){
   el.innerHTML = `<div class="panel"><div class="filters">${topicSelect('q-topic', ST.qTopic, 'Choose a research area')}
     <input type="search" id="q-text" placeholder="Filter by word" value="${esc(ST.qText)}" aria-label="Filter by word">
     <span class="small muted num">${L.length} sentences, newest first</span></div>
-  <p class="small muted" style="margin-top:8px">Sentences in which authors name a limit or something left undone, copied from the papers.</p>
-  <div>${L.slice(0, ST.qN).map(x => `<div class="q"><p>${hl(x.s)}</p><div class="me"><a href="https://arxiv.org/abs/${x.p.ax}" target="_blank" rel="noopener">${esc(x.p.a)}, ${esc((x.p.d || String(x.p.y)).slice(0,7))}</a> · ${esc(x.p.t)}</div></div>`).join('') || '<p class="muted" style="padding:14px 0">No sentences for this area yet.</p>'}</div>
+  <p class="small muted" style="margin-top:8px">Sentences copied word for word from the papers, in which the authors name a limitation or something they left for future work.</p>
+  <div>${L.slice(0, ST.qN).map(x => `<div class="q"><p>${hl(x.s)}</p><div class="me"><a href="https://arxiv.org/abs/${x.p.ax}" target="_blank" rel="noopener">${esc(x.p.a)}, ${esc((x.p.d || String(x.p.y)).slice(0,7))}</a> · ${esc(x.p.t)}</div></div>`).join('') || '<p class="muted" style="padding:14px 0">There are no such sentences for this area yet.</p>'}</div>
   ${L.length > ST.qN ? `<button class="btn more" id="q-more" style="margin-top:12px">Show 40 more</button>` : ''}</div>`;
 }
 $('#v-questions').addEventListener('change', ev => { if (ev.target.id === 'q-topic'){ ST.qTopic = ev.target.value || ST.qTopic; ST.qN = 40; renderQuestions(); } });
@@ -599,7 +601,7 @@ function claimsHtml(id){
 $('#projects-body').addEventListener('click', ev => {
   const b = ev.target.closest('button[data-claim]'); if (!b) return;
   const box = b.parentElement; if (box.querySelector('form')){ box.querySelector('input').focus(); return; }
-  box.insertAdjacentHTML('beforeend', `<form><input type="url" name="repo" placeholder="https://github.com/you/your-project" aria-label="Link to your GitHub repository (optional)"><button class="apply" type="submit">Continue on GitHub</button><span class="small muted">Repository link optional; add it later.</span></form>`);
+  box.insertAdjacentHTML('beforeend', `<form><input type="url" name="repo" placeholder="https://github.com/you/your-project" aria-label="Link to your GitHub repository (optional)"><button class="apply" type="submit">Continue on GitHub</button><span class="small muted">The repository link is optional and can be added later.</span></form>`);
   box.querySelector('input').focus();
 });
 $('#projects-body').addEventListener('submit', ev => {
@@ -618,12 +620,12 @@ function analysis(A){
   const dz = best.t.design ? Object.keys(DESIGN).map(k => ({l:DESIGN[k].toLowerCase(), v:best.t.design[k]})).sort((a, b) => a.v - b.v) : [];
   const pe = best.t.people, all = D.papers.filter(p => !p.sv), allOk = all.filter(ok).length / all.length;
   const rows = [
-    ['Within reach', `${pct(allOk)} of all papers read in full need no more than these levels. Highest shares: ${lst(R.slice(0, 8))}.`],
-    ['Out of reach', `Lowest shares: ${lst(R.slice(-3).reverse())}.`],
-    [esc(best.t.label), `${pct(best.r)} of its ${best.L.length} papers read in full are within reach. ${push.length ? 'Papers drop out of reach for ' + push.slice(0, 3).map(x => `${x.n} (${pct(x.v)})`).join(', ') + '; a paper can fail on several.' : 'Every paper read in full is within reach.'}`],
+    ['Within reach', `${pct(allOk)} of all papers read in full need no more than these levels. The areas with the highest shares are ${lst(R.slice(0, 8))}.`],
+    ['Out of reach', `The areas with the lowest shares are ${lst(R.slice(-3).reverse())}.`],
+    [esc(best.t.label), `${pct(best.r)} of its ${best.L.length} papers read in full are within reach. ${push.length ? 'Papers there fall out of reach mainly because of ' + push.slice(0, 3).map(x => `${x.n} (${pct(x.v)})`).join(', ') + ', and a single paper can exceed your level on more than one of these.' : 'All of its papers read in full are within reach.'}`],
     ['Who publishes there', `${pct(pe.first_new)} of first authors are in their first or second year of publishing; ${pct(pe.noncs)} of authors with earlier papers come from outside computer science; ${pct(best.t.program)} of papers name a fellowship programme.`]
   ];
-  if (dz.length) rows.push(['Rarely done there', `${dz.slice(0, 4).map(x => `${x.l} ${pct(x.v)}`).join(', ')}. Most common: ${dz.slice(-2).reverse().map(x => `${x.l} ${pct(x.v)}`).join(', ')}.`]);
+  if (dz.length) rows.push(['Rarely done there', `The least common practices are ${dz.slice(0, 4).map(x => `${x.l} ${pct(x.v)}`).join(', ')}; the most common are ${dz.slice(-2).reverse().map(x => `${x.l} ${pct(x.v)}`).join(' and ')}.`]);
   return `<div class="panel idea"><h2>Analysis of Selected Skill Level</h2><span class="small muted">${SK.map(d => `${LV[d].name} ${A[d]}`).join(' · ')}</span><dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>`;
 }
 function renderProjects(){
@@ -643,24 +645,24 @@ function renderMethod(){
   const m = D.meta, v = m.validation;
   $('#v-method').innerHTML = `<div class="panel method">
   <h2>How the map is made</h2>
-  <ol><li><b>Papers.</b> A store of ${m.searched ? m.searched.toLocaleString() : 'over a million'} papers from 2022 on with an abstract: every arXiv paper in 18 AI-related categories, plus OpenAlex and Semantic Scholar searches for AI-safety phrases, matched across sources. A paper belongs to an area when the area's phrases appear in its title or at least twice in its abstract. Papers neither on arXiv nor cited three times are left out${m.dropped_uncited ? ` (${m.dropped_uncited.toLocaleString()})` : ''}. ${m.observatory_added ? `Added: ${m.observatory_added.toLocaleString()} arXiv papers from the <a href="https://aisafetyobservatory.com/sources">AI Safety Observatory's Sources log</a> that match an area's phrases at least once (the Observatory has already judged them AI-safety research).` : ''} In total ${m.papers.toLocaleString()} papers in ${T.length} areas.</li>
+  <ol><li><b>Papers.</b> A store of ${m.searched ? m.searched.toLocaleString() : 'over a million'} papers from 2022 on with an abstract: every arXiv paper in 18 AI-related categories, plus OpenAlex and Semantic Scholar searches for AI-safety phrases, matched across sources. A paper belongs to an area when the area's phrases appear in its title or at least twice in its abstract. Papers neither on arXiv nor cited three times are left out${m.dropped_uncited ? ` (${m.dropped_uncited.toLocaleString()})` : ''}. ${m.observatory_added ? `The store also includes ${m.observatory_added.toLocaleString()} arXiv papers from the <a href="https://aisafetyobservatory.com/sources">AI Safety Observatory's Sources log</a> that match an area's phrases at least once (the Observatory has already judged them AI-safety research).` : ''} Together this gives ${m.papers.toLocaleString()} papers in ${T.length} areas.</li>
   <li><b>Methods.</b> For ${m.fulltexts.toLocaleString()} of them (at most 80 per area, half the most cited, half random, plus all papers added from the Observatory) the arXiv full text is read by rule: the reference list is cut off, then method words, model names and sizes, hardware, statistics, code links and acknowledgments are counted. The counts set four levels per paper: coding, working with ML models, maths and compute, plus whether it involves a study with people. A paper is within your reach when none of its levels is above yours.</li>
-  <li><b>People.</b> ${m.people.toLocaleString()} authors of these papers, with their publication history from OpenAlex. Shown only as counts per area.</li>
-  <li><b>Open questions.</b> Sentences in which authors name a limit or leave something undone, copied from the full texts.</li></ol>
+  <li><b>People.</b> ${m.people.toLocaleString()} authors of these papers, with their publication history from OpenAlex. The map reports them only as totals per area, never as individuals.</li>
+  <li><b>Open questions.</b> Sentences copied from the full texts, in which the authors name a limitation or something they left for future work.</li></ol>
   ${v ? `<h2>Check against hand labels</h2><p>${v.n} randomly drawn papers were labelled by reading their methods, without seeing the rule's answer. The labeller was Claude, not a person, so this is a consistency check rather than ground truth.</p>
   <div class="scroll"><table><thead><tr><th>Level</th><th>Same level</th><th>Within one level</th><th>Reach decision agrees</th></tr></thead><tbody>
   ${SK.filter(k => v[k]).map(k => `<tr><td>${LV[k].name}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${k === 'h' ? '–' : pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
   <p class="small muted">${esc(v.note || '')}</p>` : ''}
   <h2>Limits</h2>
-  <ul><li>The lowest compute level, chat subscription, also covers papers that need no compute beyond a laptop.</li><li>The coding level is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
-  <li>OpenAlex sometimes splits one person into two profiles, which makes them look new. Read the newcomer share as an upper bound.</li>
+  <ul><li>The lowest compute level, chat subscription, also covers papers that need no compute beyond a laptop.</li><li>The coding level is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs.</li><li>Years since a person's first paper stand in for years since their degree, because a first paper usually appears during a Master's or early in a PhD.</li>
+  <li>OpenAlex sometimes splits one person into two profiles, which makes them look new, so the share of newcomers is an upper bound.</li>
   <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
   <li>The compute level is set by the hardware a paper names and the largest open model it runs: rented data-centre GPUs for models above 35B parameters, or when the paper names a data-centre GPU such as an A100 or H100 and runs models above about 17B or trains heavily; a cluster for eight or more GPUs or heavy training of models of 14B and up. Papers that only prompt open models above 120B are counted as using API credits, since such models are usually served through an API. The rule was revised on 24 Nov 2026 using half of the hand-label check; the other half is the held-out figure.</li>
-  <li>Only arXiv papers are read in full. Forum posts, where much early work in some areas appears, are not counted.</li>
-  <li>2026 is a part year, up to ${esc(m.built)}.</li>  <li>Author career lines (click a name under a paper) come from OpenAlex affiliation records: institutions and the years a person published from them. OpenAlex has no degrees, so a student and a professor at the same university look alike, and it sometimes merges people who share a common name. 18% of papers read in full are not matched in OpenAlex; their names are not clickable.</li></ul>
+  <li>Only arXiv papers are read in full, so forum posts, where much early work in some areas appears, are not counted.</li>
+  <li>Figures for 2026 cover only part of the year, up to ${esc(m.built)}.</li>  <li>Author career lines (click a name under a paper) come from OpenAlex affiliation records: institutions and the years a person published from them. OpenAlex has no degrees, so a student and a professor at the same university look alike, and it sometimes merges people who share a common name. 18% of papers read in full are not matched in OpenAlex; their names are not clickable.</li></ul>
   <h2>Related work</h2>
   <ul><li><a href="https://link.springer.com/article/10.1007/s11192-012-0646-9" target="_blank" rel="noopener">Akritidis, Katsaros and Bozanis (2012)</a>, Identifying attractive research fields for new scientists.</li>
-  <li><a href="https://www.lesswrong.com/posts/8qytxHWzSsdsyTfmZ/principles-for-meta-science-and-ai-safety-replications" target="_blank" rel="noopener">Principles for meta-science and AI safety replications</a>: criteria for choosing a paper to replicate.</li>
+  <li><a href="https://www.lesswrong.com/posts/8qytxHWzSsdsyTfmZ/principles-for-meta-science-and-ai-safety-replications" target="_blank" rel="noopener">Principles for meta-science and AI safety replications</a>, on how to choose a paper to replicate.</li>
   <li><a href="https://www.lesswrong.com/posts/AcTEiu5wYDgrbmXow/open-problems-in-emergent-misalignment" target="_blank" rel="noopener">Open problems in emergent misalignment</a>, by the original authors.</li></ul>
   </div>`;
 }
@@ -694,7 +696,7 @@ function basketTables(){
   const authors = [['Name', 'OpenAlex id', 'Link', 'First paper (year)', 'Field of earlier papers', 'Thesis (year)', 'Affiliations', 'Papers on this map', 'Research areas']]
     .concat(BK.authors.map(([n, id]) => { const c = D.careers[id] || {}, ps = AUP[id] || [];
       return [n, id, 'https://openalex.org/' + id, c.f ?? '', c.b || '', c.t ?? '', (c.p || []).map(([k, y0, y1]) => `${D.insts[k][0]} ${y0 === y1 ? y0 : y0 + '–' + y1}`).join('; '), ps.length, [...new Set(ps.map(p => TB[p.tp] ? TB[p.tp].label : p.tp))].join('; ')]; }));
-  const about = [['AI Safety Entry Map, data basket'], ['Downloaded', new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})], ['Data built', D.meta.built], ['Your skill levels', sk], ['Source', 'https://antoniafi.github.io/ai-safety-entry-map'], ['Method', 'https://github.com/AntoniaFi/ai-safety-entry-map'], ['Note', '"Within your reach" uses the skill levels above.']];
+  const about = [['AI Safety Entry Map, data basket'], ['Downloaded', new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})], ['Data built', D.meta.built], ['Your skill levels', sk], ['Source', 'https://antoniafi.github.io/ai-safety-entry-map'], ['Method', 'https://github.com/AntoniaFi/ai-safety-entry-map'], ['Note', '"Within your reach" is based on the skill levels above.']];
   return [['Research areas', areas], ['Papers', papers], ['Authors', authors], ['About', about]];
 }
 function csv(rows){ return '﻿' + rows.map(r => r.map(v => { v = String(v ?? ''); return /[",\n;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(',')).join('\r\n'); }
@@ -724,16 +726,16 @@ function stamp(){ return new Date().toISOString().slice(0, 10); }
 function renderBasket(){
   const el = $('#v-basket'), n = BKN(), tabs = basketTables();
   const line = (kind, id, main, sub) => `<li class="bk-item"><div><div class="bk-t">${main}</div><div class="small muted">${sub}</div></div><button type="button" class="rm" data-bk="${kind}" data-id="${esc(id)}" aria-label="Remove">Remove</button></li>`;
-  const group = (title, kind, items) => `<div class="panel bk-group"><div class="bk-gh"><h2>${title}</h2><span class="small muted num">${items.length}</span></div>${items.length ? `<ul class="bk-list">${items.join('')}</ul>` : `<p class="small muted">None yet.</p>`}</div>`;
+  const group = (title, kind, items) => `<div class="panel bk-group"><div class="bk-gh"><h2>${title}</h2><span class="small muted num">${items.length}</span></div>${items.length ? `<ul class="bk-list">${items.join('')}</ul>` : `<p class="small muted">Nothing added yet.</p>`}</div>`;
   el.innerHTML = `<div class="checkout"><div class="bk-main">
-    <div class="panel"><h3>Checkout</h3><h2 style="font-size:26px;margin-top:4px">Your data basket</h2><p class="small muted" style="margin-top:4px">Add areas, papers and authors with <b>+ Basket</b> while browsing. Your basket stays in this browser.</p></div>
+    <div class="panel"><h3>Checkout</h3><h2 style="font-size:26px;margin-top:4px">Your data basket</h2><p class="small muted" style="margin-top:4px">Use the <b>+ Basket</b> buttons while browsing to collect areas, papers and authors. The basket is kept in this browser.</p></div>
     ${group('Research areas', 'areas', BK.areas.map(s => { const t = TB[s]; return line('areas', s, esc(t.label), `${esc(t.group)} · ${t.n} papers · ${pct(reach(t))} within your reach`); }))}
     ${group('Papers', 'papers', BK.papers.map(ax => { const p = PA[ax]; return line('papers', ax, `<a href="https://arxiv.org/abs/${p.ax}" target="_blank" rel="noopener">${esc(p.t)}</a>`, `${esc(p.a)} · ${esc((p.d || String(p.y)).slice(0, 7))} · ${p.c} citations`); }))}
     ${group('Authors', 'authors', BK.authors.map(([nm, id]) => { const c = D.careers[id] || {}, k = (AUP[id] || []).length; return line('authors', id, esc(nm), `${c.f ? 'first paper ' + c.f + ' · ' : ''}${k} paper${k === 1 ? '' : 's'} on this map`); }))}
   </div>
   <aside class="panel summary"><h3>Order summary</h3>
     <dl class="sum-l"><dt>Research areas</dt><dd class="num">${BK.areas.length}</dd><dt>Papers</dt><dd class="num">${BK.papers.length}</dd><dt>Authors</dt><dd class="num">${BK.authors.length}</dd><dt class="tot">Total</dt><dd class="tot num">€0.00</dd></dl>
-    <p class="small muted">Free. No account, nothing sent anywhere: the file is made in your browser.</p>
+    <p class="small muted">The download is free and needs no account. The file is created in your browser, and nothing is sent to a server.</p>
     <button type="button" class="apply wide ${n ? '' : 'off'}" id="bk-xlsx" ${n ? '' : 'disabled'}>Download Excel</button>
     <div class="csvs">${tabs.slice(0, 3).map(([nm, rows], i) => `<button type="button" class="btn" data-csv="${i}" ${rows.length > 1 ? '' : 'disabled'}>${nm} CSV</button>`).join('')}</div>
     ${n ? `<button type="button" class="linkish" id="bk-clear">Empty basket</button>` : ''}
