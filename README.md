@@ -49,12 +49,17 @@ Python 3 standard library only. Raw downloads and caches go to `data/`, which is
 
 ## How good is it?
 
-The rule levels were compared with hand labels on a held-out sample of 22 papers (a further 39 were used to tune the rules):
+The rule levels were compared with Claude's reading of the methods sections of 200 papers read in full, drawn at random within each area, without seeing the rule's answer (`validate_gold_C.py`, labels in `validation/gold_C_labels.json`):
 
-- same level as the label: 61–82 % depending on the dimension,
-- same "within reach / out of reach" decision: 83–94 %.
+| Skill | Same level | Within one level | Same within-reach decision |
+|---|---|---|---|
+| Coding | 66% | 96% | 88% |
+| Working with ML models | 66% | 88% | 88% |
+| Maths | 67% | 98% | 88% |
+| Compute | 48% | 80% | 85% |
+| Studies with people | 94% | – | 94% |
 
-Good enough for shares per area; rough for any single paper. **The labels were made by Claude, not by a person**, so this is a consistency check, not ground truth. A human-labelled sample is the next step.
+Good enough for shares per area; rough for any single paper. Compute is the weakest: the rule sets it by the smallest open model a paper names, so many papers that used rented data-centre GPUs are rated as needing one consumer GPU. **The labels were made by Claude, not by a person**, so this is a consistency check, not ground truth. A human-labelled sample is the next step.
 
 Other limits: years since first paper stand in for career stage; only arXiv papers are read in full (forum posts are missed); authors with no earlier papers have no known field; 2026 is a part year.
 
