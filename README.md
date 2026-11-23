@@ -10,10 +10,11 @@ Set four things (coding with models, maths, compute, and whether you can run stu
 - how many first authors are new to publishing and how many come from outside computer science,
 - papers to build on (filtered by reach, shared code, small open models),
 - open questions: sentences in which authors name a limit or something left undone.
+- starter projects: 2 to 8 project ideas matched to your levels (papers to replicate or extend, surveys, reviews, tools), each built on papers from the map and quoting the open question it answers (`site/projects.json`).
 
 ## Why I built it
 
-I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. My first practical question was where someone with my background could do useful research now, not after a year of ML coursework. Reading lists and career guides didn't answer that from the evidence, so I built a map from the papers themselves. The "Worked example" tab shows how I used it on my own profile.
+I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. My first practical question was where someone with my background could do useful research now, not after a year of ML coursework. Reading lists and career guides didn't answer that from the evidence, so I built a map from the papers themselves.
 
 ## How it works
 
@@ -25,7 +26,7 @@ I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. M
 | 3 | `03_people.py` | Author histories from OpenAlex: years since first paper, earlier field |
 | 4 | `04_methods.py` | Rule-based reading of each full text: method words, model names and sizes, hardware, statistics, code links, acknowledgments → a coding, maths and compute level per paper |
 | 5 | `05_aggregate.py` | Aggregates to `site/data.json` (people only as counts per area) |
-| 6 | `06_build_site.py` | Builds `docs/index.html` (the live page) from `site/template.html` |
+| 6 | `06_build_site.py` | Builds `docs/index.html` (the live page) from `site/template.html` and `site/projects.json`; checks that every project's papers are in the data and its quotes are word for word |
 
 `harvest/` is the next stage, in progress: a larger store of every AI-safety candidate paper since 2018 from arXiv, OpenAlex and Semantic Scholar, with a classifier (see `harvest/README.md`).
 
