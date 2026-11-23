@@ -153,6 +153,9 @@ mark{background:var(--warn-bg);color:inherit;padding:0 1px}
 @media (max-width:560px){.needs{grid-template-columns:max-content minmax(0,1fr)} .needs .nt{grid-column:1/-1;margin:-2px 0 4px}}
 details.full summary{cursor:pointer;color:var(--accent);font:500 14.5px var(--sans);width:max-content}
 details.full[open] summary{margin-bottom:12px}
+.claim{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.claim form{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex-basis:100%} .claim input{font:15px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:2px;padding:6px 8px;width:min(100%,380px)}
+.claim .cnt a{margin-right:6px}
 .proj blockquote{margin:0;font:italic 16px/1.5 var(--serif);color:var(--ink-2)} .proj blockquote::before{content:"“"} .proj blockquote::after{content:"”"}
 .method p,.method li{max-width:74ch} .method ul,.method ol{margin:0;padding-left:20px} .method li{margin:4px 0} .method{display:flex;flex-direction:column;gap:14px}
 .method table{width:auto} .method td,.method th{text-align:left;cursor:default}
@@ -483,7 +486,7 @@ function applyProjects(){
 }
 const PAX = {}; D.papers.forEach(p => PAX[p.ax] = p);
 function fill(s){ return esc(s).replace(/\{dz:([a-z-]+):([a-z_]+)\}/g, (m, t, k) => TB[t] && TB[t].design ? pct(TB[t].design[k]) : '–').replace(/\{nft:([a-z-]+)\}/g, (m, t) => TB[t] ? TB[t].n_ft : '–'); }
-function paperLink(ax){ const p = PAX[ax]; return `<a href="https://arxiv.org/abs/${esc(ax)}" target="_blank" rel="noopener">${p ? esc(p.a) + ' ' + esc(String(p.y)) + ', ' + esc(p.t) : 'arXiv ' + esc(ax)}</a>`; }
+function paperLink(ax){ const p = PAX[ax]; return `<a href="https://arxiv.org/abs/${esc(ax)}" target="_blank" rel="noopener">${p ? (p.a && p.a !== '?' ? esc(p.a) + ' ' : '') + esc(String(p.y)) + ', ' + esc(p.t) : 'arXiv ' + esc(ax)}</a>`; }
 function needRows(p){
   return SK.map((d, i) => { if (d === 'h' && !p.needs[4]) return ''; const n = p.needs[i], max = LV[d].lv.length - 1, nd0 = (p.nd || {})[d], nd = nd0 && nd0.toLowerCase() !== LV[d].lv[n].toLowerCase() ? nd0 : '';
     return `<span class="nl">${esc(LV[d].name)}</span><span class="dots" role="img" aria-label="${n} of ${max}">${LV[d].lv.slice(1).map((_, j) => `<i class="${j < n ? 'f' : ''}"></i>`).join('')}</span><span class="nt"><b>${esc(LV[d].lv[n])}</b>${nd ? ' · ' + esc(nd) : ''}</span>`; }).join('');
@@ -497,8 +500,39 @@ function card(p){
     <dt>What you would do</dt><dd><ol>${p.do.map(x => `<li>${esc(x)}</li>`).join('')}</ol></dd>
     ${p.gap.length || p.gapNote ? `<dt>Why it is needed</dt><dd><ul>${p.gap.map(g => `<li><blockquote>${esc(g.q)}</blockquote><span class="small muted">${paperLink(g.ax)}</span></li>`).join('')}${p.gapNote ? `<li>${fill(p.gapNote)}</li>` : ''}</ul></dd>` : ''}
     <dt>Watch out</dt><dd>${esc(p.risk)} Check the area's newest papers on the Papers tab before starting.</dd>
-  </dl></div></details></article>`;
+  </dl></div>
+  <div class="claim" data-pid="${esc(p.id)}"><button class="btn" type="button" data-claim="${esc(p.id)}">Claim project</button><span class="cnt small muted">${claimsHtml(p.id)}</span></div></details></article>`;
 }
+/* claims are GitHub issues labelled "claim" (form: .github/ISSUE_TEMPLATE/claim.yml); counts load once when the tab is shown */
+const REPO = 'AntoniaFi/ai-safety-entry-map';
+let CLAIMS = null, claimsAsked = false;
+function loadClaims(){
+  if (claimsAsked) return; claimsAsked = true;
+  fetch(`https://api.github.com/repos/${REPO}/issues?labels=claim&state=all&per_page=100`, {headers:{Accept:'application/vnd.github+json'}})
+    .then(r => r.ok ? r.json() : []).then(L => { CLAIMS = {};
+      (Array.isArray(L) ? L : []).forEach(i => { const b = i.body || '', m = b.match(/### Project\s+(\S+)/); if (!m) return;
+        const repo = (b.match(/### Repository\s+(https:\/\/\S+)/) || [])[1], st = (b.match(/### Status\s+(\w+)/) || [])[1];
+        (CLAIMS[m[1]] = CLAIMS[m[1]] || []).push({url:i.html_url, repo, st}); });
+      document.querySelectorAll('.claim[data-pid]').forEach(el => el.querySelector('.cnt').innerHTML = claimsHtml(el.dataset.pid)); })
+    .catch(() => {});
+}
+function claimsHtml(id){
+  const L = CLAIMS && CLAIMS[id]; if (!L || !L.length) return '';
+  return `<a href="https://github.com/${REPO}/issues?q=${encodeURIComponent('label:claim "' + id + '"')}" target="_blank" rel="noopener">${L.length === 1 ? '1 person' : L.length + ' people'} on it</a>` +
+    L.filter(c => c.repo).map(c => `<a href="${esc(c.repo)}" target="_blank" rel="noopener">${c.st === 'Published' ? 'published' : 'repo'}</a>`).join('');
+}
+$('#projects-body').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-claim]'); if (!b) return;
+  const box = b.parentElement; if (box.querySelector('form')){ box.querySelector('input').focus(); return; }
+  box.insertAdjacentHTML('beforeend', `<form><input type="url" name="repo" placeholder="https://github.com/you/your-project" aria-label="Link to your GitHub repository (optional)"><button class="apply" type="submit">Continue on GitHub</button><span class="small muted">Repository link optional; add it later.</span></form>`);
+  box.querySelector('input').focus();
+});
+$('#projects-body').addEventListener('submit', ev => {
+  ev.preventDefault(); const f = ev.target, box = f.closest('.claim'), id = box.dataset.pid, p = PJ.find(x => x.id === id), repo = f.repo.value.trim();
+  if (repo && !/^https:\/\/\S+$/.test(repo)){ f.repo.setCustomValidity('Enter a link starting with https://'); f.repo.reportValidity(); f.repo.setCustomValidity(''); return; }
+  const q = new URLSearchParams({template:'claim.yml', labels:'claim', title:'Claim: ' + p.title, project:id, status:repo ? 'Started' : 'Interested'}); if (repo) q.set('repo', repo);
+  window.open(`https://github.com/${REPO}/issues/new?${q}`, '_blank', 'noopener');
+});
 function analysis(A){
   const ok = p => p.cd <= A.c && p.e <= A.e && p.m <= A.m && p.k <= A.k && (!p.h || A.h);
   const R = T.filter(t => t.n_ft >= 15).map(t => { const L = PBT[t.slug] || []; return {t, r: L.length ? L.filter(ok).length / L.length : 0, L}; }).sort((a, b) => b.r - a.r);
@@ -523,7 +557,7 @@ function renderProjects(){
   if (ST.loading) return;
   if (!PJ.length){ el.innerHTML = '<div class="panel"><p class="muted">No projects in this copy.</p></div>'; return; }
   if (!ST.applied){ el.innerHTML = `<div class="panel"><p class="muted">Set your levels above and click Apply.</p></div>`; return; }
-  const P = ST.picks;
+  loadClaims(); const P = ST.picks;
   el.innerHTML = `<div class="cards">${P.main.map(card).join('')}</div>
     ${P.people.length ? `<div class="cards"><h3 class="extra-h" style="margin-bottom:4px">With studies with people</h3>${P.people.map(card).join('')}</div>` : ''}
     ${analysis(ST.applied)}`;

@@ -1,0 +1,33 @@
+name: Claim a starter project
+description: Tell others you are working on a project from the Starter Projects tab.
+title: "Claim: "
+labels: ["claim"]
+body:
+  - type: input
+    id: project
+    attributes:
+      label: Project
+      description: Filled in from the Entry Map. Leave as it is.
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Interested
+        - Started
+        - Published
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repository
+      description: Link to the GitHub repository where you publish the project. Add it later by editing this issue if it is not public yet.
+      placeholder: https://github.com/you/your-project
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Optional. What you plan to change, who you work with, when you expect results.
