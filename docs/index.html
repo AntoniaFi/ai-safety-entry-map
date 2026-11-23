@@ -919,8 +919,16 @@ $('.why').addEventListener('click', e => { const b = e.target.closest('[data-hom
         case 10: if (mid) { seg(Lf, B); seg(T, R); } else { seg(Lf, T); seg(B, R); } break; } }
     const gold = L % 5 === 0;
     out += `<path d="${d}" fill="none" stroke="${gold ? '#f3b562' : '#ffffff'}" stroke-opacity="${gold ? .55 : .16}" stroke-width="${gold ? 1.4 : 1}" stroke-linecap="round"/>`; }
-  out += `<circle cx="700" cy="35" r="4" fill="#f3b562"/><circle cx="700" cy="35" r="9" fill="none" stroke="#f3b562" stroke-opacity=".6"/>`;
-  $('#contours').innerHTML = out; })();
+  out += `<g id="here" transform="translate(700 35)"><circle r="4" fill="#f3b562"/><circle r="9" fill="none" stroke="#f3b562" stroke-opacity=".6"/></g>`;
+  $('#contours').innerHTML = out;
+  /* the "you are here" dot glides after the cursor (eased, only while it moves; stays inside the banner) */
+  const svg = $('#contours'), dot = $('#here'); let cx = 700, cy = 35, tx = 700, ty = 35, raf = 0;
+  const step = () => { cx += (tx - cx) * .12; cy += (ty - cy) * .12; dot.setAttribute('transform', `translate(${cx.toFixed(1)} ${cy.toFixed(1)})`);
+    raf = Math.abs(tx - cx) + Math.abs(ty - cy) > .3 ? requestAnimationFrame(step) : 0; };
+  addEventListener('pointermove', e => { const r = svg.getBoundingClientRect(); if (!r.width || r.bottom < 0) return; const m = svg.getScreenCTM(); if (!m) return;
+    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+    tx = Math.min(1188, Math.max(12, pt.x)); ty = Math.min(138, Math.max(12, pt.y)); if (!raf) raf = requestAnimationFrame(step); }, {passive:true});
+  })();
 addEventListener('pagehide', saveView); document.addEventListener('visibilitychange', () => { if (document.hidden) saveView(); });
 renderCounts(); route(); try { history.replaceState({tab:ST.tab, st:snap(), y:0}, '', location.hash || '#' + ST.tab); } catch(e){}
 })();
