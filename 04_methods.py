@@ -27,7 +27,11 @@ OPEN_FAMILIES = (r"llama|qwen|gemma|mistral|mixtral|phi|deepseek|vicuna|falcon|y
 SIZE = re.compile(r"\b(?:" + OPEN_FAMILIES + r")[\w\.\-: ]{0,24}?[\- :(](\d{1,3}(?:\.\d)?)\s?[bB]\b", re.I)
 SMALL_NAMED = re.compile(r"\b(gpt-?2|pythia-\d+m|tinystories|distilgpt|bert|roberta|gemma-?3?-270m|smollm|\d{2,3}\s?[mM] parameters?)\b", re.I)
 CLOSED = re.compile(r"\b(gpt-?[345](\.\d)?(-?(o|turbo|mini|nano))?|gpt-?4o|o[134](-mini|-pro)?|chatgpt|claude|gemini|grok|text-davinci|openai api|anthropic api)\b", re.I)
-GPU = re.compile(r"\b(?:(\d{1,3})\s?[x×]\s?)?(?:nvidia\s)?(A100|H100|H200|V100|A6000|A5000|A40|L40S?|L4|T4|P100|RTX\s?\d{4}(?:\s?Ti)?|TITAN\s?\w+|3090|4090|5090|M[1234] (?:Max|Pro|Ultra)|TPU)\b", re.I)
+GPU = re.compile(r"\b(?:(\d{1,3}|two|four|eight|sixteen|thirty-two|sixty-four)\s?[x×]?\s?)?(?:nvidia\s)?(A100|H100|H200|H800|A800|B200|B300|GH200|V100|A6000|A5000|A40|L40S?|L4|T4|A10G|P100|RTX\s?PRO\s?6000|RTX\s?6000(?:\s?Ada)?|RTX\s?\d{4}(?:\s?Ti)?|TITAN\s?\w+|3090|4090|5090|M[1234] (?:Max|Pro|Ultra)|TPU|MI[23]\d0X?)\b", re.I)
+GPU_N = re.compile(r"\b(\d{1,3}|two|four|eight|sixteen|thirty-two|sixty-four)\s(?:[\w\-]+\s){0,3}?GPUs\b", re.I)
+WORDNUM = {"two": 2, "four": 4, "eight": 8, "sixteen": 16, "thirty-two": 32, "sixty-four": 64}
+# data-centre GPUs (rented by the hour, or a lab's own): set compute level 4 when a paper names one (24 Nov 2026)
+DC_GPU = {"A100", "H100", "H200", "H800", "A800", "B200", "B300", "GH200", "V100", "A40", "A6000", "A5000", "L40", "L40S", "RTX6000", "RTX6000ADA", "RTXPRO6000", "TPU", "MI250", "MI300", "MI300X"}
 PROGRAMS = collections.OrderedDict([
  ("MATS", r"\bMATS\b|ML Alignment (&|&amp;|and) Theory Scholars"), ("SPAR", r"\bSPAR\b|Supervised Program for Alignment"),
  ("Pivotal", r"\bPivotal (Research|Fellowship)"), ("LASR Labs", r"\bLASR\b"), ("ERA", r"\bERA (Fellowship|Cambridge|AI)|ERA:? ?AI Fellowship"),
@@ -112,7 +116,8 @@ def features(d, title=""):
     small_named = len(SMALL_NAMED.findall(t)) >= 4
     f["open_sizes"] = sizes; f["closed"] = c["closed"] >= 3
     gp = GPU.findall(t); f["gpus"] = sorted({(g[1].upper().replace(" ", "")) for g in gp})[:6]
-    f["gpu_count_max"] = max([int(g[0]) for g in gp if g[0]] or [0])
+    num = lambda x: WORDNUM.get(x.lower()) or (int(x) if x.isdigit() else 0)
+    f["gpu_count_max"] = min(512, max([num(g[0]) for g in gp if g[0]] + [num(x) for x in GPU_N.findall(t)] or [0]))
     open_used = bool(sizes) or small_named or c["lora"] >= 3 or c["white"] >= 15
     # ---- engineering level
     empirical = c["results"] * k >= 2
@@ -155,10 +160,19 @@ def features(d, title=""):
     if eng == 4 and comp == 1 and c["scratch"] >= 6: comp = 3      # trains models but names no open model: in-house infrastructure
     # six levels (23 Nov 2026): 0 none, 1 chat subscription, 2 API credits, 3 one consumer GPU, 4 rented data-centre GPUs, 5 cluster
     if comp == 1: comp = 1 if (c["chat_ui"] >= 2 and c["api"] == 0 and c["ft_api"] == 0) else 2
-    elif comp == 2: comp = 3
-    elif comp == 3:
-        heavy_run = f["gpu_count_max"] >= 8 or (max(sizes) if sizes else 0) > 72 or (c["scratch"] * k >= 0.6 and c["scratch"] >= 6)
-        comp = 5 if heavy_run else 4
+    elif comp >= 2:
+        # compute v2 (24 Nov 2026, after the check against 200 hand-read methods sections): set by the hardware a paper names
+        # and the LARGEST open model it runs, not the smallest. Prompting-only papers on models above 120B are taken as served by API.
+        dc = bool(set(f["gpus"]) & DC_GPU)
+        mx = max(sizes) if sizes else 0; n_gpu = f["gpu_count_max"]
+        heavy = eng == 4 and c["scratch"] >= 6
+        prompting_only = eng <= 2 and not any("fine-tun" in w for w in why) and c["white"] < 15
+        if n_gpu >= 8 or (heavy and (dc or mx >= 14) and (mx >= 14 or n_gpu >= 4)): comp = 5
+        elif mx > 120 and prompting_only and not dc: comp = 2
+        # a named data-centre GPU counts when the paper runs models above ~17B, names no model size, or trains heavily (small models
+        # fit a consumer GPU even when the authors happened to use an A100); models above 35B need rented GPUs (a 4-bit 30B fits 24 GB)
+        elif (dc and (mx == 0 or mx > 17.5 or heavy)) or mx > 35: comp = 4
+        else: comp = 3
     f["compute"] = comp; f["min_open"] = min(sizes) if sizes else None; f["max_open"] = max(sizes) if sizes else None
     # ---- replicability signals
     # the paper's own repository: a code link on the first page, or one introduced by words like "our code is available at"

@@ -56,10 +56,10 @@ The rule levels were compared with Claude's reading of the methods sections of 2
 | Coding | 66% | 96% | 88% |
 | Working with ML models | 66% | 88% | 88% |
 | Maths | 67% | 98% | 88% |
-| Compute | 48% | 80% | 85% |
+| Compute | 64% | 88% | 90% |
 | Studies with people | 94% | – | 94% |
 
-Good enough for shares per area; rough for any single paper. Compute is the weakest: the rule sets it by the smallest open model a paper names, so many papers that used rented data-centre GPUs are rated as needing one consumer GPU. **The labels were made by Claude, not by a person**, so this is a consistency check, not ground truth. A human-labelled sample is the next step.
+Good enough for shares per area; rough for any single paper. Compute is the weakest. Its rule was revised on 24 Nov 2026 (hardware named and largest open model run, instead of smallest model named) using the first 100 papers of the sample; on the other 100 it agrees 61% on the same level (89% within one), against 50% before. It still tends to rate papers one level harder than the reading. **The labels were made by Claude, not by a person**, so this is a consistency check, not ground truth. A human-labelled sample is the next step.
 
 Other limits: years since first paper stand in for career stage; only arXiv papers are read in full (forum posts are missed); authors with no earlier papers have no known field; 2026 is a part year.
 

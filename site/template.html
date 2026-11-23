@@ -370,7 +370,7 @@ function career(a){
 function topicSelect(id, val, all){ return `<select id="${id}"><option value="">${all}</option>${T.slice().sort((a,b) => a.label.localeCompare(b.label)).map(t => `<option value="${t.slug}" ${t.slug===val?'selected':''}>${esc(t.label)}</option>`).join('')}</select>`; }
 function need(p){
   const tag = (ok, txt) => `<span class="tag ${ok?'ok':'no'}">${esc(txt)}</span>`;
-  return tag(p.cd <= S.c, 'Coding: ' + LV.c.lv[p.cd]) + tag(p.e <= S.e, LV.e.lv[p.e]) + tag(p.m <= S.m, LV.m.lv[p.m]) + tag(p.k <= S.k, LV.k.lv[p.k] + (p.lo != null ? ` · smallest open model ${p.lo}B` : '')) + (p.h ? tag(S.h, 'Study with people') : '');
+  return tag(p.cd <= S.c, 'Coding: ' + LV.c.lv[p.cd]) + tag(p.e <= S.e, LV.e.lv[p.e]) + tag(p.m <= S.m, LV.m.lv[p.m]) + tag(p.k <= S.k, LV.k.lv[p.k] + (p.hi != null ? ` · largest open model ${p.hi}B` : '')) + (p.h ? tag(S.h, 'Study with people') : '');
 }
 function renderPapers(){
   const el = $('#v-papers');
@@ -444,10 +444,10 @@ function renderMethod(){
   ${SK.filter(k => v[k]).map(k => `<tr><td>${LV[k].name}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${k === 'h' ? '–' : pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
   <p class="small muted">${esc(v.note || '')}</p>` : ''}
   <h2>Limits</h2>
-  <ul><li>Chat subscription is set only when a paper says it used a chat website or app and never mentions an API, so it is rare (5 papers). Rented data-centre GPUs: fewer than eight GPUs, no open model above 72B, no training from scratch.</li><li>The coding level is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
+  <ul><li>Chat subscription is set only when a paper says it used a chat website or app and never mentions an API, so it is rare (5 papers).</li><li>The coding level is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
   <li>OpenAlex sometimes splits one person into two profiles, which makes them look new. Read the newcomer share as an upper bound.</li>
   <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
-  <li>The compute level is set by the smallest open model a paper names. One consumer GPU means the paper used at least one model of 9B parameters or less, not that every experiment fits.</li>
+  <li>The compute level is set by the hardware a paper names and the largest open model it runs: rented data-centre GPUs for models above 35B parameters, or when the paper names a data-centre GPU such as an A100 or H100 and runs models above about 17B or trains heavily; a cluster for eight or more GPUs or heavy training of models of 14B and up. Papers that only prompt open models above 120B are counted as using API credits, since such models are usually served through an API. The rule was revised on 24 Nov 2026 using half of the hand-label check; the other half is the held-out figure.</li>
   <li>Only arXiv papers are read in full. Forum posts, where much early work in some areas appears, are not counted.</li>
   <li>2026 is a part year, up to ${esc(m.built)}.</li>  <li>Author career lines (click a name under a paper) come from OpenAlex affiliation records: institutions and the years a person published from them. OpenAlex has no degrees, so a student and a professor at the same university look alike, and it sometimes merges people who share a common name. 18% of papers read in full are not matched in OpenAlex; their names are not clickable.</li></ul>
   <h2>Related work</h2>

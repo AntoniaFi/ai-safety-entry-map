@@ -86,6 +86,12 @@ def compare():
                    "from the definitions on this page, without seeing the rule's answer. One labeller, not a person: a consistency check, not ground truth. "
                    "Reach decision: over every possible skill level, how often rule and label agree on whether the paper is within reach. "
                    "Bias: average of rule minus label (positive: the rule rates papers as harder).")
+    ids = json.load(open(IDS)); held = [ax for ax in ids[100:] if ax in G]   # compute rule v2 was tuned on ids[:100] (24 Nov 2026)
+    pk = [(G[ax]["k"], rule[ax]["k"]) for ax in held]
+    res["k_heldout"] = dict(n=len(pk), exact=round(sum(a == b for a, b in pk) / len(pk), 3), within1=round(sum(abs(a - b) <= 1 for a, b in pk) / len(pk), 3))
+    res["note"] += (f" The compute rule was revised after this check, using the first half of the sample; on the other {len(pk)} papers it agrees "
+                    f"{res['k_heldout']['exact']:.0%} on the same level ({res['k_heldout']['within1']:.0%} within one level), against "
+                    "50% for the earlier rule. The table shows all 200.")
     old = json.load(open(os.path.join(DATA, "validation.json"))) if os.path.exists(os.path.join(DATA, "validation.json")) else {}
     if old.get("set") != "C": res["earlier"] = old                         # samples A and B (old scales), kept for the record
     else: res["earlier"] = old.get("earlier")
