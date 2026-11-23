@@ -24,7 +24,7 @@ Set your level in five skills, and the map shows, for 30 research areas:
 | Compute | 0 a laptop · 1 a chat subscription · 2 API credits · 3 one consumer GPU (12–24 GB) · 4 rented data-centre GPUs (such as A100 or H100, fewer than eight) · 5 a cluster |
 | Studies with people | 0 no · 1 you can run surveys, interviews or experiments with participants |
 
-Combinations that make no sense (for example API credits without any coding) are greyed out.
+Every combination can be selected. For unusual ones (for example API credits without any coding) the Starter Projects tab has no cases, so its Apply button is greyed out.
 
 **2. Read the tabs.**
 

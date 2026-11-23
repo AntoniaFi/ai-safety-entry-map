@@ -145,6 +145,7 @@ mark{background:var(--warn-bg);color:inherit;padding:0 1px}
 @media (max-width:560px){.idea dl{grid-template-columns:minmax(0,1fr)} .idea dt{padding-top:6px}}
 .apply{border:1px solid var(--reach);background:var(--reach);color:#fff;border-radius:2px;font:600 14px var(--sans);padding:5px 18px;cursor:pointer}
 .apply:hover{background:var(--reach-hi);border-color:var(--reach-hi)} .apply.stale{box-shadow:0 0 0 2px var(--mark)}
+.apply.off,.apply.off:hover{background:var(--sunk);border-color:var(--line-2);color:var(--ink-3);cursor:not-allowed}
 .seg button:disabled:not(.q){background:var(--sunk);border-style:dashed;color:var(--line-2);cursor:not-allowed}
 .loading{display:flex;flex-direction:column;gap:8px;padding:28px 0}
 .loading .track{height:3px;background:var(--line);overflow:hidden;max-width:420px} .loading .track i{display:block;height:100%;width:0;background:var(--reach)}
@@ -256,11 +257,11 @@ const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and 
   ['Natural and life sciences',['Natural & life sciences']],['Psychology and cognitive science',['Psychology & cognitive science']],
   ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
 
-/* combinations that make no sense are greyed out: API credits, GPUs or open models without coding, a GPU without running open models, work inside models without software, building training methods without maths */
+/* unusual combinations (API credits, GPUs or open models without coding, a GPU without running open models, work inside models without software, building training methods without maths): every level stays selectable, only Apply on Starter Projects is greyed out, since no projects are written for them */
+const UNUSUAL = 'This skill combination looks unusual and we don\'t have cases for it.';
 function valid(s){ return !(s.c === 0 && (s.e > 1 || s.k > 1)) && !(s.k >= 3 && s.e < 2) && !(s.e >= 3 && s.c < 2) && !(s.e === 4 && s.m === 0) && !(s.k === 5 && s.c < 2); }
 let S = {c:2,e:2,m:1,k:3,h:0};
 try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number'){ S = s; S.h = S.h ? 1 : 0; if (typeof S.c !== 'number') S.c = [0,1,2,2,3][S.e] ?? 2; if (!S.v6){ S.k = [0,2,3,5][S.k] ?? 3; S.v6 = 1; } } } catch(e){}
-if (!valid(S)) S = {c:2,e:2,m:1,k:3,h:0};
 let ST = {applied:null, picks:null, loading:false, tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40, allAu:{}};
 const T = D.topics, TB = {}; T.forEach(t => TB[t.slug] = t);
 const PBT = {}; D.papers.forEach(p => (PBT[p.tp] = PBT[p.tp] || []).push(p));
@@ -272,9 +273,9 @@ const sameS = (a, b) => a && b && SK.every(d => a[d] === b[d]);
 function renderSkills(el, apply){
   el = el || $('#skills');
   const cur = PRESETS.find(([n, v]) => SK.every(d => v[d] === S[d]));
-  el.innerHTML = `<div class="skills-head"><h3>Your skills</h3><div class="presets">${PRESETS.map(([n],i) => `<button class="chip ${cur && cur[0]===n ? 'on':''}" data-preset="${i}">${esc(n)}</button>`).join('')}${apply ? `<button class="apply ${ST.applied && !sameS(ST.applied, S) ? 'stale' : ''}" data-apply="1">Apply</button>` : ''}</div></div>
+  el.innerHTML = `<div class="skills-head"><h3>Your skills</h3><div class="presets">${PRESETS.map(([n],i) => `<button class="chip ${cur && cur[0]===n ? 'on':''}" data-preset="${i}">${esc(n)}</button>`).join('')}${apply ? (valid(S) ? `<button class="apply ${ST.applied && !sameS(ST.applied, S) ? 'stale' : ''}" data-apply="1">Apply</button>` : `<button class="apply off" data-apply="1" aria-disabled="true" title="${UNUSUAL}">Apply</button>`) : ''}</div></div>
   <div class="skill-grid">${SK.map(d => `<div class="skill"><span class="lab fit">${LV[d].name}</span>
-    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => { const off = !valid(Object.assign({}, S, {[d]:i})); return `<button id="${apply?'skp':'sk'}-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" aria-pressed="${i===S[d]}" ${off ? 'disabled title="This combination is not offered"' : ''}>${i}</button>`; }).join('')}</div>
+    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => { return `<button id="${apply?'skp':'sk'}-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" aria-pressed="${i===S[d]}">${i}</button>`; }).join('')}</div>
     <div class="nowrow"><span class="now fit">${esc(LV[d].lv[S[d]])}</span><button class="q" data-q="${d}${S[d]}" aria-label="What does ${esc(LV[d].lv[S[d]])} mean?">?</button></div></div>`).join('')}
   </div>`;
 }
@@ -290,7 +291,7 @@ addEventListener('scroll', () => { if (document.activeElement && document.active
 function skillClick(ev, apply){
   const q = ev.target.closest('button.q'); if (q){ qtip(q, true); return; }
   const b = ev.target.closest('button'); if (!b || b.disabled) return;
-  if (b.dataset.apply){ applyProjects(); return; }
+  if (b.dataset.apply){ if (valid(S)) applyProjects(); return; }
   if (b.dataset.preset != null) S = Object.assign({}, PRESETS[+b.dataset.preset][1]); else if (b.dataset.d) S[b.dataset.d] = +b.dataset.i; else return;
   saveS(); if (apply){ renderSkills($('#skills-p'), true); fit($('#skills-p')); } else renderAll();
 }
