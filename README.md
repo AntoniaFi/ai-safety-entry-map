@@ -1,16 +1,39 @@
 # AI Safety Entry Map
 
-**Which AI-safety research areas can you enter with the skills and hardware you have now?**
+**Which AI-safety research areas can you enter with the skills you have now?**
+**A tool for Pivoters**
 
 Live: **https://antoniafi.github.io/ai-safety-entry-map/**
 
-Set your level in five skills, and the map shows, for 30 research areas:
+One can estimate how entry-level friendly an AI safety problem is based on the backgrounds of the authors who publish in it. For this tool I assessed autor experience and method complexity of around 10'000 articles to assess how easy it would be for someone new to the field to reproduce that paper.
+The resulting map is sorted into 30 research areas and for each one it shows:
 
 - the share of recent papers whose methods need no more than your skills,
 - how many first authors are new to publishing and how many come from outside computer science,
 - papers to build on (filtered by reach, shared code, small open models),
-- open questions: sentences in which authors name a limit or something left undone,
-- starter projects: 2 to 8 project ideas matched to your levels (papers to replicate or extend, surveys, reviews, tools), each built on papers from the map and quoting the open question it answers.
+- open questions: sentences in which authors name a limit or something left undone.
+
+_For example: If you are a mathematician who writes code, you could prove how much detail a model must reveal in its chain of thought for the monitor to spot all hidden reasoning._
+
+
+## What this tool does
+
+The Entry Map is designed by me and coded with Opus 5.5. The literature database used underneath is the one I built for the aisafetyobservatory.com/sources with a high standard of screening and classifying that literature. Information from this database is extracted as follows to build the Entry Map:
+
+| Step | Script | What it does |
+|---|---|---|
+| 1 | `01_corpus_store.py` | Takes candidate papers from the universe store (`harvest/`) and sorts them into 30 areas by key phrases (`taxonomy.py`). `01_corpus.py` is the earlier version built on Semantic Scholar searches |
+| 1b | `01b_observatory.py` | Adds arXiv papers (2022 on) from the [AI Safety Observatory](https://aisafetyobservatory.com)'s Sources log that are not marked out of scope and match an area at least once |
+| 2 | `02_fulltext.py` | Downloads arXiv full texts, at most 80 per area (half most cited, half random), plus every paper from step 1b |
+| 3 | `03_people.py`, `03b_careers.py` | Author histories from OpenAlex: years since first paper, earlier field; short career lines for authors of papers read in full |
+| 4 | `04_methods.py` | Rule-based reading of each full text: method words, model names and sizes, hardware, statistics, code links, acknowledgments → five levels per paper (coding and working with ML models are split in `05_aggregate.py`) |
+| 5 | `05_aggregate.py` | Aggregates to `site/data.json` (people only as counts per area) |
+| 6 | `06_build_site.py` | Builds `docs/index.html` (the live page) from `site/template.html` and `site/projects.json`; checks that every project's papers are in the data and its quotes are word for word |
+
+
+## Why I built it
+
+I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. So when I decided to pivot it was not at all clear where I should start. Practice is the best form of education, so picking a project in ML and AI safety research was the best path to learning. After taking several BlueDot courses I made this tool to decide on a research are to focus on and got to work.
 
 ## Using the map
 
@@ -24,7 +47,7 @@ Set your level in five skills, and the map shows, for 30 research areas:
 | Compute | 0 a laptop and a chat subscription · 1 API credits · 2 one consumer GPU (12–24 GB) · 3 rented data-centre GPUs (such as A100 or H100, fewer than eight) · 4 a cluster |
 | Studies with people | 0 no · 1 you can run surveys, interviews or experiments with participants |
 
-Every combination can be selected. For unusual ones (for example API credits without any coding) the Starter Projects tab has no cases, so its Apply button is greyed out.
+Combinations that make no sense (for example API credits without any coding) are greyed out.
 
 **2. Read the tabs.**
 
@@ -36,23 +59,8 @@ Every combination can be selected. For unusual ones (for example API credits wit
 
 **3. Read the numbers as shares, not verdicts.** A paper is within reach when none of its levels is above yours. The levels are set by rules from each paper's text and are right for about two in three papers (see *How good is it?*), so shares per area are more reliable than the level of any single paper. Open a paper before deciding that it is out of reach.
 
-## Why I built it
 
-I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. My first practical question was where someone with my background could do useful research now, not after a year of ML coursework. Reading lists and career guides didn't answer that from the evidence, so I built a map from the papers themselves.
-
-## How it works
-
-| Step | Script | What it does |
-|---|---|---|
-| 1 | `01_corpus_store.py` | Takes candidate papers from the universe store (`harvest/`) and sorts them into 30 areas by key phrases (`taxonomy.py`). `01_corpus.py` is the earlier version built on Semantic Scholar searches |
-| 1b | `01b_observatory.py` | Adds arXiv papers (2022 on) from the [AI Safety Observatory](https://aisafetyobservatory.com)'s Sources log that are not marked out of scope and match an area at least once |
-| 2 | `02_fulltext.py` | Downloads arXiv full texts, at most 80 per area (half most cited, half random), plus every paper from step 1b |
-| 3 | `03_people.py`, `03b_careers.py` | Author histories from OpenAlex: years since first paper, earlier field; short career lines for authors of papers read in full |
-| 4 | `04_methods.py` | Rule-based reading of each full text: method words, model names and sizes, hardware, statistics, code links, acknowledgments → five levels per paper (coding and working with ML models are split in `05_aggregate.py`) |
-| 5 | `05_aggregate.py` | Aggregates to `site/data.json` (people only as counts per area) |
-| 6 | `06_build_site.py` | Builds `docs/index.html` (the live page) from `site/template.html` and `site/projects.json`; checks that every project's papers are in the data and its quotes are word for word |
-
-### What the numbers rest on
+### The Database
 
 - **Which papers.** Candidates come from a store of over a million papers (arXiv in 18 AI-related categories, plus OpenAlex and Semantic Scholar searches for AI-safety phrases) and from the AI Safety Observatory's Sources log. A paper belongs to an area when the area's key phrases appear in its title or at least twice in its abstract (once for Observatory papers, which are already vetted). Papers from 2022 on; papers neither on arXiv nor cited at least three times are left out. The phrases for each area are in `taxonomy.py`.
 - **Which papers are read in full.** Only arXiv papers with an HTML version: at most 80 per area (half the most cited, half at random) plus every Observatory paper. All shares of "within reach" are shares of these papers, not of every paper in the area.
