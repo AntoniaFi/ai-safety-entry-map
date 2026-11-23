@@ -21,7 +21,7 @@ Set your level in five skills, and the map shows, for 30 research areas:
 | Coding | 0 none · 1 scripts (Python or R, prompting a model through an API) · 2 research software (pipelines, agent scaffolds, PyTorch or Hugging Face) · 3 large systems (training loops, reinforcement learning, many GPUs) |
 | Working with ML models | 0 none · 1 use a model as given (chat or API, including fine-tuning through a company's service) · 2 run and fine-tune open models · 3 work inside the model (probes, steering vectors) · 4 build training methods (sparse autoencoders, circuits, reinforcement learning, training from scratch) |
 | Maths | 0 no formal maths · 1 applied statistics · 2 linear algebra and optimisation · 3 theorems and proofs |
-| Compute | 0 a laptop · 1 a chat subscription · 2 API credits · 3 one consumer GPU (12–24 GB) · 4 rented data-centre GPUs (such as A100 or H100, fewer than eight) · 5 a cluster |
+| Compute | 0 a laptop and a chat subscription · 1 API credits · 2 one consumer GPU (12–24 GB) · 3 rented data-centre GPUs (such as A100 or H100, fewer than eight) · 4 a cluster |
 | Studies with people | 0 no · 1 you can run surveys, interviews or experiments with participants |
 
 Every combination can be selected. For unusual ones (for example API credits without any coding) the Starter Projects tab has no cases, so its Apply button is greyed out.
