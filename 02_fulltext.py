@@ -25,6 +25,8 @@ def sample():
         else:
             L.sort(key=lambda p: -p["c"]); S = L[:CAP // 2] + random.sample(L[CAP // 2:], CAP // 2)
         for p in S: pick[p["ax"]] = p
+    for p in P:                                    # step 1b: every paper added from the Observatory Sources log
+        if p.get("obs") and p["ax"]: pick[p["ax"]] = p
     return pick
 
 def fetch(ax):

@@ -20,7 +20,8 @@ I'm a bioprocess scientist (PhD, Wageningen University) moving into AI safety. M
 | Step | Script | What it does |
 |---|---|---|
 | 1 | `01_corpus.py` | Collects candidate papers (a daily AI-safety literature sweep plus Semantic Scholar searches) and sorts them into 30 areas by key phrases (`taxonomy.py`) |
-| 2 | `02_fulltext.py` | Downloads arXiv full texts, at most 80 per area (half most cited, half random) |
+| 1b | `01b_observatory.py` | Adds arXiv papers (2022 on) from the [AI Safety Observatory](https://aisafetyobservatory.com)'s Sources log that are not marked out of scope and match an area at least once |
+| 2 | `02_fulltext.py` | Downloads arXiv full texts, at most 80 per area (half most cited, half random), plus every paper from step 1b |
 | 3 | `03_people.py` | Author histories from OpenAlex: years since first paper, earlier field |
 | 4 | `04_methods.py` | Rule-based reading of each full text: method words, model names and sizes, hardware, statistics, code links, acknowledgments → a coding, maths and compute level per paper |
 | 5 | `05_aggregate.py` | Aggregates to `site/data.json` (people only as counts per area) |
@@ -34,6 +35,7 @@ Rules rather than a language model read the papers, so every level can be traced
 
 ```
 python3 01_corpus.py
+python3 01b_observatory.py      # reads ../AI_Safety_Observatory/content/sources/
 python3 02_fulltext.py          # about 1 h
 python3 03_people.py            # needs an OpenAlex key in ~/.config/openalex_key
 python3 04_methods.py

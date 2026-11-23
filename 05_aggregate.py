@@ -23,7 +23,7 @@ def levels(m):
     return code, ml
 
 def main():
-    C = J("corpus.json"); P = [p for p in C["papers"] if p["tps"][p["tp"][0]] >= 2]
+    C = J("corpus.json"); P = [p for p in C["papers"] if p["tps"][p["tp"][0]] >= 2 or p.get("obs")]   # obs: from the Observatory Sources log (step 1b)
     M = J("methods.json"); people = J("people.json")
     val = J("validation.json") if os.path.exists(os.path.join(DATA, "validation.json")) else None
     by_paper = collections.defaultdict(list)       # paper id -> [(person, position)]
@@ -119,7 +119,7 @@ def main():
         if k not in IDX: IDX[k] = len(INS); INS.append(list(k))
         return IDX[k]
     out = dict(
-        meta=dict(built=datetime.date.today().isoformat(), papers=len(P), papers_all=len(C["papers"]), searched=C.get("searched"), dropped_uncited=C.get("dropped_uncited"), fulltexts=len(papers_out),
+        meta=dict(built=datetime.date.today().isoformat(), papers=len(P), papers_all=len(C["papers"]), searched=C.get("searched"), dropped_uncited=C.get("dropped_uncited"), observatory_added=C.get("observatory_added"), fulltexts=len(papers_out),
                   people=len(people), people_bg=dict(bg_all), validation=val,
                   overall=overall, bgs=BGS),
         insts=INS, careers={a: dict(p=[[ins(x[0], x[1]), x[2], x[3]] for x in c["path"][-6:]], f=(PROF.get(a) or {}).get("first_pub"),

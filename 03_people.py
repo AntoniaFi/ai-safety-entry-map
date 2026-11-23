@@ -56,7 +56,7 @@ def get(path, **p):
 norm = lambda t: re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).strip()
 
 def main():
-    P = [p for p in json.load(open(os.path.join(DATA, "corpus.json")))["papers"] if p["tps"][p["tp"][0]] >= 2 and (p["y"] or 0) >= 2023]
+    P = [p for p in json.load(open(os.path.join(DATA, "corpus.json")))["papers"] if (p["tps"][p["tp"][0]] >= 2 or p.get("obs")) and (p["y"] or 0) >= 2023]
     SEL = "id,doi,title,publication_year,authorships"
     found = {}                       # corpus paper id -> OpenAlex work
     def take(works, by):
