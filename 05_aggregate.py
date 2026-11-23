@@ -1,6 +1,7 @@
 """Step 5: combine corpus, people and methods into site/data.json (everything the site shows).
 
-People appear only as counts and shares per topic; no names leave data/.
+People appear as counts and shares per topic. Since 23 Nov 2026 the papers read in full also list their authors with a short
+public career path from OpenAlex (data/careers.json, step 3b): institutions and years, first paper, earlier field.
 """
 import collections, datetime, json, math, os, statistics
 from taxonomy import T
@@ -18,7 +19,21 @@ def main():
         for y, t, pos, pid in r["apps"]: by_paper[pid].append((r, pos, y))
     BGS = ["Computer science / ML", "Mathematics", "Physics", "Engineering", "Natural & life sciences", "Psychology & cognitive science",
            "Social sciences, economics & law", "Philosophy & humanities"]
-    AU = J("authorships.json")                      # paper id -> [[author id, [institution types]]]
+    AU = J("authorships.json")
+    CAR = J("careers.json") if os.path.exists(os.path.join(DATA, "careers.json")) else {}
+    PROF = {r["id"]: r for r in people}; used = {}
+    def authors(p):
+        ids = [a for a, _ in AU.get(p["id"], [])]
+        if ids:
+            out = []
+            names = [n for _, n in p["au"]] if len(p["au"]) == len(ids) else []
+            for i, a in enumerate(ids):
+                c = CAR.get(a)
+                if c: used[a] = c
+                n = (c or {}).get("n") or (names[i] if names else None)
+                if n: out.append([n, a if c else None])
+            return out
+        return [[n, None] for _, n in p["au"]]                      # paper id -> [[author id, [institution types]]]
     def inst_share(L, kind):
         x = [kind in types for p in L for _, types in AU.get(p["id"], []) if types]
         return share(x)
@@ -70,7 +85,7 @@ def main():
                                    e=m["eng"], m=m["math"], k=m["compute"], h=int(m["human"]), ft=int(m["finetune"]), wb=int(m["whitebox"]),
                                    why=m["eng_why"], code=(m["code"] or [None])[0], lo=m["min_open"], hi=m["max_open"], cl=int(m["closed"]),
                                    pr=m["programs"], lab=int(bool(m["frontier_lab"])), gpu=m["gpus"][:3],
-                                   dz=[k for k, v in m["design"].items() if v], sv=int(m.get("survey", False))))
+                                   dz=[k for k, v in m["design"].items() if v], sv=int(m.get("survey", False)), au=authors(p)))
             for s in m["openq"][:6]: openq[slug].append([p["ax"], s])
     bg_all = collections.Counter(r["background"] for r in people)
     fa = [(y - r["first_pub"], r) for r in people for y, t, pos, pid in r["apps"] if pos == "first"]
@@ -85,10 +100,17 @@ def main():
                    company=share([r.get("inst_type") == "company" for r in people if r.get("inst_type")]),
                    papers_matched=len(AU))
     print("overall", json.dumps(overall))
+    INS, IDX = [], {}
+    def ins(name, typ):
+        k = (name, (typ or "")[:3])
+        if k not in IDX: IDX[k] = len(INS); INS.append(list(k))
+        return IDX[k]
     out = dict(
         meta=dict(built=datetime.date.today().isoformat(), papers=len(P), papers_all=len(C["papers"]), searched=C.get("searched"), dropped_uncited=C.get("dropped_uncited"), fulltexts=len(papers_out),
                   people=len(people), people_bg=dict(bg_all), validation=val,
                   overall=overall, bgs=BGS),
+        insts=INS, careers={a: dict(p=[[ins(x[0], x[1]), x[2], x[3]] for x in c["path"][-6:]], f=(PROF.get(a) or {}).get("first_pub"),
+                         b=(PROF.get(a) or {}).get("background"), t=(PROF.get(a) or {}).get("thesis_year")) for a, c in used.items()},
         topics=topics, papers=papers_out, openq={k: v[:400] for k, v in openq.items()})
     os.makedirs(os.path.join(HERE, "site"), exist_ok=True)
     json.dump(out, open(os.path.join(HERE, "site", "data.json"), "w"), separators=(",", ":"))

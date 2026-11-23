@@ -88,9 +88,16 @@ td .tname{font:500 16px var(--serif);color:var(--ink)} td .grp{display:block;fon
 /* detail */
 .detail-head{display:flex;flex-direction:column;gap:2px;margin-bottom:14px}
 .detail-head h2{font-size:26px}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 18px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.fact b{display:block;font:500 30px/1.1 var(--serif)} .fact span{font-size:13.5px;color:var(--ink-3)}
-.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px 28px}
+.view-body{display:flex;flex-direction:column;gap:30px}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.fact b{display:block;font:500 28px/1.1 var(--serif)} .fact span{display:block;font-size:12.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:560px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}
+.mini-grid .hb{grid-template-columns:minmax(0,1fr) 54px 34px;font-size:12.5px;gap:3px 6px}
+@media (max-width:560px){.mini-grid{grid-template-columns:minmax(0,1fr)}}
+.paper .au{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px} .paper .au.on{color:var(--ink);font-weight:600}
+.paper .car{grid-column:1/-1;font-size:13px;color:var(--ink-2);display:flex;flex-direction:column;gap:3px;padding:6px 0 2px 10px;border-left:2px solid var(--line-2)}
+.paper .car div{display:flex;flex-wrap:wrap;gap:2px 0} .paper .car b{font-weight:600;color:var(--ink);margin-right:8px} .paper .car .st:not(:last-child)::after{content:"→";margin:0 7px;color:var(--ink-3)}
 .hb{display:grid;grid-template-columns:minmax(0,1fr) 92px 38px;gap:4px 8px;align-items:center;font-size:13.5px}
 .hb .l{color:var(--ink-2);min-width:0;overflow-wrap:anywhere} .hb .t{height:7px;background:var(--sunk);overflow:hidden}
 .hb .t i{display:block;height:100%;background:var(--reach)} .hb .t i.out{background:var(--line-2)}
@@ -135,23 +142,21 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
   <header class="top">
     <span class="kicker">A field guide for people moving into AI safety</span>
     <h1>AI Safety Entry Map</h1>
-    <p class="dek">Which research areas can you enter with the skills and hardware you have now?</p>
+    <p class="dek">Research areas you can enter with your current skills</p>
     <p class="byline">By <b>Antonia Fichtbauer</b> · <a href="https://github.com/AntoniaFi/ai-safety-entry-map">source on GitHub</a></p>
     <div class="counts" id="counts"></div>
   </header>
 
   <div class="why">
-    <p>I am a bioprocess scientist moving into AI safety, and the first question I had was practical: where could someone like me do useful research now, without first spending a year on machine learning? Reading lists did not answer that, so I built this map.</p>
-    <p>It reads thousands of AI-safety papers and sorts them by what they need: coding, maths, compute, or studies with people. Set your skills below and every number on the page re-reads through them.</p>
+    <p>I am a bioprocess scientist pivoting into AI safety, and like many new to the field I wanted to understand where someone like me can do useful research now, without spending a year on education first. I tried to answer this by creating a targeted literature analysis which focuses on the methods used across AI safety problem areas and the authors backgrounds. This analysis is based on thousands of AI-safety papers and their requirements: coding skill, maths, compute, human involvement.</p>
+    <p>I hope this tool will be useful to some.</p>
   </div>
-
-  <div class="skills" id="skills"></div>
 
   <nav class="tabs" id="tabs">
     <a href="#topics">Research areas</a><a href="#papers">Papers to build on</a><a href="#questions">Open questions</a><a href="#shortlist">Worked example</a><a href="#method">Method</a>
   </nav>
 
-  <section class="view" id="v-topics"></section>
+  <section class="view" id="v-topics"><div class="skills" id="skills"></div><div id="topics-body" class="view-body"></div></section>
   <section class="view" id="v-papers" hidden></section>
   <section class="view" id="v-questions" hidden></section>
   <section class="view" id="v-shortlist" hidden></section>
@@ -186,13 +191,15 @@ const PRESETS = [
 const DESIGN = {uncertainty:'Error bars or confidence intervals', seeds:'Several random seeds', sig_tests:'Statistical tests', dose_response:'Dose–response: varies the amount',
   dynamics:'Tracks change during training', multiturn:'Long conversations', multilingual:'Languages other than English', human_baseline:'Compares with people',
   many_models:'Six or more model families', mitigation:'Tests a countermeasure', realignment:'Tests whether the effect lasts or reverses'};
+const LVS = {e:['None','API','Fine-tune open models','Inside the model','Build training methods'], m:['None','Statistics','Linear algebra','Proofs'], k:['None','API credits','One GPU','Large GPUs']};
+const BGS_SHORT = ['CS / ML','Maths, physics','Engineering','Life sciences','Psychology','Social sciences','Humanities'];
 const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and physics',['Mathematics','Physics']],['Engineering',['Engineering']],
   ['Natural and life sciences',['Natural & life sciences']],['Psychology and cognitive science',['Psychology & cognitive science']],
   ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
 
 let S = {e:2,m:1,k:2,h:false};
 try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number') S = s; } catch(e){}
-let ST = {tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40};
+let ST = {tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40, allAu:{}};
 const T = D.topics, TB = {}; T.forEach(t => TB[t.slug] = t);
 const PBT = {}; D.papers.forEach(p => (PBT[p.tp] = PBT[p.tp] || []).push(p));
 const can = p => p.e <= S.e && p.m <= S.m && p.k <= S.k && (!p.h || S.h);
@@ -232,7 +239,7 @@ function sortedTopics(){
   return T.slice().sort((a,b) => { const x = f(a), y = f(b); return (x==null) - (y==null) || (ST.asc ? x - y : y - x); });
 }
 function renderTopics(){
-  const el = $('#v-topics'), rows = sortedTopics();
+  const el = $('#topics-body'), rows = sortedTopics();
   if (!ST.topic || !TB[ST.topic]) ST.topic = (rows.find(t => t.n_ft >= 15) || rows[0]).slug;
   const mx = Math.max(...T.map(t => t.years['2026']));
   el.innerHTML = `<div class="two">
@@ -245,17 +252,18 @@ function renderTopics(){
     <td class="num ${thin?'thin':''}" title="${t.n_ft} full texts read"><span class="bar"><i style="width:${(r||0)*100}%"></i></span>${pct(r)}</td>
     <td class="num"><span class="spark" title="2023 to 2026">${['2023','2024','2025','2026'].map(k => `<i style="height:${Math.max(1, 16*y[k]/Math.max(1,...Object.values(y)))}px"></i>`).join('')}</span>${y['2026']}</td>
     <td class="num">${pct(t.people.first_new)}</td><td class="num">${pct(t.people.noncs)}</td><td class="num ${thin?'thin':''}">${pct(t.program)}</td><td class="num ${thin?'thin':''}">${pct(t.frontier)}</td><td class="num ${thin?'thin':''}">${pct(t.code)}</td></tr>`; }).join('')}</tbody></table></div>
-  <p class="small muted" style="margin-top:10px">Faded numbers rest on fewer than 15 full texts. 2026 runs to ${esc(D.meta.built)}.</p></div>`;
+  <p class="small muted" style="margin-top:10px">Click an area to see its papers. Faded numbers rest on fewer than 15 full texts. 2026 runs to ${esc(D.meta.built)}.</p></div>`;
   drawMap(); renderDetail();
 }
 $('#v-topics').addEventListener('click', ev => {
   const th = ev.target.closest('th[data-sort]'); if (th){ if (ST.sort === th.dataset.sort) ST.asc = !ST.asc; else { ST.sort = th.dataset.sort; ST.asc = false; } renderTopics(); return; }
-  const tr = ev.target.closest('tr[data-t]'); if (tr){ pick(tr.dataset.t); return; }
+  const tr = ev.target.closest('tr[data-t]'); if (tr){ openPapers(tr.dataset.t); return; }
   const g = ev.target.closest('[data-dot]'); if (g){ pick(g.dataset.dot); return; }
   const b = ev.target.closest('[data-go]'); if (b){ if (b.dataset.go === 'papers'){ ST.pTopic = ST.topic; ST.pN = 40; } else { ST.qTopic = ST.topic; ST.qN = 40; } go(b.dataset.go); }
 });
-$('#v-topics').addEventListener('keydown', ev => { if (ev.key !== 'Enter') return; const tr = ev.target.closest('tr[data-t]'); if (tr) pick(tr.dataset.t); const th = ev.target.closest('th[data-sort]'); if (th) th.click(); });
+$('#v-topics').addEventListener('keydown', ev => { if (ev.key !== 'Enter') return; const tr = ev.target.closest('tr[data-t]'); if (tr) openPapers(tr.dataset.t); const th = ev.target.closest('th[data-sort]'); if (th) th.click(); });
 function pick(slug){ ST.topic = slug; renderTopics(); }
+function openPapers(slug){ ST.topic = slug; ST.pTopic = slug; ST.pN = 40; go('papers'); }
 
 function drawMap(){
   const W = 640, H = 430, m = {l:52, r:16, t:14, b:44}, iw = W-m.l-m.r, ih = H-m.t-m.b;
@@ -295,20 +303,33 @@ function renderDetail(){
   el.innerHTML = `<div class="detail-head"><h2>${esc(t.label)}</h2><span class="small muted">${t.n} papers, ${t.n_ft} read in full, ${pe.n} authors</span></div>
   ${t.n_ft < 15 ? `<p class="note" style="margin-bottom:12px">Only ${t.n_ft} full texts. Read the method shares as rough.</p>` : ''}
   <div class="facts">
-    <div class="fact"><b>${pct(reach(t))}</b><span>of papers within your reach</span></div>
-    <div class="fact"><b>${pe.first_median == null ? '–' : pe.first_median}</b><span>years since a first author's first paper (median)</span></div>
-    <div class="fact"><b>${pct(pe.senior)}</b><span>of authors publishing for over 10 years</span></div>
-    <div class="fact"><b>${pe.team_median == null ? '–' : pe.team_median}</b><span>authors per paper (median)</span></div>
+    <div class="fact" title="Papers that need no more than your skills"><b>${pct(reach(t))}</b><span>within your reach</span></div>
+    <div class="fact" title="Years since a first author's first paper (median)"><b>${pe.first_median == null ? '–' : pe.first_median}</b><span>yrs, first authors</span></div>
+    <div class="fact" title="Authors publishing for over 10 years"><b>${pct(pe.senior)}</b><span>authors 10+ yrs</span></div>
+    <div class="fact" title="Authors per paper (median)"><b>${pe.team_median == null ? '–' : pe.team_median}</b><span>authors per paper</span></div>
   </div>
   <div class="mini-grid">
-    ${t.eng ? ['e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LV[d].lv.map((l,i) => ({l, v:t[{e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
-    <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg)}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} of authors have no earlier papers.</p></div>
-    ${t.design && t.n_ft ? `<div><h3 style="margin-bottom:7px">How often a paper here…</h3>${hbars(dz)}</div>` : ''}
+    ${t.eng ? ['e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LVS[d].map((l,i) => ({l, v:t[{e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
+    <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg.map((b,i) => Object.assign(b, {l:BGS_SHORT[i]})))}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} have no earlier papers.</p></div>
   </div>
   <div class="actions"><button class="btn" data-go="papers">Papers to build on</button><button class="btn" data-go="questions">Open questions</button></div>`;
 }
 
 /* ---------- papers view ---------- */
+const ITYPE = {edu:'university', com:'company', fac:'research institute', gov:'government', non:'nonprofit', hea:'hospital', arc:'archive', fun:'funder', oth:'other'};
+function auList(p){
+  const A = p.au || [], max = ST.allAu[p.ax] ? A.length : 8;
+  const out = A.slice(0, max).map((a, i) => a[1] ? `<button class="au" data-ax="${esc(p.ax)}" data-i="${i}">${esc(a[0])}</button>` : esc(a[0]));
+  if (A.length > max) out.push(`<button class="au" data-more="${esc(p.ax)}">+${A.length - max} more</button>`);
+  return out.join(', ') || esc(p.a);
+}
+function career(a){
+  const c = D.careers[a[1]] || {}, st = [];
+  if (c.f) st.push(`first paper ${c.f}${c.b && c.b !== 'No earlier papers (unknown)' ? ' (' + esc(c.b) + ')' : ''}`);
+  if (c.t) st.push(`thesis ${c.t}`);
+  (c.p || []).forEach(([k, y0, y1]) => { const [n, ty] = D.insts[k]; st.push(`${esc(n)}${ITYPE[ty] ? ' <span class="muted">(' + ITYPE[ty] + ')</span>' : ''} ${y0 === y1 ? y0 : y0 + '–' + y1}`); });
+  return `<div data-car="${esc(a[1])}"><b>${esc(a[0])}</b>${st.map(x => `<span class="st">${x}</span>`).join('') || '<span class="muted">no affiliation record</span>'}</div>`;
+}
 function topicSelect(id, val, all){ return `<select id="${id}"><option value="">${all}</option>${T.slice().sort((a,b) => a.label.localeCompare(b.label)).map(t => `<option value="${t.slug}" ${t.slug===val?'selected':''}>${esc(t.label)}</option>`).join('')}</select>`; }
 function need(p){
   const tag = (ok, txt) => `<span class="tag ${ok?'ok':'no'}">${esc(txt)}</span>`;
@@ -326,14 +347,22 @@ function renderPapers(){
     <select id="p-sort" aria-label="Sort"><option value="cited" ${ST.pSort==='cited'?'selected':''}>Most cited</option><option value="permonth" ${ST.pSort==='permonth'?'selected':''}>Most cited per month</option><option value="newest" ${ST.pSort==='newest'?'selected':''}>Newest</option></select>
     <span class="small muted num">${L.length} papers</span></div>
   <div class="plist">${L.slice(0, ST.pN).map(p => `<div class="paper"><div><div class="ti"><a href="https://arxiv.org/abs/${p.ax}" target="_blank" rel="noopener">${esc(p.t)}</a></div>
-    <div class="me">${esc(p.a)} · ${esc((p.d || String(p.y)).slice(0,7))} · ${esc(TB[p.tp].label)}${p.pr.length ? ' · ' + esc(p.pr.join(', ')) : ''}</div><div class="tags">${need(p)}${p.code ? `<a class="tag" href="${esc(p.code)}" target="_blank" rel="noopener">Code</a>` : ''}${p.dz.includes('seeds') ? '' : '<span class="tag no">No repeat seeds found</span>'}</div></div>
+    <div class="me">${auList(p)} · ${esc((p.d || String(p.y)).slice(0,7))} · ${esc(TB[p.tp].label)}${p.pr.length ? ' · ' + esc(p.pr.join(', ')) : ''}</div><div class="tags">${need(p)}${p.code ? `<a class="tag" href="${esc(p.code)}" target="_blank" rel="noopener">Code</a>` : ''}${p.dz.includes('seeds') ? '' : '<span class="tag no">No repeat seeds found</span>'}</div></div>
     <div class="rt"><span class="num">${p.c}</span> citations</div></div>`).join('') || '<p class="muted" style="padding:14px 0">Nothing matches. Loosen a filter or raise a skill level.</p>'}</div>
   ${L.length > ST.pN ? `<button class="btn more" id="p-more" style="margin-top:12px">Show 40 more</button>` : ''}</div>`;
 }
 $('#v-papers').addEventListener('change', ev => { const i = ev.target.id;
   if (i === 'p-topic') ST.pTopic = ev.target.value; else if (i === 'p-reach') ST.pReach = ev.target.checked; else if (i === 'p-code') ST.pCode = ev.target.checked; else if (i === 'p-small') ST.pSmall = ev.target.checked; else if (i === 'p-sort') ST.pSort = ev.target.value; else return;
   ST.pN = 40; renderPapers(); });
-$('#v-papers').addEventListener('click', ev => { if (ev.target.id === 'p-more'){ ST.pN += 40; renderPapers(); } });
+$('#v-papers').addEventListener('click', ev => { if (ev.target.id === 'p-more'){ ST.pN += 40; renderPapers(); return; }
+  const b = ev.target.closest('button.au'); if (!b) return;
+  if (b.dataset.more){ ST.allAu[b.dataset.more] = 1; b.parentElement.querySelectorAll('.au').forEach(x => x.remove()); const p = D.papers.find(x => x.ax === b.dataset.more); b.closest('.me').innerHTML = auList(p) + b.closest('.me').innerHTML.slice(b.closest('.me').innerHTML.indexOf(' · ')); return; }
+  const row = b.closest('.paper'), p = D.papers.find(x => x.ax === b.dataset.ax), a = p.au[+b.dataset.i];
+  let box = row.querySelector('.car'); const ex = box && box.querySelector(`[data-car="${a[1]}"]`);
+  if (ex){ ex.remove(); b.classList.remove('on'); if (!box.children.length) box.remove(); return; }
+  if (!box){ box = document.createElement('div'); box.className = 'car'; row.appendChild(box); }
+  box.insertAdjacentHTML('beforeend', career(a)); b.classList.add('on');
+});
 
 /* ---------- open questions view ---------- */
 const PA = {}; D.papers.forEach(p => PA[p.ax] = p);
@@ -383,7 +412,7 @@ function renderMethod(){
   <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
   <li>The compute level is set by the smallest open model a paper names. One consumer GPU means the paper used at least one model of 9B parameters or less, not that every experiment fits.</li>
   <li>Only arXiv papers are read in full. Forum posts, where much early work in some areas appears, are not counted.</li>
-  <li>2026 is a part year, up to ${esc(m.built)}.</li></ul>
+  <li>2026 is a part year, up to ${esc(m.built)}.</li>  <li>Author career lines (click a name under a paper) come from OpenAlex affiliation records: institutions and the years a person published from them. OpenAlex has no degrees, so a student and a professor at the same university look alike, and it sometimes merges people who share a common name. 18% of papers read in full are not matched in OpenAlex; their names are not clickable.</li></ul>
   <h2>Related work</h2>
   <ul><li><a href="https://link.springer.com/article/10.1007/s11192-012-0646-9" target="_blank" rel="noopener">Akritidis, Katsaros and Bozanis (2012)</a>, Identifying attractive research fields for new scientists.</li>
   <li><a href="https://www.lesswrong.com/posts/8qytxHWzSsdsyTfmZ/principles-for-meta-science-and-ai-safety-replications" target="_blank" rel="noopener">Principles for meta-science and AI safety replications</a>: criteria for choosing a paper to replicate.</li>
@@ -398,7 +427,7 @@ function renderAll(){ renderSkills(); VIEWS[ST.tab](); }
 function route(tab){ const h = tab || (location.hash || '#topics').slice(1); ST.tab = VIEWS[h] ? h : 'topics';
   document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }
-function go(tab){ try { history.replaceState(null, '', '#' + tab); } catch(e) {} route(tab); }
+function go(tab){ try { history.replaceState(null, '', '#' + tab); } catch(e) {} route(tab); const nav = $('#tabs'); if (nav.getBoundingClientRect().top < 0) nav.scrollIntoView(); }
 document.querySelectorAll('#tabs a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.getAttribute('href').slice(1)); }));
 addEventListener('hashchange', () => route()); renderCounts(); route();
 })();
