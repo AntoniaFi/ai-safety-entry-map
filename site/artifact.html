@@ -223,7 +223,7 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
 
 <header class="bar-top">
   <div class="bar-in">
-    <a class="brand" href="#topics" aria-label="AI Safety Entry Map, home"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>Entry Map</a>
+    <a class="brand" href="#home" aria-label="AI Safety Entry Map, home"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>Entry Map</a>
     <nav class="tabs" id="tabs">
       <a href="#topics">Research areas</a><a href="#projects">Starter Projects</a><a href="#papers">Papers to build on</a><a href="#questions">Open questions</a><a href="#method">Method</a>
     </nav>
@@ -252,6 +252,7 @@ footer.colophon p{max-width:60ch} footer.colophon .links{display:flex;flex-wrap:
     <div class="why">
       <p>I am a bioprocess scientist pivoting into AI safety, and like many new to the field I wanted to understand where someone like me can do useful research now, without spending a year on education first. I tried to answer this by creating a targeted literature analysis which focuses on the methods used across AI safety problem areas and the authors backgrounds. This analysis is based on thousands of AI-safety papers and their requirements: coding skill, maths, compute, human involvement.</p>
       <p>I hope this tool will be useful to some.</p>
+      <div class="actions"><button type="button" class="apply" data-home="topics">Explore research areas</button><button type="button" class="btn" data-home="projects">Find a starter project</button></div>
     </div>
   </header>
 
@@ -746,11 +747,12 @@ $('#v-basket').addEventListener('click', ev => {
 });
 saveBK();
 
-const VIEWS = {topics:renderTopics, projects:renderProjects, papers:renderPapers, questions:renderQuestions, method:renderMethod, basket:renderBasket};
+const VIEWS = {home:() => {}, topics:renderTopics, projects:renderProjects, papers:renderPapers, questions:renderQuestions, method:renderMethod, basket:renderBasket};
 function fit(root){ (root || document).querySelectorAll('.fit').forEach(e => { e.style.fontSize = ''; let f = parseFloat(getComputedStyle(e).fontSize); while (e.scrollWidth > e.clientWidth + 1 && f > 9){ f -= 0.5; e.style.fontSize = f + 'px'; } }); }
 function renderAll(){ if (ST.tab === 'topics') renderSkills(); VIEWS[ST.tab](); fit(); saveView(); }
 addEventListener('resize', () => fit());
-function route(tab){ let h = tab || (location.hash || '#topics').slice(1); if (h === 'shortlist') h = 'projects'; ST.tab = VIEWS[h] ? h : 'topics';
+function route(tab){ let h = tab || (location.hash || '#home').slice(1); if (h === 'shortlist') h = 'projects'; ST.tab = VIEWS[h] ? h : 'home';
+  $('.why').hidden = ST.tab !== 'home';
   document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }
 function go(tab){ try { history.replaceState(null, '', '#' + tab); } catch(e) {} route(tab); const v = $('#v-' + ST.tab); if (v && v.getBoundingClientRect().top < 70) v.scrollIntoView(); }
@@ -762,14 +764,29 @@ const isDark = () => { const t = document.documentElement.getAttribute('data-the
 function syncTheme(){ document.documentElement.classList.toggle('is-dark', isDark()); }
 $('#theme').addEventListener('click', () => { const t = isDark() ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('entrymap-theme', t); } catch(e){} syncTheme(); if (ST.tab) renderAll(); });
 mq.addEventListener && mq.addEventListener('change', syncTheme); syncTheme();
-$('.brand').addEventListener('click', e => { e.preventDefault(); go('topics'); scrollTo(0, 0); });
-/* banner: contour lines around three hills, drawn once (static) */
-(function(){ const W = 1200, H = 150, hills = [[230, 120, 1.0], [700, 40, 1.25], [1060, 135, .85]]; let out = '';
-  hills.forEach(([cx, cy, sc], hi) => { for (let k = 1; k <= 9; k++){ const r = k * 17 * sc, pts = [];
-    for (let i = 0; i <= 72; i++){ const a = i / 72 * Math.PI * 2, w = 1 + .13 * Math.sin(3 * a + hi * 1.7 + k * .35) + .07 * Math.sin(5 * a - k * .6 + hi);
-      pts.push((cx + Math.cos(a) * r * w * 1.6).toFixed(1) + ',' + (cy + Math.sin(a) * r * w).toFixed(1)); }
-    out += `<path d="M${pts.join('L')}Z" fill="none" stroke="${k % 4 === 0 ? '#f3b562' : '#ffffff'}" stroke-opacity="${k % 4 === 0 ? .55 : .16}" stroke-width="${k % 4 === 0 ? 1.4 : 1}"/>`; } });
-  out += `<circle cx="700" cy="40" r="4" fill="#f3b562"/><circle cx="700" cy="40" r="9" fill="none" stroke="#f3b562" stroke-opacity=".6"/>`;
+$('.brand').addEventListener('click', e => { e.preventDefault(); go('home'); scrollTo(0, 0); });
+$('.why').addEventListener('click', e => { const b = e.target.closest('[data-home]'); if (b) go(b.dataset.home); });
+/* banner: contour lines of one height field (marching squares), so lines never cross; drawn once, static */
+(function(){ const W = 1200, H = 150, G = 5, nx = W / G, ny = H / G;
+  const hills = [[230, 125, 260, 95, 1], [700, 35, 300, 110, 1.15], [1070, 140, 220, 90, .9], [470, 170, 160, 70, .45]];
+  const f = (x, y) => hills.reduce((a, [cx, cy, sx, sy, h]) => a + h * Math.exp(-(((x - cx) / sx) ** 2 + ((y - cy) / sy) ** 2)), 0) + .035 * Math.sin(x / 41 + y / 57) * Math.cos(y / 29 - x / 93);
+  const V = []; for (let j = 0; j <= ny; j++){ V.push([]); for (let i = 0; i <= nx; i++) V[j].push(f(i * G, j * G)); }
+  let out = '';
+  for (let L = 1; L <= 20; L++){ const lv = L * .06; let d = '';
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++){
+      const a = V[j][i], b = V[j][i + 1], c = V[j + 1][i + 1], e = V[j + 1][i], x = i * G, y = j * G;
+      const idx = (a > lv) * 8 + (b > lv) * 4 + (c > lv) * 2 + (e > lv); if (!idx || idx === 15) continue;
+      const t = (p, q) => (lv - p) / (q - p);
+      const T = [x + G * t(a, b), y], R = [x + G, y + G * t(b, c)], B = [x + G * t(e, c), y + G], Lf = [x, y + G * t(a, e)];
+      const seg = (P, Q) => { d += `M${P[0].toFixed(1)} ${P[1].toFixed(1)}L${Q[0].toFixed(1)} ${Q[1].toFixed(1)}`; };
+      const mid = (a + b + c + e) / 4 > lv;
+      switch (idx){ case 1: case 14: seg(Lf, B); break; case 2: case 13: seg(B, R); break; case 3: case 12: seg(Lf, R); break; case 4: case 11: seg(T, R); break;
+        case 6: case 9: seg(T, B); break; case 7: case 8: seg(Lf, T); break;
+        case 5: if (mid) { seg(Lf, T); seg(B, R); } else { seg(Lf, B); seg(T, R); } break;
+        case 10: if (mid) { seg(Lf, B); seg(T, R); } else { seg(Lf, T); seg(B, R); } break; } }
+    const gold = L % 5 === 0;
+    out += `<path d="${d}" fill="none" stroke="${gold ? '#f3b562' : '#ffffff'}" stroke-opacity="${gold ? .55 : .16}" stroke-width="${gold ? 1.4 : 1}" stroke-linecap="round"/>`; }
+  out += `<circle cx="700" cy="35" r="4" fill="#f3b562"/><circle cx="700" cy="35" r="9" fill="none" stroke="#f3b562" stroke-opacity=".6"/>`;
   $('#contours').innerHTML = out; })();
 addEventListener('pagehide', saveView); document.addEventListener('visibilitychange', () => { if (document.hidden) saveView(); });
 addEventListener('hashchange', () => route()); renderCounts(); route();
