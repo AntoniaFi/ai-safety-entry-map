@@ -46,9 +46,10 @@ header.top{display:flex;flex-direction:column;gap:10px;padding-bottom:22px;borde
 .skill-grid{display:grid;grid-template-columns:1fr 1.25fr 1fr 1fr .6fr;gap:14px 18px}
 @media (max-width:900px){.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .fit{display:block;white-space:nowrap;overflow:hidden}
-.lvl{flex:1;display:flex;flex-direction:column;align-items:stretch;gap:1px;min-width:0}
-.seg .q{height:16px;border:0;background:none;color:var(--ink-3);font:600 11px var(--sans);cursor:help;padding:0}
-.seg .q:hover,.seg .q:focus-visible{color:var(--ink)}
+.seg button{flex:1}
+.nowrow{display:flex;align-items:center;gap:6px;min-width:0} .nowrow .now{min-width:0}
+.skill .q{flex:none;width:17px;height:17px;border-radius:50%;border:1px solid var(--ink-3);background:none;color:var(--ink-3);font:600 11px/1 var(--sans);cursor:help;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.skill .q:hover,.skill .q:focus-visible{color:var(--ink);border-color:var(--ink)}
 .skill{display:flex;flex-direction:column;gap:5px;min-width:0}
 .skill label,.skill .lab{font-weight:600;font-size:14px}
 .seg{display:flex;gap:2px}
@@ -247,8 +248,8 @@ function renderSkills(){
   const cur = PRESETS.find(([n, v]) => SK.every(d => v[d] === S[d]));
   el.innerHTML = `<div class="skills-head"><h3>Your skills</h3><div class="presets">${PRESETS.map(([n],i) => `<button class="chip ${cur && cur[0]===n ? 'on':''}" data-preset="${i}">${esc(n)}</button>`).join('')}</div></div>
   <div class="skill-grid">${SK.map(d => `<div class="skill"><span class="lab fit">${LV[d].name}</span>
-    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => `<div class="lvl"><button class="q" data-q="${d}${i}" aria-label="What does ${esc(LV[d].name)} level ${i} mean?">?</button><button id="sk-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" aria-pressed="${i===S[d]}">${i}</button></div>`).join('')}</div>
-    <span class="now fit">${esc(LV[d].lv[S[d]])}</span></div>`).join('')}
+    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => `<button id="sk-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" aria-pressed="${i===S[d]}">${i}</button>`).join('')}</div>
+    <div class="nowrow"><span class="now fit">${esc(LV[d].lv[S[d]])}</span><button class="q" data-q="${d}${S[d]}" aria-label="What does ${esc(LV[d].lv[S[d]])} mean?">?</button></div></div>`).join('')}
   </div>`;
 }
 function qtip(b, show){ const tip = $('#tip'); if (!show){ tip.hidden = true; return; }
