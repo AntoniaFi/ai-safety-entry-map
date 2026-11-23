@@ -496,7 +496,7 @@ function card(p){
   return `<article class="proj"><span class="kind">${esc(p.fmt)}${t ? ' · ' + esc(t.label) : ''}</span><h2>${esc(p.title)}</h2><p class="sum">${esc(p.sum)}</p>
   <div class="needs">${needRows(p)}</div>
   <details class="full"><summary>Show the whole project</summary><div class="idea"><dl>
-    <dt>Start from</dt><dd><ul>${p.start.map(x => `<li>${paperLink(x.ax)}. ${esc(x.note)}</li>`).join('')}</ul></dd>
+    <dt>Start from</dt><dd><p class="small muted">Note: these articles are for context, not the goal of this Starter Project.</p><ul>${p.start.map(x => `<li>${paperLink(x.ax)}. ${esc(x.note)}</li>`).join('')}</ul></dd>
     <dt>What you would do</dt><dd><ol>${p.do.map(x => `<li>${esc(x)}</li>`).join('')}</ol></dd>
     ${p.gap.length || p.gapNote ? `<dt>Why it is needed</dt><dd><ul>${p.gap.map(g => `<li><blockquote>${esc(g.q)}</blockquote><span class="small muted">${paperLink(g.ax)}</span></li>`).join('')}${p.gapNote ? `<li>${fill(p.gapNote)}</li>` : ''}</ul></dd>` : ''}
     <dt>Watch out</dt><dd>${esc(p.risk)} Check the area's newest papers on the Papers tab before starting.</dd>
