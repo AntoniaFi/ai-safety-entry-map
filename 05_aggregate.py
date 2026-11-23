@@ -19,7 +19,7 @@ def levels(m):
     ml = 1 if eng == 2 and not any(w in why for w in ("runs open-weight models", "fine-tunes open-weight models")) else eng
     if eng == 0: code = 1 if m["human"] and m["stats_use"] else 0
     elif eng == 1: code = 1
-    else: code = 3 if (eng == 4 and "training from scratch / RL" in why) or m["compute"] == 3 or (m.get("gpu_count_max") or 0) >= 8 else 2
+    else: code = 3 if (eng == 4 and "training from scratch / RL" in why) or m["compute"] == 5 or (m.get("gpu_count_max") or 0) >= 8 else 2
     return code, ml
 
 def main():
@@ -79,7 +79,7 @@ def main():
             eng=[round(sum(1 for m in f if levels(m)[1] == i) / len(f), 3) for i in range(5)] if f else None,
             cod=[round(sum(1 for m in f if levels(m)[0] == i) / len(f), 3) for i in range(4)] if f else None,
             math=[round(sum(1 for m in f if m["math"] == i) / len(f), 3) for i in range(4)] if f else None,
-            comp=[round(sum(1 for m in f if m["compute"] == i) / len(f), 3) for i in range(4)] if f else None,
+            comp=[round(sum(1 for m in f if m["compute"] == i) / len(f), 3) for i in range(6)] if f else None,
             human=share([m["human"] for m in f]), finetune=share([m["finetune"] for m in f]), whitebox=share([m["whitebox"] for m in f]),
             code=share([bool(m["code"]) for m in f]), stats=share([m["stats_use"] for m in f]),
             program=share([bool(m["programs"]) for m in f]), frontier=share([bool(m["frontier_lab"]) for m in f]),
@@ -133,7 +133,7 @@ def main():
     for t in sorted(topics, key=lambda t: -(t["people"]["first_new"] or 0)):
         pe = t["people"]; g = lambda v: f"{v:5.2f}" if v is not None else "    -"
         print(f"{t['slug'][:34]:34s} {t['n']:4d} {t['n_ft']:4d} {str(pe['first_median']):>6s} {g(pe['first_new'])} {g(pe['noncs'])} {g(pe['evenness'])} {g(pe['unknown'])} "
-              f"{g(t['program'])} {g(t['frontier'])} {g(sum(t['eng'][:3]) if t['eng'] else None)}  {g(sum(t['math'][:2]) if t['math'] else None)} {g(sum(t['comp'][:3]) if t['comp'] else None)}")
+              f"{g(t['program'])} {g(t['frontier'])} {g(sum(t['eng'][:3]) if t['eng'] else None)}  {g(sum(t['math'][:2]) if t['math'] else None)} {g(sum(t['comp'][:4]) if t['comp'] else None)}")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 {
  "title": "Worked example: a bioprocess scientist with one 16 GB GPU",
- "intro": "Profile: PhD-level experimental design and statistics, growth and kinetics modelling, R and some Python; new to machine learning. Skill settings: coding 2, working with ML models 2, maths 1, compute 2, studies with people 0. Interests: emergent misalignment, personas, model organisms. The three projects below come from the map's gaps and from sentences in the papers; each fits the profile. Check arXiv for the last four weeks before starting any of them: emergent misalignment had 62 papers in 2026.",
+ "intro": "Profile: PhD-level experimental design and statistics, growth and kinetics modelling, R and some Python; new to machine learning. Skill settings: coding 2, working with ML models 2, maths 1, compute 3 (one consumer GPU), studies with people 0. Interests: emergent misalignment, personas, model organisms. The three projects below come from the map's gaps and from sentences in the papers; each fits the profile. Check arXiv for the last four weeks before starting any of them: emergent misalignment had 62 papers in 2026.",
  "ideas": [
   {
    "kind": "What the map says for this profile",

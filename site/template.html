@@ -202,31 +202,33 @@ const LV = {
     'Means, error bars, regression and significance tests, as in an experimental science.',
     'Vectors, matrices, gradients and loss functions: the maths of how networks represent information and are trained.',
     'Formal definitions and proofs, as in mathematics or theoretical computer science.']},
-  k: {name:'Compute', lv:['None','API credits','One consumer GPU','Large GPUs or a cluster'], d:[
+  k: {name:'Compute', lv:['None','Chat subscription','API credits','One consumer GPU','Rented data-centre GPUs','Cluster'], d:[
     'Nothing beyond a laptop.',
-    'Paying per request to use a company\'s model; often tens to hundreds of euros for a project.',
-    'One gaming-class graphics card with 12 to 24 GB of memory: runs and LoRA-fine-tunes open models up to about 8 billion parameters.',
-    'Data-centre GPUs (such as A100 or H100), several at once, or rented clusters.']},
+    'A chat subscription such as ChatGPT Plus or Claude Pro (about €20 a month): you type into a chat window. Enough for a few dozen documented conversations or red-teaming by hand, not for scoring thousands of answers.',
+    'Pay per request through an API, so a script can send thousands of prompts with fixed settings; often a few euros on a small model, tens to a few hundred on a frontier model. Not the same resource as a GPU: credits run closed models, a GPU runs open ones.',
+    'One gaming-class graphics card with 12 to 24 GB of memory, owned or rented by the hour: runs and LoRA-fine-tunes open models up to about 8 billion parameters.',
+    'Data-centre GPUs (such as A100 or H100) rented for hours to days, fewer than eight at once, models up to about 70 billion parameters; roughly €1–3 per GPU-hour (2025 prices), so tens to a few hundred euros per project.',
+    'Weeks on many GPUs: training from scratch, large reinforcement learning, eight or more GPUs at once, or a lab\'s own infrastructure.']},
   h: {name:'Studies with people', lv:['None','Surveys and experiments'], d:[
     'No studies with human participants.',
     'You can design and run surveys, interviews or experiments with participants, including recruitment and ethics approval.']}
 };
 const SK = ['c','e','m','k','h'];
 const PRESETS = [
-  ['Scientist new to ML', {c:2,e:2,m:1,k:2,h:0}], ['Social scientist', {c:1,e:1,m:1,k:1,h:1}], ['Software engineer', {c:3,e:2,m:1,k:2,h:0}],
-  ['Mathematician or physicist', {c:2,e:2,m:3,k:2,h:0}], ['Philosopher or writer', {c:0,e:0,m:0,k:0,h:0}], ['ML engineer', {c:3,e:4,m:2,k:3,h:0}]
+  ['Scientist new to ML', {c:2,e:2,m:1,k:3,h:0}], ['Social scientist', {c:1,e:1,m:1,k:2,h:1}], ['Software engineer', {c:3,e:2,m:1,k:3,h:0}],
+  ['Mathematician or physicist', {c:2,e:2,m:3,k:3,h:0}], ['Philosopher or writer', {c:0,e:0,m:0,k:0,h:0}], ['ML engineer', {c:3,e:4,m:2,k:5,h:0}]
 ];
 const DESIGN = {uncertainty:'Error bars or confidence intervals', seeds:'Several random seeds', sig_tests:'Statistical tests', dose_response:'Dose–response: varies the amount',
   dynamics:'Tracks change during training', multiturn:'Long conversations', multilingual:'Languages other than English', human_baseline:'Compares with people',
   many_models:'Six or more model families', mitigation:'Tests a countermeasure', realignment:'Tests whether the effect lasts or reverses'};
-const LVS = {c:['None','Scripts','Software','Large systems'], e:['None','Use as given','Fine-tune open models','Inside the model','Build training methods'], m:['None','Statistics','Linear algebra','Proofs'], k:['None','API credits','One GPU','Large GPUs']};
+const LVS = {c:['None','Scripts','Software','Large systems'], e:['None','Use as given','Fine-tune open models','Inside the model','Build training methods'], m:['None','Statistics','Linear algebra','Proofs'], k:['None','Chat','API credits','One GPU','Rented GPUs','Cluster']};
 const BGS_SHORT = ['CS / ML','Maths, physics','Engineering','Life sciences','Psychology','Social sciences','Humanities'];
 const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and physics',['Mathematics','Physics']],['Engineering',['Engineering']],
   ['Natural and life sciences',['Natural & life sciences']],['Psychology and cognitive science',['Psychology & cognitive science']],
   ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
 
-let S = {c:2,e:2,m:1,k:2,h:0};
-try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number'){ S = s; S.h = S.h ? 1 : 0; if (typeof S.c !== 'number') S.c = [0,1,2,2,3][S.e] ?? 2; } } catch(e){}
+let S = {c:2,e:2,m:1,k:3,h:0};
+try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number'){ S = s; S.h = S.h ? 1 : 0; if (typeof S.c !== 'number') S.c = [0,1,2,2,3][S.e] ?? 2; if (!S.v6){ S.k = [0,2,3,5][S.k] ?? 3; S.v6 = 1; } } } catch(e){}
 let ST = {tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40, allAu:{}};
 const T = D.topics, TB = {}; T.forEach(t => TB[t.slug] = t);
 const PBT = {}; D.papers.forEach(p => (PBT[p.tp] = PBT[p.tp] || []).push(p));
@@ -257,7 +259,7 @@ $('#skills').addEventListener('click', ev => {
   if (b.dataset.preset != null) S = Object.assign({}, PRESETS[+b.dataset.preset][1]); else if (b.dataset.d) S[b.dataset.d] = +b.dataset.i; else return;
   saveS(); renderAll();
 });
-function saveS(){ try { localStorage.setItem('entrymap-skills', JSON.stringify(S)); } catch(e){} }
+function saveS(){ S.v6 = 1; try { localStorage.setItem('entrymap-skills', JSON.stringify(S)); } catch(e){} }
 
 /* ---------- topics view: map + table + detail ---------- */
 const COLS = [
@@ -439,10 +441,10 @@ function renderMethod(){
   <li><b>Open questions.</b> Sentences in which authors name a limit or leave something undone, copied from the full texts.</li></ol>
   ${v ? `<h2>Check against hand labels</h2><p>${v.n} randomly drawn papers were labelled by reading, without seeing the rule's answer. The labeller was Claude, not a person, so this is a consistency check rather than ground truth.</p>
   <div class="scroll"><table><thead><tr><th>Level</th><th>Same level</th><th>Within one level</th><th>Reach decision agrees</th></tr></thead><tbody>
-  ${[['Working with ML models','eng'],['Maths','math'],['Compute','compute']].map(([n,k]) => `<tr><td>${n}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
+  ${[['Working with ML models','eng'],['Maths','math'],['Compute (old four-level scale)','compute']].map(([n,k]) => `<tr><td>${n}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
   <p class="small muted">${esc(v.note || '')}</p>` : ''}
   <h2>Limits</h2>
-  <ul><li>The coding level (since 23 Nov 2026) is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs. It has not been checked against hand labels.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
+  <ul><li>Compute has six levels since 23 Nov 2026. The hand-label check above used the old four (none, API credits, one consumer GPU, large GPUs or a cluster). Chat subscription is set only when a paper says it used a chat website or app and never mentions an API, so it is rare (5 papers). Rented data-centre GPUs: fewer than eight GPUs, no open model above 72B, no training from scratch.</li><li>The coding level (since 23 Nov 2026) is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs. It has not been checked against hand labels.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
   <li>OpenAlex sometimes splits one person into two profiles, which makes them look new. Read the newcomer share as an upper bound.</li>
   <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
   <li>The compute level is set by the smallest open model a paper names. One consumer GPU means the paper used at least one model of 9B parameters or less, not that every experiment fits.</li>

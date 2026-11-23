@@ -83,6 +83,7 @@ def features(d, title=""):
         human=n(r"\b(participants?|respondents?|crowd-?workers?|prolific|mturk|mechanical turk|IRB|ethics (board|committee|approval)|informed consent|interviewees?|user study)\b", t),
         prompt=n(r"\b(prompts?|prompting|system prompt|few-shot|zero-shot)\b", t),
         api=n(r"\b(API|OpenRouter|Together AI|Bedrock|Vertex)\b", t, 0),
+        chat_ui=n(r"(ChatGPT|Claude|Gemini) (chat|web) interface|(public|consumer) (chat ?bot|chat) (interface|app)|(ChatGPT|Claude|Gemini|Copilot)('s)? (web(site)?|app|interface|chat window|platform)|chat\.openai\.com|claude\.ai|(manually|by hand) (prompted|entered|queried|copied|pasted|typed)|(ChatGPT|Claude) (Plus|Pro) (subscription|account|plan)|free (version|tier) of (ChatGPT|Claude|Gemini)", t),
         closed=len(CLOSED.findall(t)),
         ft=n(r"\b(fine-?tun\w+|LoRA|QLoRA|PEFT|adapters?|SFT|supervised fine)\b", t),
         ft_api=n(r"(fine-?tuning API|OpenAI('s)? fine-?tuning|fine-?tun\w+ (GPT-4\w*|gpt-3\.5\w*|GPT-4\.1\w*)|(GPT-4\w*|GPT-3\.5\w*|GPT-4\.1\w*) fine-?tun)", t),
@@ -152,6 +153,12 @@ def features(d, title=""):
         heavy = eng == 4 and c["sae"] >= 20 and not small_named
         comp = 3 if (mn > 9.5 or big_gpu or (heavy and mn > 3)) else 2
     if eng == 4 and comp == 1 and c["scratch"] >= 6: comp = 3      # trains models but names no open model: in-house infrastructure
+    # six levels (23 Nov 2026): 0 none, 1 chat subscription, 2 API credits, 3 one consumer GPU, 4 rented data-centre GPUs, 5 cluster
+    if comp == 1: comp = 1 if (c["chat_ui"] >= 2 and c["api"] == 0 and c["ft_api"] == 0) else 2
+    elif comp == 2: comp = 3
+    elif comp == 3:
+        heavy_run = f["gpu_count_max"] >= 8 or (max(sizes) if sizes else 0) > 72 or (c["scratch"] * k >= 0.6 and c["scratch"] >= 6)
+        comp = 5 if heavy_run else 4
     f["compute"] = comp; f["min_open"] = min(sizes) if sizes else None; f["max_open"] = max(sizes) if sizes else None
     # ---- replicability signals
     # the paper's own repository: a code link on the first page, or one introduced by words like "our code is available at"
