@@ -37,13 +37,18 @@ header.top{display:flex;flex-direction:column;gap:10px;padding-bottom:22px;borde
 .skills-head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
 .skills-head h3{font:500 19px var(--serif);font-variant:normal;text-transform:none;letter-spacing:0;color:var(--ink)}
 .presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 22px}
+.skill-grid{display:grid;grid-template-columns:1fr 1.25fr 1fr 1fr .6fr;gap:14px 18px}
+@media (max-width:900px){.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fit{display:block;white-space:nowrap;overflow:hidden}
+.lvl{flex:1;display:flex;flex-direction:column;align-items:stretch;gap:1px;min-width:0}
+.seg .q{height:16px;border:0;background:none;color:var(--ink-3);font:600 11px var(--sans);cursor:help;padding:0}
+.seg .q:hover,.seg .q:focus-visible{color:var(--ink)}
 .skill{display:flex;flex-direction:column;gap:5px;min-width:0}
 .skill label,.skill .lab{font-weight:600;font-size:14px}
 .seg{display:flex;gap:2px}
-.seg button{flex:1;height:28px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);border-radius:2px;font:500 12px var(--mono);cursor:pointer;padding:0}
-.seg button.on{background:var(--reach);border-color:var(--reach);color:#fff}
-.seg button.top{background:var(--reach-hi);border-color:var(--reach-hi)}
+.seg button:not(.q){height:28px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);border-radius:2px;font:500 12px var(--mono);cursor:pointer;padding:0}
+.seg button.on:not(.q){background:var(--reach);border-color:var(--reach);color:#fff}
+.seg button.top:not(.q){background:var(--reach-hi);border-color:var(--reach-hi)}
 .skill .now{font:italic 15px/1.3 var(--serif);color:var(--ink-2);min-height:20px}
 .chip{border:1px solid var(--line-2);background:transparent;color:var(--ink-2);border-radius:2px;font:500 13.5px var(--sans);padding:3px 10px;cursor:pointer}
 .chip:hover{border-color:var(--ink-3)}
@@ -180,48 +185,77 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;
 const pct = x => x == null ? '–' : Math.round(x * 100) + '%';
 
 const LV = {
-  e: {name:'Coding with models', lv:['None','Call a model through an API','Run and fine-tune open models','Work inside the model (activations, probes)','Build training methods and tools']},
-  m: {name:'Maths', lv:['No formal maths','Applied statistics','Linear algebra and optimisation','Theorems and proofs']},
-  k: {name:'Compute', lv:['None','API credits','One consumer GPU','Large GPUs or a cluster']}
+  c: {name:'Coding', lv:['None','Scripts','Software','Large systems'], d:[
+    'No programming. Conceptual work, reviews, or analysis by hand or in a spreadsheet.',
+    'Short scripts in Python or R: clean data, run statistics, send a list of prompts to a model and save the answers, run someone else\'s code as documented.',
+    'Build your own research software: evaluation pipelines, agent scaffolds (code that lets a model use tools step by step), processing thousands of model outputs; use libraries such as PyTorch or Hugging Face; debug other people\'s research code.',
+    'Build and maintain large systems: training loops, reinforcement-learning environments, jobs spread over many GPUs, tools others build on.']},
+  e: {name:'Working with ML models', lv:['None','Use a model as given','Run and fine-tune open models','Work inside the model','Build training methods'], d:[
+    'No machine-learning models are used, or only discussed.',
+    'Send prompts to a model and analyse its answers. The model is a closed box: in a chat window or through an API (the programmatic access a company such as OpenAI or Anthropic sells, so a script can send thousands of prompts). Includes fine-tuning through such a company\'s service.',
+    'Download open-weight models (published models such as Llama or Qwen) and run them on your own hardware; fine-tune them, usually with LoRA (training a small add-on instead of the whole model).',
+    'Read or change what happens inside the model: probes (small classifiers trained on its internal activations), steering vectors (added to activations to change behaviour), attribution of outputs to internal parts.',
+    'Train models or design training methods: sparse autoencoders and circuit analysis (interpretability tools you train yourself), reinforcement learning, training from scratch.']},
+  m: {name:'Maths', lv:['No formal maths','Applied statistics','Linear algebra and optimisation','Theorems and proofs'], d:[
+    'Arguments in words; counts and percentages.',
+    'Means, error bars, regression and significance tests, as in an experimental science.',
+    'Vectors, matrices, gradients and loss functions: the maths of how networks represent information and are trained.',
+    'Formal definitions and proofs, as in mathematics or theoretical computer science.']},
+  k: {name:'Compute', lv:['None','API credits','One consumer GPU','Large GPUs or a cluster'], d:[
+    'Nothing beyond a laptop.',
+    'Paying per request to use a company\'s model; often tens to hundreds of euros for a project.',
+    'One gaming-class graphics card with 12 to 24 GB of memory: runs and LoRA-fine-tunes open models up to about 8 billion parameters.',
+    'Data-centre GPUs (such as A100 or H100), several at once, or rented clusters.']},
+  h: {name:'Studies with people', lv:['None','Surveys and experiments'], d:[
+    'No studies with human participants.',
+    'You can design and run surveys, interviews or experiments with participants, including recruitment and ethics approval.']}
 };
+const SK = ['c','e','m','k','h'];
 const PRESETS = [
-  ['Scientist new to ML', {e:2,m:1,k:2,h:false}], ['Social scientist', {e:1,m:1,k:1,h:true}], ['Software engineer', {e:3,m:1,k:2,h:false}],
-  ['Mathematician or physicist', {e:2,m:3,k:2,h:false}], ['Philosopher or writer', {e:0,m:0,k:0,h:false}], ['ML engineer', {e:4,m:2,k:3,h:false}]
+  ['Scientist new to ML', {c:2,e:2,m:1,k:2,h:0}], ['Social scientist', {c:1,e:1,m:1,k:1,h:1}], ['Software engineer', {c:3,e:2,m:1,k:2,h:0}],
+  ['Mathematician or physicist', {c:2,e:2,m:3,k:2,h:0}], ['Philosopher or writer', {c:0,e:0,m:0,k:0,h:0}], ['ML engineer', {c:3,e:4,m:2,k:3,h:0}]
 ];
 const DESIGN = {uncertainty:'Error bars or confidence intervals', seeds:'Several random seeds', sig_tests:'Statistical tests', dose_response:'Dose–response: varies the amount',
   dynamics:'Tracks change during training', multiturn:'Long conversations', multilingual:'Languages other than English', human_baseline:'Compares with people',
   many_models:'Six or more model families', mitigation:'Tests a countermeasure', realignment:'Tests whether the effect lasts or reverses'};
-const LVS = {e:['None','API','Fine-tune open models','Inside the model','Build training methods'], m:['None','Statistics','Linear algebra','Proofs'], k:['None','API credits','One GPU','Large GPUs']};
+const LVS = {c:['None','Scripts','Software','Large systems'], e:['None','Use as given','Fine-tune open models','Inside the model','Build training methods'], m:['None','Statistics','Linear algebra','Proofs'], k:['None','API credits','One GPU','Large GPUs']};
 const BGS_SHORT = ['CS / ML','Maths, physics','Engineering','Life sciences','Psychology','Social sciences','Humanities'];
 const BGFOLD = [['Computer science / ML',['Computer science / ML']],['Maths and physics',['Mathematics','Physics']],['Engineering',['Engineering']],
   ['Natural and life sciences',['Natural & life sciences']],['Psychology and cognitive science',['Psychology & cognitive science']],
   ['Social sciences, economics and law',['Social sciences, economics & law']],['Philosophy and humanities',['Philosophy & humanities']]];
 
-let S = {e:2,m:1,k:2,h:false};
-try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number') S = s; } catch(e){}
+let S = {c:2,e:2,m:1,k:2,h:0};
+try { const s = JSON.parse(localStorage.getItem('entrymap-skills')); if (s && typeof s.e === 'number'){ S = s; S.h = S.h ? 1 : 0; if (typeof S.c !== 'number') S.c = [0,1,2,2,3][S.e] ?? 2; } } catch(e){}
 let ST = {tab:'topics', topic:null, sort:'reach', asc:false, pTopic:'', pReach:true, pCode:true, pSmall:false, pSort:'cited', pN:40, qTopic:'', qText:'', qN:40, allAu:{}};
 const T = D.topics, TB = {}; T.forEach(t => TB[t.slug] = t);
 const PBT = {}; D.papers.forEach(p => (PBT[p.tp] = PBT[p.tp] || []).push(p));
-const can = p => p.e <= S.e && p.m <= S.m && p.k <= S.k && (!p.h || S.h);
+const can = p => p.cd <= S.c && p.e <= S.e && p.m <= S.m && p.k <= S.k && (!p.h || S.h);
 function reach(t){ const L = PBT[t.slug] || []; return L.length ? L.filter(can).length / L.length : null; }
 
 /* ---------- skills strip ---------- */
 function renderSkills(){
   const el = $('#skills');
-  const cur = PRESETS.find(([n, v]) => v.e===S.e && v.m===S.m && v.k===S.k && v.h===S.h);
+  const cur = PRESETS.find(([n, v]) => SK.every(d => v[d] === S[d]));
   el.innerHTML = `<div class="skills-head"><h3>Your skills</h3><div class="presets">${PRESETS.map(([n],i) => `<button class="chip ${cur && cur[0]===n ? 'on':''}" data-preset="${i}">${esc(n)}</button>`).join('')}</div></div>
-  <div class="skill-grid">${['e','m','k'].map(d => `<div class="skill"><span class="lab">${LV[d].name}</span>
-    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => `<button id="sk-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" title="${esc(l)}" aria-pressed="${i===S[d]}">${i}</button>`).join('')}</div>
-    <span class="now">${esc(LV[d].lv[S[d]])}</span></div>`).join('')}
-    <div class="skill"><span class="lab">Studies with people</span><label class="check"><input type="checkbox" id="sk-h" ${S.h?'checked':''}> I can run surveys or experiments with participants</label></div>
+  <div class="skill-grid">${SK.map(d => `<div class="skill"><span class="lab fit">${LV[d].name}</span>
+    <div class="seg" role="group" aria-label="${LV[d].name}">${LV[d].lv.map((l,i) => `<div class="lvl"><button class="q" data-q="${d}${i}" aria-label="What does ${esc(LV[d].name)} level ${i} mean?">?</button><button id="sk-${d}-${i}" class="${i<=S[d]?'on':''} ${i===S[d]?'top':''}" data-d="${d}" data-i="${i}" aria-pressed="${i===S[d]}">${i}</button></div>`).join('')}</div>
+    <span class="now fit">${esc(LV[d].lv[S[d]])}</span></div>`).join('')}
   </div>`;
 }
+function qtip(b, show){ const tip = $('#tip'); if (!show){ tip.hidden = true; return; }
+  const d = b.dataset.q[0], i = +b.dataset.q.slice(1), r = b.getBoundingClientRect();
+  tip.innerHTML = `<b>${i} · ${esc(LV[d].lv[i])}</b><br>${esc(LV[d].d[i])}`; tip.hidden = false;
+  tip.style.left = Math.max(8, Math.min(r.left - 10, innerWidth - 272)) + 'px'; tip.style.top = (r.bottom + 6) + 'px'; }
+$('#skills').addEventListener('mouseover', ev => { const q = ev.target.closest('button.q'); if (q) qtip(q, true); });
+$('#skills').addEventListener('mouseout', ev => { if (ev.target.closest('button.q')) qtip(null, false); });
+$('#skills').addEventListener('focusout', () => qtip(null, false));
+addEventListener('scroll', () => { if (document.activeElement && document.activeElement.classList.contains('q')) document.activeElement.blur(); }, {passive:true});
 $('#skills').addEventListener('click', ev => {
+  const q = ev.target.closest('button.q'); if (q){ qtip(q, true); return; }
   const b = ev.target.closest('button'); if (!b) return;
   if (b.dataset.preset != null) S = Object.assign({}, PRESETS[+b.dataset.preset][1]); else if (b.dataset.d) S[b.dataset.d] = +b.dataset.i; else return;
   saveS(); renderAll();
 });
-$('#skills').addEventListener('change', ev => { if (ev.target.id === 'sk-h'){ S.h = ev.target.checked; saveS(); renderAll(); } });
 function saveS(){ try { localStorage.setItem('entrymap-skills', JSON.stringify(S)); } catch(e){} }
 
 /* ---------- topics view: map + table + detail ---------- */
@@ -295,7 +329,7 @@ function drawMap(){
     tip.hidden = false; const x = Math.min(ev.clientX+14, innerWidth-270), y = ev.clientY+14; tip.style.left = x+'px'; tip.style.top = y+'px'; };
   $('#map').onmouseleave = () => tip.hidden = true;
 }
-function hbars(rows){ return `<div class="hb">${rows.map(r => `<span class="l ${r.me?'me':''}">${esc(r.l)}</span><span class="t"><i class="${r.out?'out':''}" style="width:${Math.max(0,(r.v||0))*100}%"></i></span><span class="v">${pct(r.v)}</span>`).join('')}</div>`; }
+function hbars(rows){ return `<div class="hb">${rows.map(r => `<span class="l fit ${r.me?'me':''}">${esc(r.l)}</span><span class="t"><i class="${r.out?'out':''}" style="width:${Math.max(0,(r.v||0))*100}%"></i></span><span class="v">${pct(r.v)}</span>`).join('')}</div>`; }
 function renderDetail(){
   const t = TB[ST.topic], pe = t.people, el = $('#detail');
   const bg = BGFOLD.map(([n, ks]) => ({l:n, v:ks.reduce((a,k) => a + (pe.bg[k] || 0), 0), out:n === 'Computer science / ML'}));
@@ -309,7 +343,7 @@ function renderDetail(){
     <div class="fact" title="Authors per paper (median)"><b>${pe.team_median == null ? '–' : pe.team_median}</b><span>authors per paper</span></div>
   </div>
   <div class="mini-grid">
-    ${t.eng ? ['e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LVS[d].map((l,i) => ({l, v:t[{e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
+    ${t.eng ? ['c','e','m','k'].map(d => `<div><h3 style="margin-bottom:7px">${LV[d].name}</h3>${hbars(LVS[d].map((l,i) => ({l, v:t[{c:'cod',e:'eng',m:'math',k:'comp'}[d]][i], out:i > S[d], me:i === S[d]})))}</div>`).join('') : ''}
     <div><h3 style="margin-bottom:7px">Authors' earlier field</h3>${hbars(bg.map((b,i) => Object.assign(b, {l:BGS_SHORT[i]})))}<p class="small muted" style="margin-top:6px">${pct(pe.unknown)} have no earlier papers.</p></div>
   </div>
   <div class="actions"><button class="btn" data-go="papers">Papers to build on</button><button class="btn" data-go="questions">Open questions</button></div>`;
@@ -333,7 +367,7 @@ function career(a){
 function topicSelect(id, val, all){ return `<select id="${id}"><option value="">${all}</option>${T.slice().sort((a,b) => a.label.localeCompare(b.label)).map(t => `<option value="${t.slug}" ${t.slug===val?'selected':''}>${esc(t.label)}</option>`).join('')}</select>`; }
 function need(p){
   const tag = (ok, txt) => `<span class="tag ${ok?'ok':'no'}">${esc(txt)}</span>`;
-  return tag(p.e <= S.e, LV.e.lv[p.e]) + tag(p.m <= S.m, LV.m.lv[p.m]) + tag(p.k <= S.k, LV.k.lv[p.k] + (p.lo != null ? ` · smallest open model ${p.lo}B` : '')) + (p.h ? tag(S.h, 'Study with people') : '');
+  return tag(p.cd <= S.c, 'Coding: ' + LV.c.lv[p.cd]) + tag(p.e <= S.e, LV.e.lv[p.e]) + tag(p.m <= S.m, LV.m.lv[p.m]) + tag(p.k <= S.k, LV.k.lv[p.k] + (p.lo != null ? ` · smallest open model ${p.lo}B` : '')) + (p.h ? tag(S.h, 'Study with people') : '');
 }
 function renderPapers(){
   const el = $('#v-papers');
@@ -399,15 +433,15 @@ function renderMethod(){
   $('#v-method').innerHTML = `<div class="panel method">
   <h2>How the map is made</h2>
   <ol><li><b>Papers.</b> A store of ${m.searched ? m.searched.toLocaleString() : 'over a million'} papers from 2022 on with an abstract: every arXiv paper in 18 AI-related categories, plus OpenAlex and Semantic Scholar searches for AI-safety phrases, matched across sources. A paper belongs to an area when the area's phrases appear in its title or at least twice in its abstract. Papers neither on arXiv nor cited three times are left out${m.dropped_uncited ? ` (${m.dropped_uncited.toLocaleString()})` : ''}: ${m.papers.toLocaleString()} papers in ${T.length} areas.</li>
-  <li><b>Methods.</b> For ${m.fulltexts.toLocaleString()} of them (at most 80 per area, half the most cited, half random) the arXiv full text is read by rule: the reference list is cut off, then method words, model names and sizes, hardware, statistics, code links and acknowledgments are counted. The counts set three levels per paper: coding, maths and compute. A paper is within your reach when none of its levels is above yours.</li>
+  <li><b>Methods.</b> For ${m.fulltexts.toLocaleString()} of them (at most 80 per area, half the most cited, half random) the arXiv full text is read by rule: the reference list is cut off, then method words, model names and sizes, hardware, statistics, code links and acknowledgments are counted. The counts set four levels per paper: coding, working with ML models, maths and compute, plus whether it involves a study with people. A paper is within your reach when none of its levels is above yours.</li>
   <li><b>People.</b> ${m.people.toLocaleString()} authors of these papers, with their publication history from OpenAlex. Shown only as counts per area.</li>
   <li><b>Open questions.</b> Sentences in which authors name a limit or leave something undone, copied from the full texts.</li></ol>
   ${v ? `<h2>Check against hand labels</h2><p>${v.n} randomly drawn papers were labelled by reading, without seeing the rule's answer. The labeller was Claude, not a person, so this is a consistency check rather than ground truth.</p>
   <div class="scroll"><table><thead><tr><th>Level</th><th>Same level</th><th>Within one level</th><th>Reach decision agrees</th></tr></thead><tbody>
-  ${[['Coding','eng'],['Maths','math'],['Compute','compute']].map(([n,k]) => `<tr><td>${n}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
+  ${[['Working with ML models','eng'],['Maths','math'],['Compute','compute']].map(([n,k]) => `<tr><td>${n}</td><td class="num">${pct(v[k].exact)}</td><td class="num">${pct(v[k].within1)}</td><td class="num">${pct(v[k].reach)}</td></tr>`).join('')}</tbody></table></div>
   <p class="small muted">${esc(v.note || '')}</p>` : ''}
   <h2>Limits</h2>
-  <ul><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
+  <ul><li>The coding level (since 23 Nov 2026) is derived from the same counts as the ML-model level: scripts for prompting through an API or analysing a study, software for running, fine-tuning or probing models and for agent scaffolds, large systems for training from scratch, reinforcement learning or eight or more GPUs. It has not been checked against hand labels.</li><li>Years since first paper stand in for years since a degree. A first paper usually appears during a Master's or early PhD.</li>
   <li>OpenAlex sometimes splits one person into two profiles, which makes them look new. Read the newcomer share as an upper bound.</li>
   <li>An author's earlier field is known only if they published before. ${pct((m.people_bg['No earlier papers (unknown)'] || 0) / m.people)} of authors did not; career changers from industry are invisible here.</li>
   <li>The compute level is set by the smallest open model a paper names. One consumer GPU means the paper used at least one model of 9B parameters or less, not that every experiment fits.</li>
@@ -423,7 +457,9 @@ function renderMethod(){
 /* ---------- shell ---------- */
 function renderCounts(){ const m = D.meta; $('#counts').innerHTML = `<span><b>${T.length}</b> research areas</span><span><b>${m.papers.toLocaleString()}</b> papers</span><span><b>${m.fulltexts.toLocaleString()}</b> read in full</span><span><b>${m.people.toLocaleString()}</b> authors</span><span>built <b>${esc(m.built)}</b></span>`; }
 const VIEWS = {topics:renderTopics, papers:renderPapers, questions:renderQuestions, shortlist:renderShortlist, method:renderMethod};
-function renderAll(){ renderSkills(); VIEWS[ST.tab](); }
+function fit(root){ (root || document).querySelectorAll('.fit').forEach(e => { e.style.fontSize = ''; let f = parseFloat(getComputedStyle(e).fontSize); while (e.scrollWidth > e.clientWidth + 1 && f > 9){ f -= 0.5; e.style.fontSize = f + 'px'; } }); }
+function renderAll(){ renderSkills(); VIEWS[ST.tab](); fit(); }
+addEventListener('resize', () => fit());
 function route(tab){ const h = tab || (location.hash || '#topics').slice(1); ST.tab = VIEWS[h] ? h : 'topics';
   document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }

@@ -10,6 +10,18 @@ J = lambda f: json.load(open(os.path.join(DATA, f)))
 med = lambda L: round(statistics.median(L), 1) if L else None
 share = lambda L: round(sum(1 for x in L if x) / len(L), 3) if L else None
 
+def levels(m):
+    """Split the old 'coding with models' level (m['eng'], 0-4) into two skills (23 Nov 2026):
+    ml   working with ML models 0-4: as m['eng'], except papers whose only level-2 reason is an agent scaffold (models used through an API) -> 1
+    code coding 0-3: 0 none; 1 scripts (analysis, prompting through an API); 2 software (pipelines, scaffolds, ML libraries);
+         3 large systems (training from scratch / RL, cluster or 8+ GPUs)"""
+    eng, why = m["eng"], m["eng_why"]
+    ml = 1 if eng == 2 and not any(w in why for w in ("runs open-weight models", "fine-tunes open-weight models")) else eng
+    if eng == 0: code = 1 if m["human"] and m["stats_use"] else 0
+    elif eng == 1: code = 1
+    else: code = 3 if (eng == 4 and "training from scratch / RL" in why) or m["compute"] == 3 or (m.get("gpu_count_max") or 0) >= 8 else 2
+    return code, ml
+
 def main():
     C = J("corpus.json"); P = [p for p in C["papers"] if p["tps"][p["tp"][0]] >= 2]
     M = J("methods.json"); people = J("people.json")
@@ -64,7 +76,8 @@ def main():
         topics.append(dict(
             slug=slug, label=t["label"], group=t["group"], n=len(L), years={str(y): yrs.get(y, 0) for y in (2022, 2023, 2024, 2025, 2026)},
             n_ft=len(f), cites_median=med([p["c"] for p in L]),
-            eng=[round(sum(1 for m in f if m["eng"] == i) / len(f), 3) for i in range(5)] if f else None,
+            eng=[round(sum(1 for m in f if levels(m)[1] == i) / len(f), 3) for i in range(5)] if f else None,
+            cod=[round(sum(1 for m in f if levels(m)[0] == i) / len(f), 3) for i in range(4)] if f else None,
             math=[round(sum(1 for m in f if m["math"] == i) / len(f), 3) for i in range(4)] if f else None,
             comp=[round(sum(1 for m in f if m["compute"] == i) / len(f), 3) for i in range(4)] if f else None,
             human=share([m["human"] for m in f]), finetune=share([m["finetune"] for m in f]), whitebox=share([m["whitebox"] for m in f]),
@@ -82,7 +95,7 @@ def main():
         for p, m in F:
             fa = (p["au"][0][1] if p["au"] else "?").split()[-1] + (" et al." if len(p["au"]) > 1 else "")
             papers_out.append(dict(ax=p["ax"], t=p["t"], y=p["y"], d=p["d"], a=fa, na=len(p["au"]), c=p["c"], tp=slug, tp2=p["tp"][1:],
-                                   e=m["eng"], m=m["math"], k=m["compute"], h=int(m["human"]), ft=int(m["finetune"]), wb=int(m["whitebox"]),
+                                   e=levels(m)[1], cd=levels(m)[0], m=m["math"], k=m["compute"], h=int(m["human"]), ft=int(m["finetune"]), wb=int(m["whitebox"]),
                                    why=m["eng_why"], code=(m["code"] or [None])[0], lo=m["min_open"], hi=m["max_open"], cl=int(m["closed"]),
                                    pr=m["programs"], lab=int(bool(m["frontier_lab"])), gpu=m["gpus"][:3],
                                    dz=[k for k, v in m["design"].items() if v], sv=int(m.get("survey", False)), au=authors(p)))
