@@ -823,10 +823,12 @@ function renderLeave(){
     <h3>Leaving the Entry Map</h3><h2>You are being forwarded to the parent project, the AI Safety Observatory</h2>
     <p>The Observatory is an expansive online literature review hub for AI-safety research. The Entry Map is its spin-off data analytics project.</p>
     <p class="count" role="status">Forwarding in <b class="num" id="leave-n">5</b> seconds</p>
-    <div class="actions"><a class="apply" href="https://aisafetyobservatory.com">Go now</a><button type="button" class="btn" id="leave-back">Return to the Entry Map</button></div></div>`;
-  leaveTimer = setInterval(() => { n--; const e = $('#leave-n'); if (e) e.textContent = n; if (n <= 0){ clearInterval(leaveTimer); location.href = 'https://aisafetyobservatory.com'; } }, 1000);
+    <div class="actions"><a class="apply" id="leave-go" href="https://aisafetyobservatory.com">Go now</a><button type="button" class="btn" id="leave-back">Return to the Entry Map</button></div></div>`;
+  leaveTimer = setInterval(() => { n--; const e = $('#leave-n'); if (e) e.textContent = n; if (n <= 0){ clearInterval(leaveTimer); location.replace('https://aisafetyobservatory.com'); } }, 1000);
 }
-$('#v-leave').addEventListener('click', e => { if (e.target.id === 'leave-back'){ clearInterval(leaveTimer); go(backTo); } });
+/* forwarding replaces the #leave history entry, so Back from the Observatory lands on the page the visitor left from */
+$('#v-leave').addEventListener('click', e => { if (e.target.id === 'leave-go'){ e.preventDefault(); clearInterval(leaveTimer); location.replace('https://aisafetyobservatory.com'); }
+  if (e.target.id === 'leave-back'){ clearInterval(leaveTimer); if (history.state && history.state.tab === 'leave' && history.length > 1) history.back(); else go(backTo); } });
 $('.theme.obs').addEventListener('click', e => { e.preventDefault(); if (ST.tab !== 'leave') backTo = ST.tab; go('leave'); scrollTo(0, 0); });
 /* demo sounds (hidden): triple-click the Method tab to switch on or off; synthesised, no audio files */
 let SND = false, AC = null; try { SND = localStorage.getItem('entrymap-sound') === '1'; } catch(e){}
@@ -866,7 +868,15 @@ function route(tab){ let h = tab || (location.hash || '#home').slice(1); const q
   $('.why').hidden = ST.tab !== 'home'; if (ST.tab !== 'leave') clearInterval(leaveTimer);
   document.querySelectorAll('section.view').forEach(s => s.hidden = s.id !== 'v-' + ST.tab);
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + ST.tab)); renderAll(); }
-function go(tab){ try { history.replaceState(null, '', '#' + tab); } catch(e) {} route(tab); const v = $('#v-' + ST.tab); if (v && v.getBoundingClientRect().top < 70) v.scrollIntoView(); }
+/* browser history: every tab change is a step, so Back returns to the previous view with its area, list length and scroll position */
+const snap = () => ({topic:ST.topic, pTopic:ST.pTopic, qTopic:ST.qTopic, pN:ST.pN, qN:ST.qN});
+try { history.scrollRestoration = 'manual'; } catch(e){}
+function go(tab){
+  try { history.replaceState({tab:ST.tab, st:snap(), y:scrollY}, '', location.hash || '#' + ST.tab); if (tab !== ST.tab || location.hash.includes('?')) history.pushState({tab, st:snap(), y:0}, '', '#' + tab); } catch(e) {}
+  route(tab); const v = $('#v-' + ST.tab); if (v && v.getBoundingClientRect().top < 70) v.scrollIntoView(); }
+addEventListener('popstate', e => { const h = e.state;
+  if (h && h.st) Object.assign(ST, h.st);
+  route(h && h.tab ? h.tab : undefined); if (h && h.y != null) requestAnimationFrame(() => scrollTo(0, h.y)); });
 document.querySelectorAll('#tabs a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.getAttribute('href').slice(1)); }));
 
 /* day/night switch: remembers the choice; otherwise follows the system */
@@ -900,6 +910,6 @@ $('.why').addEventListener('click', e => { const b = e.target.closest('[data-hom
   out += `<circle cx="700" cy="35" r="4" fill="#f3b562"/><circle cx="700" cy="35" r="9" fill="none" stroke="#f3b562" stroke-opacity=".6"/>`;
   $('#contours').innerHTML = out; })();
 addEventListener('pagehide', saveView); document.addEventListener('visibilitychange', () => { if (document.hidden) saveView(); });
-addEventListener('hashchange', () => route()); renderCounts(); route();
+renderCounts(); route(); try { history.replaceState({tab:ST.tab, st:snap(), y:0}, '', location.hash || '#' + ST.tab); } catch(e){}
 })();
 </script>
